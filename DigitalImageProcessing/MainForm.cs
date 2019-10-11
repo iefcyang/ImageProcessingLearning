@@ -175,21 +175,39 @@ namespace DigitalImageProcessing
             }
         }
 
-        private void btnLog_Click(object sender, EventArgs e)
+        private void btnLogExp_Click(object sender, EventArgs e)
         {
             Bitmap second = new Bitmap(pcbMain.Image);
-            
-            for (int r = 0; r < second.Height; r++)
+            if (sender == btnLog)
             {
-                for (int c = 0; c < second.Width; c++)
+                for (int r = 0; r < second.Height; r++)
                 {
-                    Color clr = second.GetPixel(c, r);
-                    byte rr, gg, bb;
-                     
-                    rr = (byte)(Math.Exp(clr.R / 45.99) - 1);
-                    gg = (byte)(Math.Exp(clr.G / 45.99) - 1);
-                    bb = (byte)(Math.Exp(clr.B / 45.99) - 1);
-                    second.SetPixel(c, r, Color.FromArgb(clr.A, rr, gg, bb));
+                    for (int c = 0; c < second.Width; c++)
+                    {
+                        Color clr = second.GetPixel(c, r);
+                        byte rr, gg, bb;
+
+                        rr = (byte)(45.99 * Math.Log(clr.R + 1));
+                        gg = (byte)(45.99 * Math.Log(clr.G + 1));
+                        bb = (byte)(45.99 * Math.Log(clr.B + 1));
+                        second.SetPixel(c, r, Color.FromArgb(clr.A, rr, gg, bb));
+                    }
+                }
+            }
+            else if (sender == btnExp)
+            {
+                for (int r = 0; r < second.Height; r++)
+                {
+                    for (int c = 0; c < second.Width; c++)
+                    {
+                        Color clr = second.GetPixel(c, r);
+                        byte rr, gg, bb;
+
+                        rr = (byte)(Math.Exp(clr.R / 45.99) - 1);
+                        gg = (byte)(Math.Exp(clr.G / 45.99) - 1);
+                        bb = (byte)(Math.Exp(clr.B / 45.99) - 1);
+                        second.SetPixel(c, r, Color.FromArgb(clr.A, rr, gg, bb));
+                    }
                 }
             }
             pcbSecond.Image = second;

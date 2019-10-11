@@ -41,6 +41,9 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.pagTTransform = new System.Windows.Forms.TabPage();
+            this.btnExp = new System.Windows.Forms.Button();
+            this.cbxRGB = new System.Windows.Forms.ComboBox();
+            this.chtHistogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btnLog = new System.Windows.Forms.Button();
             this.btnHistogram = new System.Windows.Forms.Button();
             this.btnAddPixelValue = new System.Windows.Forms.Button();
@@ -53,8 +56,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.barProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.labMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.chtHistogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.cbxRGB = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
             this.spcMain.Panel2.SuspendLayout();
@@ -71,10 +72,10 @@
             this.spcSecond.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.pagTTransform.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chtHistogram)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShift)).BeginInit();
             this.pagGray.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chtHistogram)).BeginInit();
             this.SuspendLayout();
             // 
             // spcMain
@@ -210,6 +211,7 @@
             // 
             // pagTTransform
             // 
+            this.pagTTransform.Controls.Add(this.btnExp);
             this.pagTTransform.Controls.Add(this.cbxRGB);
             this.pagTTransform.Controls.Add(this.chtHistogram);
             this.pagTTransform.Controls.Add(this.btnLog);
@@ -226,15 +228,54 @@
             this.pagTTransform.Text = "Sapce Transformation";
             this.pagTTransform.UseVisualStyleBackColor = true;
             // 
+            // btnExp
+            // 
+            this.btnExp.Location = new System.Drawing.Point(11, 96);
+            this.btnExp.Name = "btnExp";
+            this.btnExp.Size = new System.Drawing.Size(171, 27);
+            this.btnExp.TabIndex = 6;
+            this.btnExp.Text = "Exp Transformation";
+            this.btnExp.UseVisualStyleBackColor = true;
+            this.btnExp.Click += new System.EventHandler(this.btnLogExp_Click);
+            // 
+            // cbxRGB
+            // 
+            this.cbxRGB.FormattingEnabled = true;
+            this.cbxRGB.Items.AddRange(new object[] {
+            "Red",
+            "Green",
+            "Blue"});
+            this.cbxRGB.Location = new System.Drawing.Point(188, 96);
+            this.cbxRGB.Name = "cbxRGB";
+            this.cbxRGB.Size = new System.Drawing.Size(83, 24);
+            this.cbxRGB.TabIndex = 5;
+            // 
+            // chtHistogram
+            // 
+            this.chtHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea1.Name = "ChartArea1";
+            this.chtHistogram.ChartAreas.Add(chartArea1);
+            this.chtHistogram.Location = new System.Drawing.Point(6, 167);
+            this.chtHistogram.Name = "chtHistogram";
+            this.chtHistogram.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.chtHistogram.Series.Add(series1);
+            this.chtHistogram.Size = new System.Drawing.Size(265, 147);
+            this.chtHistogram.TabIndex = 4;
+            this.chtHistogram.Text = "chart1";
+            // 
             // btnLog
             // 
-            this.btnLog.Location = new System.Drawing.Point(10, 96);
+            this.btnLog.Location = new System.Drawing.Point(9, 63);
             this.btnLog.Name = "btnLog";
             this.btnLog.Size = new System.Drawing.Size(171, 27);
             this.btnLog.TabIndex = 3;
             this.btnLog.Text = "Log Transformation";
             this.btnLog.UseVisualStyleBackColor = true;
-            this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
+            this.btnLog.Click += new System.EventHandler(this.btnLogExp_Click);
             // 
             // btnHistogram
             // 
@@ -248,7 +289,7 @@
             // 
             // btnAddPixelValue
             // 
-            this.btnAddPixelValue.Location = new System.Drawing.Point(9, 63);
+            this.btnAddPixelValue.Location = new System.Drawing.Point(87, 30);
             this.btnAddPixelValue.Name = "btnAddPixelValue";
             this.btnAddPixelValue.Size = new System.Drawing.Size(171, 27);
             this.btnAddPixelValue.TabIndex = 2;
@@ -347,37 +388,8 @@
             // labMessage
             // 
             this.labMessage.Name = "labMessage";
-            this.labMessage.Size = new System.Drawing.Size(841, 17);
+            this.labMessage.Size = new System.Drawing.Size(810, 17);
             this.labMessage.Spring = true;
-            // 
-            // chtHistogram
-            // 
-            this.chtHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.Name = "ChartArea1";
-            this.chtHistogram.ChartAreas.Add(chartArea1);
-            this.chtHistogram.Location = new System.Drawing.Point(6, 135);
-            this.chtHistogram.Name = "chtHistogram";
-            this.chtHistogram.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.chtHistogram.Series.Add(series1);
-            this.chtHistogram.Size = new System.Drawing.Size(265, 179);
-            this.chtHistogram.TabIndex = 4;
-            this.chtHistogram.Text = "chart1";
-            // 
-            // cbxRGB
-            // 
-            this.cbxRGB.FormattingEnabled = true;
-            this.cbxRGB.Items.AddRange(new object[] {
-            "Red",
-            "Green",
-            "Blue"});
-            this.cbxRGB.Location = new System.Drawing.Point(188, 96);
-            this.cbxRGB.Name = "cbxRGB";
-            this.cbxRGB.Size = new System.Drawing.Size(83, 24);
-            this.cbxRGB.TabIndex = 5;
             // 
             // MainForm
             // 
@@ -389,6 +401,7 @@
             this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Digital Image Processing Learning";
             this.spcMain.Panel1.ResumeLayout(false);
             this.spcMain.Panel2.ResumeLayout(false);
@@ -407,12 +420,12 @@
             this.tabMain.ResumeLayout(false);
             this.pagTTransform.ResumeLayout(false);
             this.pagTTransform.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chtHistogram)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShift)).EndInit();
             this.pagGray.ResumeLayout(false);
             this.pagGray.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chtHistogram)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -445,6 +458,7 @@
         private System.Windows.Forms.Button btnHistogram;
         private System.Windows.Forms.ComboBox cbxRGB;
         private System.Windows.Forms.DataVisualization.Charting.Chart chtHistogram;
+        private System.Windows.Forms.Button btnExp;
     }
 }
 
