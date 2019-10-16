@@ -56,6 +56,9 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.barProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.labMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
+            this.button1 = new System.Windows.Forms.Button();
+            this.ckbSmart = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
             this.spcMain.Panel2.SuspendLayout();
@@ -157,6 +160,8 @@
             // 
             // spcSecond.Panel1
             // 
+            this.spcSecond.Panel1.Controls.Add(this.button1);
+            this.spcSecond.Panel1.Controls.Add(this.PropertyGrid);
             this.spcSecond.Panel1.Controls.Add(this.cbxSizeMode);
             this.spcSecond.Panel1.Controls.Add(this.btnResume);
             this.spcSecond.Panel1.Controls.Add(this.btnOpen);
@@ -171,7 +176,7 @@
             // cbxSizeMode
             // 
             this.cbxSizeMode.FormattingEnabled = true;
-            this.cbxSizeMode.Location = new System.Drawing.Point(14, 111);
+            this.cbxSizeMode.Location = new System.Drawing.Point(4, 133);
             this.cbxSizeMode.Name = "cbxSizeMode";
             this.cbxSizeMode.Size = new System.Drawing.Size(121, 24);
             this.cbxSizeMode.TabIndex = 2;
@@ -179,7 +184,7 @@
             // 
             // btnResume
             // 
-            this.btnResume.Location = new System.Drawing.Point(14, 42);
+            this.btnResume.Location = new System.Drawing.Point(3, 42);
             this.btnResume.Name = "btnResume";
             this.btnResume.Size = new System.Drawing.Size(75, 23);
             this.btnResume.TabIndex = 1;
@@ -188,7 +193,7 @@
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(14, 13);
+            this.btnOpen.Location = new System.Drawing.Point(3, 12);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(75, 23);
             this.btnOpen.TabIndex = 0;
@@ -249,6 +254,7 @@
             this.cbxRGB.Name = "cbxRGB";
             this.cbxRGB.Size = new System.Drawing.Size(83, 24);
             this.cbxRGB.TabIndex = 5;
+            this.cbxRGB.SelectedIndexChanged += new System.EventHandler(this.cbxRGB_SelectedIndexChanged);
             // 
             // chtHistogram
             // 
@@ -325,14 +331,15 @@
             // 
             // pagGray
             // 
+            this.pagGray.Controls.Add(this.ckbSmart);
             this.pagGray.Controls.Add(this.rdbGray);
             this.pagGray.Controls.Add(this.rdbBW);
             this.pagGray.Controls.Add(this.btnGenerateGray);
-            this.pagGray.Location = new System.Drawing.Point(4, 22);
+            this.pagGray.Location = new System.Drawing.Point(4, 25);
             this.pagGray.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pagGray.Name = "pagGray";
             this.pagGray.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pagGray.Size = new System.Drawing.Size(279, 324);
+            this.pagGray.Size = new System.Drawing.Size(279, 321);
             this.pagGray.TabIndex = 1;
             this.pagGray.Text = "Gray Image and Significent Digits";
             this.pagGray.UseVisualStyleBackColor = true;
@@ -361,7 +368,7 @@
             // 
             // btnGenerateGray
             // 
-            this.btnGenerateGray.Location = new System.Drawing.Point(10, 74);
+            this.btnGenerateGray.Location = new System.Drawing.Point(12, 101);
             this.btnGenerateGray.Name = "btnGenerateGray";
             this.btnGenerateGray.Size = new System.Drawing.Size(261, 33);
             this.btnGenerateGray.TabIndex = 3;
@@ -388,8 +395,38 @@
             // labMessage
             // 
             this.labMessage.Name = "labMessage";
-            this.labMessage.Size = new System.Drawing.Size(810, 17);
+            this.labMessage.Size = new System.Drawing.Size(841, 17);
             this.labMessage.Spring = true;
+            // 
+            // PropertyGrid
+            // 
+            this.PropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PropertyGrid.Location = new System.Drawing.Point(145, 13);
+            this.PropertyGrid.Name = "PropertyGrid";
+            this.PropertyGrid.Size = new System.Drawing.Size(130, 144);
+            this.PropertyGrid.TabIndex = 3;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(4, 104);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // ckbSmart
+            // 
+            this.ckbSmart.AutoSize = true;
+            this.ckbSmart.Location = new System.Drawing.Point(12, 75);
+            this.ckbSmart.Name = "ckbSmart";
+            this.ckbSmart.Size = new System.Drawing.Size(60, 20);
+            this.ckbSmart.TabIndex = 6;
+            this.ckbSmart.Text = "Smart";
+            this.ckbSmart.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -459,6 +496,9 @@
         private System.Windows.Forms.ComboBox cbxRGB;
         private System.Windows.Forms.DataVisualization.Charting.Chart chtHistogram;
         private System.Windows.Forms.Button btnExp;
+        private System.Windows.Forms.PropertyGrid PropertyGrid;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox ckbSmart;
     }
 }
 

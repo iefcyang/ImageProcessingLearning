@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace DigitalImageProcessing
 {
@@ -393,14 +394,16 @@ namespace DigitalImageProcessing
                 BitmapData data = curBitmap.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
                 System.IntPtr Scan0 = data.Scan0;
-                System.Runtime.InteropServices.Marshal.Copy(Scan0, ​​RGB, 0, length);
+                Marshal.Copy(Scan0, RGB, 0, length);
+               // Marshal.Copy(Scan0, ​​RGB, 0, length);
                 double gray = 0;
                 for (int i = 0; i < RGB.Length; i = i + 3)
                 {
                     gray = RGB[i + 2] * 0.3 + RGB[i + 1] * 0.59 + RGB[i] * 0.11;
                     RGB[i + 2] = RGB[i + 1] = RGB[i] = (byte)gray;
                 }
-                System.Runtime.InteropServices.Marshal.Copy(RGB, 0, Scan0, ​​length);
+                Marshal.Copy(RGB, 0, Scan0, length);
+                //System.Runtime.InteropServices.Marshal.Copy(RGB, 0, Scan0, ​​length);
                 curBitmap.UnlockBits(data);
             }
             //(3) 指標法
@@ -412,7 +415,7 @@ namespace DigitalImageProcessing
                 ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
                 System.IntPtr Scan0 = data.Scan0;
                 int stride = data.Stride;
-                System.Runtime.InteropServices.Marshal.Copy(Scan0, ​​RGB, 0, length);
+                Marshal.Copy(Scan0,RGB, 0, length);
                 unsafe
                 {
                     byte* p = (byte*)Scan0;

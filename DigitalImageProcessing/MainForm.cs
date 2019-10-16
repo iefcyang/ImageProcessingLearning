@@ -31,6 +31,7 @@ namespace DigitalImageProcessing
                 if( dlg.ShowDialog() == DialogResult.OK)
                 {
                     pcbMain.Image = Bitmap.FromFile(dlg.FileName);
+                    PropertyGrid.SelectedObject = pcbMain.Image;
                 }
             }
         }
@@ -44,6 +45,10 @@ namespace DigitalImageProcessing
         }
         private void btnAddPixelValue_Click(object sender, EventArgs e)
         {
+            pcbSecond.Image = SmartBitmap.ShiftPixelValueToNewBitmap((Bitmap)pcbMain.Image, (int)nudShift.Value);
+
+
+            /*
             Bitmap second = new Bitmap(pcbMain.Image);
             sbyte inc = (sbyte)nudShift.Value;
 
@@ -60,21 +65,23 @@ namespace DigitalImageProcessing
                 }
             }
             pcbSecond.Image = second;
-
+            */
         }
 
         private void btnGenerateGray_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            if (ckbSmart.Checked) labMessage.Text = "Lock/Unlock Pixel Method: ";
+            else labMessage.Text = "Get/Set Pixel Method: ";
 
             flpMultiple.Visible = true;
             spcThird.Visible = false;
             flpMultiple.Dock = DockStyle.Fill;
-            PictureBox[] pcbs;
-            GroupBox[] gps;
+            PictureBox[] pcbs = null;
+            GroupBox[] gps = null;
             int w = (int)( flpMultiple.Width / 3.5);
             int h = (int)(flpMultiple.Height / 3.5);
-            if ( flpMultiple.Controls.Count == 0 )
+            if (flpMultiple.Controls.Count == 0)
             {
                 // create 9 picturebox
                 pcbs = new PictureBox[9];
@@ -90,58 +97,63 @@ namespace DigitalImageProcessing
                     pcbs[i].Dock = DockStyle.Fill;
                     gps[i].Controls.Add(pcbs[i]);
                     gps[i].Text = $"{8 - i}-bit image";
-                    pcbs[i].SizeMode = (PictureBoxSizeMode) cbxSizeMode.SelectedItem;
+                    pcbs[i].SizeMode = (PictureBoxSizeMode)cbxSizeMode.SelectedItem;
                 }
-                
-                gps[0].Text = $"original gray image";
+            }
+            gps[0].Text = $"original gray image";
+            DateTime startTime = DateTime.Now;
 
-                // Get gray image from opened file
-                //new Bitmap(pcbMain.Image.Width, pcbMain.Image.Height, PixelFormat.Format8bppIndexed);
-                //bp.Palette = GetGrayScalePalette();                
-                        //BitmapData data = ((Bitmap)pcbMain.Image).LockBits(new Rectangle(0, 0, bp.Width, bp.Height), ImageLockMode.WriteOnly, PixelFormat.Format8bppIndexed);
-
-                        //bp.UnlockBits(data);
-                        ////data[0] = 1;
-
+            if (ckbSmart.Checked)
+            {
+                pcbs[0].Image = SmartBitmap.GrayConversionToNewBitmap((Bitmap)pcbMain.Image);
+                for (int i = 1; i < 9; i++)
+                {
+                    pcbs[i].Image = SmartBitmap.BWConversionBitWiseToNewBitmap((Bitmap)pcbMain.Image, 8 - i);
+                }
+            }
+            else
+            {
                 Bitmap bp = (Bitmap)pcbMain.Image.Clone();
 
-                for( int r = 0; r < bp.Height; r++)
+                for (int r = 0; r < bp.Height; r++)
                 {
-                    for( int c = 0; c < bp.Width; c++)
+                    for (int c = 0; c < bp.Width; c++)
                     {
-                        int v = bp.GetPixel(c,r).R;
+                        int v = bp.GetPixel(c, r).R;
                         bp.SetPixel(c, r, Color.FromArgb(v, v, v));
                     }
                 }
                 pcbs[0].Image = bp;
-                for( int i = 1; i < 9; i++ )
+                for (int i = 1; i < 9; i++)
                 {
-                    barProgress.Value = (int)(i * 100.0 / 9);
+                    barProgress.Value = (int)((i + 1) * 100.0 / 9);
                     statusStrip1.Refresh();
 
                     bp = (Bitmap)pcbs[0].Image.Clone();
                     int mask = 1 << (8 - i);
-                    for( int r = 0; r < bp.Height; r++)
+                    for (int r = 0; r < bp.Height; r++)
                     {
-                        for( int c = 0; c < bp.Width; c++)
+                        for (int c = 0; c < bp.Width; c++)
                         {
                             int v = bp.GetPixel(c, r).R;
-                            
+
                             if ((mask & v) != 0)
                             {
                                 if (rdbBW.Checked)
-                                    bp.SetPixel(c,r, Color.White);
+                                    bp.SetPixel(c, r, Color.White);
                                 else
-                                    bp.SetPixel(c,r, Color.FromArgb(mask, mask, mask));
+                                    bp.SetPixel(c, r, Color.FromArgb(mask, mask, mask));
                             }
-                            else bp.SetPixel(c,r, Color.Black);
+                            else bp.SetPixel(c, r, Color.Black);
                         }
                     }
                     pcbs[i].Image = bp;
                 }
- 
-                //PixelFormat pf = PixelFormat.Format1bppIndexed;
             }
+
+            //PixelFormat pf = PixelFormat.Format1bppIndexed;
+
+            labMessage.Text += $" Time Used: {DateTime.Now-startTime}";
             Cursor = Cursors.Default;
         }
 
@@ -177,7 +189,13 @@ namespace DigitalImageProcessing
 
         private void btnLogExp_Click(object sender, EventArgs e)
         {
-            Bitmap second = new Bitmap(pcbMain.Image);
+            Bitmap second;
+            if (sender == btnLog)
+                second = SmartBitmap.LogarithmicPixelValueToNewBitmap((Bitmap)pcbMain.Image);
+            else
+                second = SmartBitmap.ExponentialPixelValueToNewBitmap((Bitmap)pcbMain.Image);
+            /*
+                Bitmap second = new Bitmap(pcbMain.Image);
             if (sender == btnLog)
             {
                 for (int r = 0; r < second.Height; r++)
@@ -210,54 +228,65 @@ namespace DigitalImageProcessing
                     }
                 }
             }
+            */
             pcbSecond.Image = second;
         }
 
-        private void btnHistogram_Click(object sender, EventArgs e)
+        void ShowLogarithmicAndExponentialTransformationCurves()
         {
-            Cursor = Cursors.WaitCursor;
-
+ 
             Series s = new Series();
             s.ChartType = SeriesChartType.Line;
             chtHistogram.Series.Add(s);
-            for( int i = 0; i < 255; i++ )
+            for (int i = 0; i < 255; i++)
             {
-                double y = (byte)(45.99 * Math.Log(1 + i ));
+                double y = (byte)(45.99 * Math.Log(1 + i));
                 s.Points.AddXY(i, y);
             }
-             s = new Series();
+            s = new Series();
             s.ChartType = SeriesChartType.Line;
             chtHistogram.Series.Add(s);
             for (int y = 0; y < 255; y++)
             {
-                double x = (byte)(  Math.Exp(y/45.99) - 1 );
+                double x = (byte)(Math.Exp(y / 45.99) - 1);
                 s.Points.AddXY(y, x);
             }
-            return;
+ 
+        }
+        int[,] histograms;
+        private void btnHistogram_Click(object sender, EventArgs e)
+        {
+            histograms = SmartBitmap.GetPixelValueHistogram((Bitmap)pcbMain.Image);
+            int layers = histograms.GetLength(0);
+            cbxRGB.Items.Clear();
 
-            Bitmap bp = (Bitmap)pcbMain.Image;
-            if(  chtHistogram.Series[0].Points.Count <= 0 )
+            for (int i = 0; i < layers; i++) cbxRGB.Items.Add($"Layer{i}");
+            switch( layers)
             {
-                for (int i = 0; i < 256; i++)
-                    chtHistogram.Series[0].Points.AddXY(i, 0);
+                case 1:
+                    cbxRGB.Items[0] = "Gray";
+                    break;
+                case 3:
+                    cbxRGB.Items[0] = "Blue";
+                    cbxRGB.Items[1] = "Green";
+                    cbxRGB.Items[2] = "Red";
+                    break;
+                case 4:
+                    cbxRGB.Items[0] = "Alpha";
+                    cbxRGB.Items[1] = "Blue";
+                    cbxRGB.Items[2] = "Green";
+                    cbxRGB.Items[3] = "Red";
+                    break;
             }
-            for (int r = 0; r < bp.Height; r++)
-            {
-                for (int c = 0; c < bp.Width; c++)
-                {
-                    Color clr = bp.GetPixel(c, r);
-                    if (cbxRGB.SelectedIndex == 0)
-                        chtHistogram.Series[0].Points[clr.R].YValues[0] += 1.0;
-                    else if( cbxRGB.SelectedIndex == 1 )
-                        chtHistogram.Series[0].Points[clr.G].YValues[0] += 1.0;
-                    else
-                        chtHistogram.Series[0].Points[clr.B].YValues[0] += 1.0;
-                    barProgress.Value = (int)((r * bp.Width + 1) * 100.0 / (bp.Height * bp.Width));
-                    statusStrip1.Refresh();
-                }
-            }
-
-            Cursor = Cursors.Default;
+            cbxRGB.SelectedIndex = 0;
+ 
+            cbxRGB_SelectedIndexChanged(null, null);
+            //if (chtHistogram.Series[0].Points.Count < 256)
+            //    for (int i = 0; i < 256; i++)
+            //        chtHistogram.Series[0].Points.AddXY(i, histograms[cbxRGB.SelectedIndex, i]);
+            //else
+            //    for (int i = 0; i < 256; i++)
+            //        chtHistogram.Series[0].Points[i].YValues[0] = histograms[cbxRGB.SelectedIndex, i];
         }
 
         private void LockUnlockBitsExample(PaintEventArgs e)
@@ -417,71 +446,111 @@ namespace DigitalImageProcessing
         //方便學習圖像處理的基本技巧。
         Bitmap curBitmap;
         byte[] RGB;
-//        void  f()
-//        {
-//            if (curBitmap != null)
-//            {
-//                Color curColor;
-//                int gray;
-//                for (int i = 0; i < curBitmap.Width; i++)
-//                {
-//                    for (int j = 0; j < curBitmap.Height; j++)
-//                    {
-//                        curColor = curBitmap.GetPixel(i, j);
-//                        gray = (int)(0.3 * curColor.R + 0.59 * curColor.G * 0.11 * curColor.B);
-//                        curBitmap.SetPixel(i, j, curColor);
-//                    }
-//                }
-//            }
-////(2) 內存法
-//            if (curBitmap != null)
-//            {
-//                int width = curBitmap.Width;
-//                int height = curBitmap.Height;
-//                int len​​gth = height * 3 * width;
-//                RGB = new byte[length];
-//                BitmapData data = curBitmap.LockBits(new Rectangle(0, 0, width, height),
-//                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-//                System.IntPtr Scan0 = data.Scan0;
-//                System.Runtime.InteropServices.Marshal.Copy(Scan0, ​​RGB, 0, length);
-//                double gray = 0;
-//                for (int i = 0; i < RGB.Length; i = i + 3)
-//                {
-//                    gray = RGB[i + 2] * 0.3 + RGB[i + 1] * 0.59 + RGB[i] * 0.11;
-//                    RGB[i + 2] = RGB[i + 1] = RGB[i] = (byte)gray;
-//                }
-//                System.Runtime.InteropServices.Marshal.Copy(RGB, 0, Scan0, ​​length);
-//                curBitmap.UnlockBits(data);
-//            }
-////(3) 指標法
-//            if (curBitmap != null)
-//            {
-//                int width = curBitmap.Width;
-//                int height = curBitmap.Height;
-//                BitmapData data = curBitmap.LockBits(new Rectangle(0, 0, width, height),
-//                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-//                System.IntPtr Scan0 = data.Scan0;
-//                int stride = data.Stride;
-//                System.Runtime.InteropServices.Marshal.Copy(Scan0, ​​RGB, 0, length);
-//                unsafe
-//                {
-//                    byte* p = (byte*)Scan0;
-//                    int offset = stride - width * 3;
-//                    double gray = 0;
-//                    for (int y = 0; y < height; y++)
-//                    {
-//                        for (int x = 0; x < width; x++)
-//                        {
-//                            gray = 0.3 * p[2] + 0.59 * p[1] + 0.11 * p[0];
-//                            p[2] = p[1] = p[0] = (byte)gray;
-//                            p += 3;
-//                        }
-//                        p += offset;
-//                    }
-//                }
-//                curBitmap.UnlockBits(data);
-//            }
-//        }
+
+        private void cbxRGB_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch( cbxRGB.Items[ cbxRGB.SelectedIndex] )
+            {
+                case "Red"://red
+                    chtHistogram.Series[0].Color = Color.Pink;
+                    break;
+                case "Gray"://Gray
+                    chtHistogram.Series[0].Color = Color.Gray;
+                    break;
+                case "Green":// green
+                    chtHistogram.Series[0].Color = Color.LightGreen;
+                    break;
+                case "Blue": // blue
+                    chtHistogram.Series[0].Color = Color.LightBlue;
+                    break;
+                default:
+                    chtHistogram.Series[0].Color = Color.Olive;
+                    break;
+            }
+            if (histograms != null)
+            {
+ 
+                if (chtHistogram.Series[0].Points.Count < 256)
+                    for (int i = 0; i < 256; i++)
+                        chtHistogram.Series[0].Points.AddXY(i, histograms[cbxRGB.SelectedIndex, i]);
+                else
+                    for (int i = 0; i < 256; i++)
+                        chtHistogram.Series[0].Points[i].YValues[0] = histograms[cbxRGB.SelectedIndex, i];
+                chtHistogram.ChartAreas[0].RecalculateAxesScale();
+                chtHistogram.ChartAreas[0].AxisX.Minimum = 0;
+                chtHistogram.ChartAreas[0].AxisX.Maximum = 255;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            pcbSecond.Image = SmartBitmap.BWConversionBitWiseToNewBitmap((Bitmap)pcbMain.Image, 7);
+        }
+        //        void  f()
+        //        {
+        //            if (curBitmap != null)
+        //            {
+        //                Color curColor;
+        //                int gray;
+        //                for (int i = 0; i < curBitmap.Width; i++)
+        //                {
+        //                    for (int j = 0; j < curBitmap.Height; j++)
+        //                    {
+        //                        curColor = curBitmap.GetPixel(i, j);
+        //                        gray = (int)(0.3 * curColor.R + 0.59 * curColor.G * 0.11 * curColor.B);
+        //                        curBitmap.SetPixel(i, j, curColor);
+        //                    }
+        //                }
+        //            }
+        ////(2) 內存法
+        //            if (curBitmap != null)
+        //            {
+        //                int width = curBitmap.Width;
+        //                int height = curBitmap.Height;
+        //                int len​​gth = height * 3 * width;
+        //                RGB = new byte[length];
+        //                BitmapData data = curBitmap.LockBits(new Rectangle(0, 0, width, height),
+        //                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+        //                System.IntPtr Scan0 = data.Scan0;
+        //                System.Runtime.InteropServices.Marshal.Copy(Scan0, ​​RGB, 0, length);
+        //                double gray = 0;
+        //                for (int i = 0; i < RGB.Length; i = i + 3)
+        //                {
+        //                    gray = RGB[i + 2] * 0.3 + RGB[i + 1] * 0.59 + RGB[i] * 0.11;
+        //                    RGB[i + 2] = RGB[i + 1] = RGB[i] = (byte)gray;
+        //                }
+        //                System.Runtime.InteropServices.Marshal.Copy(RGB, 0, Scan0, ​​length);
+        //                curBitmap.UnlockBits(data);
+        //            }
+        ////(3) 指標法
+        //            if (curBitmap != null)
+        //            {
+        //                int width = curBitmap.Width;
+        //                int height = curBitmap.Height;
+        //                BitmapData data = curBitmap.LockBits(new Rectangle(0, 0, width, height),
+        //                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+        //                System.IntPtr Scan0 = data.Scan0;
+        //                int stride = data.Stride;
+        //                System.Runtime.InteropServices.Marshal.Copy(Scan0, ​​RGB, 0, length);
+        //                unsafe
+        //                {
+        //                    byte* p = (byte*)Scan0;
+        //                    int offset = stride - width * 3;
+        //                    double gray = 0;
+        //                    for (int y = 0; y < height; y++)
+        //                    {
+        //                        for (int x = 0; x < width; x++)
+        //                        {
+        //                            gray = 0.3 * p[2] + 0.59 * p[1] + 0.11 * p[0];
+        //                            p[2] = p[1] = p[0] = (byte)gray;
+        //                            p += 3;
+        //                        }
+        //                        p += offset;
+        //                    }
+        //                }
+        //                curBitmap.UnlockBits(data);
+        //            }
+        //        }
 
     }
 }
