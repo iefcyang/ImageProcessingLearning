@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.spcMain = new System.Windows.Forms.SplitContainer();
             this.flpMultiple = new System.Windows.Forms.FlowLayoutPanel();
             this.spcThird = new System.Windows.Forms.SplitContainer();
@@ -140,6 +140,7 @@
             this.pcbMain.Size = new System.Drawing.Size(371, 510);
             this.pcbMain.TabIndex = 0;
             this.pcbMain.TabStop = false;
+            this.pcbMain.Click += new System.EventHandler(this.PictureBoxClicked);
             // 
             // pcbSecond
             // 
@@ -151,6 +152,7 @@
             this.pcbSecond.Size = new System.Drawing.Size(376, 510);
             this.pcbSecond.TabIndex = 1;
             this.pcbSecond.TabStop = false;
+            this.pcbSecond.Click += new System.EventHandler(this.PictureBoxClicked);
             // 
             // spcSecond
             // 
@@ -282,14 +284,14 @@
             this.chtHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.Name = "ChartArea1";
-            this.chtHistogram.ChartAreas.Add(chartArea1);
+            chartArea3.Name = "ChartArea1";
+            this.chtHistogram.ChartAreas.Add(chartArea3);
             this.chtHistogram.Location = new System.Drawing.Point(6, 167);
             this.chtHistogram.Name = "chtHistogram";
             this.chtHistogram.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.chtHistogram.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.Name = "Series1";
+            this.chtHistogram.Series.Add(series3);
             this.chtHistogram.Size = new System.Drawing.Size(265, 147);
             this.chtHistogram.TabIndex = 4;
             this.chtHistogram.Text = "chart1";

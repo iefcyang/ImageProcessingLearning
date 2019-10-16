@@ -99,6 +99,7 @@ namespace DigitalImageProcessing
                     gps[i].Controls.Add(pcbs[i]);
                     gps[i].Text = $"{9 - i}-bit image";
                     pcbs[i].SizeMode = (PictureBoxSizeMode)cbxSizeMode.SelectedItem;
+                    pcbs[i].Click += PictureBoxClicked;
                 }
             }
             gps[0].Text = $"original gray image";
@@ -489,6 +490,12 @@ namespace DigitalImageProcessing
         private void button1_Click(object sender, EventArgs e)
         {
             pcbSecond.Image = SmartBitmap.BWConversionBitWiseToNewBitmap((Bitmap)pcbMain.Image, 7);
+        }
+
+        private void PictureBoxClicked(object sender, EventArgs e)
+        {
+            if (((PictureBox)sender).Image != null)
+                PropertyGrid.SelectedObject = ((PictureBox)sender).Image;
         }
         //        void  f()
         //        {
