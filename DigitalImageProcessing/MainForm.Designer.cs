@@ -36,6 +36,8 @@
             this.pcbMain = new System.Windows.Forms.PictureBox();
             this.pcbSecond = new System.Windows.Forms.PictureBox();
             this.spcSecond = new System.Windows.Forms.SplitContainer();
+            this.button1 = new System.Windows.Forms.Button();
+            this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.cbxSizeMode = new System.Windows.Forms.ComboBox();
             this.btnResume = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
@@ -50,15 +52,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.nudShift = new System.Windows.Forms.NumericUpDown();
             this.pagGray = new System.Windows.Forms.TabPage();
+            this.ckbSmart = new System.Windows.Forms.CheckBox();
             this.rdbGray = new System.Windows.Forms.RadioButton();
             this.rdbBW = new System.Windows.Forms.RadioButton();
             this.btnGenerateGray = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.barProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.labMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.button1 = new System.Windows.Forms.Button();
-            this.ckbSmart = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
             this.spcMain.Panel2.SuspendLayout();
@@ -104,6 +104,7 @@
             // 
             // flpMultiple
             // 
+            this.flpMultiple.AutoScroll = true;
             this.flpMultiple.Location = new System.Drawing.Point(28, 84);
             this.flpMultiple.Name = "flpMultiple";
             this.flpMultiple.Size = new System.Drawing.Size(707, 418);
@@ -172,6 +173,26 @@
             this.spcSecond.Size = new System.Drawing.Size(287, 526);
             this.spcSecond.SplitterDistance = 172;
             this.spcSecond.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(4, 104);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // PropertyGrid
+            // 
+            this.PropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PropertyGrid.Location = new System.Drawing.Point(145, 13);
+            this.PropertyGrid.Name = "PropertyGrid";
+            this.PropertyGrid.Size = new System.Drawing.Size(130, 144);
+            this.PropertyGrid.TabIndex = 3;
             // 
             // cbxSizeMode
             // 
@@ -335,14 +356,24 @@
             this.pagGray.Controls.Add(this.rdbGray);
             this.pagGray.Controls.Add(this.rdbBW);
             this.pagGray.Controls.Add(this.btnGenerateGray);
-            this.pagGray.Location = new System.Drawing.Point(4, 25);
+            this.pagGray.Location = new System.Drawing.Point(4, 22);
             this.pagGray.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pagGray.Name = "pagGray";
             this.pagGray.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pagGray.Size = new System.Drawing.Size(279, 321);
+            this.pagGray.Size = new System.Drawing.Size(279, 324);
             this.pagGray.TabIndex = 1;
             this.pagGray.Text = "Gray Image and Significent Digits";
             this.pagGray.UseVisualStyleBackColor = true;
+            // 
+            // ckbSmart
+            // 
+            this.ckbSmart.AutoSize = true;
+            this.ckbSmart.Location = new System.Drawing.Point(12, 75);
+            this.ckbSmart.Name = "ckbSmart";
+            this.ckbSmart.Size = new System.Drawing.Size(60, 20);
+            this.ckbSmart.TabIndex = 6;
+            this.ckbSmart.Text = "Smart";
+            this.ckbSmart.UseVisualStyleBackColor = true;
             // 
             // rdbGray
             // 
@@ -397,36 +428,6 @@
             this.labMessage.Name = "labMessage";
             this.labMessage.Size = new System.Drawing.Size(841, 17);
             this.labMessage.Spring = true;
-            // 
-            // PropertyGrid
-            // 
-            this.PropertyGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PropertyGrid.Location = new System.Drawing.Point(145, 13);
-            this.PropertyGrid.Name = "PropertyGrid";
-            this.PropertyGrid.Size = new System.Drawing.Size(130, 144);
-            this.PropertyGrid.TabIndex = 3;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(4, 104);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // ckbSmart
-            // 
-            this.ckbSmart.AutoSize = true;
-            this.ckbSmart.Location = new System.Drawing.Point(12, 75);
-            this.ckbSmart.Name = "ckbSmart";
-            this.ckbSmart.Size = new System.Drawing.Size(60, 20);
-            this.ckbSmart.TabIndex = 6;
-            this.ckbSmart.Text = "Smart";
-            this.ckbSmart.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 

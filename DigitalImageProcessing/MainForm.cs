@@ -67,7 +67,8 @@ namespace DigitalImageProcessing
             pcbSecond.Image = second;
             */
         }
-
+        PictureBox[] pcbs = null;
+        GroupBox[] gps = null;
         private void btnGenerateGray_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
@@ -77,15 +78,15 @@ namespace DigitalImageProcessing
             flpMultiple.Visible = true;
             spcThird.Visible = false;
             flpMultiple.Dock = DockStyle.Fill;
-            PictureBox[] pcbs = null;
-            GroupBox[] gps = null;
+            //PictureBox[] pcbs = null;
+            //GroupBox[] gps = null;
             int w = (int)( flpMultiple.Width / 3.5);
             int h = (int)(flpMultiple.Height / 3.5);
             if (flpMultiple.Controls.Count == 0)
             {
                 // create 9 picturebox
-                pcbs = new PictureBox[9];
-                gps = new GroupBox[9];
+                pcbs = new PictureBox[10];
+                gps = new GroupBox[10];
                 for (int i = 0; i < pcbs.Length; i++)
                 { // PictureBox pb in pcbs)
                     gps[i] = new GroupBox();
@@ -96,19 +97,22 @@ namespace DigitalImageProcessing
                     pcbs[i] = new PictureBox();
                     pcbs[i].Dock = DockStyle.Fill;
                     gps[i].Controls.Add(pcbs[i]);
-                    gps[i].Text = $"{8 - i}-bit image";
+                    gps[i].Text = $"{9 - i}-bit image";
                     pcbs[i].SizeMode = (PictureBoxSizeMode)cbxSizeMode.SelectedItem;
                 }
             }
             gps[0].Text = $"original gray image";
+            gps[1].Text = $"half B/W image";
+
             DateTime startTime = DateTime.Now;
 
             if (ckbSmart.Checked)
             {
                 pcbs[0].Image = SmartBitmap.GrayConversionToNewBitmap((Bitmap)pcbMain.Image);
-                for (int i = 1; i < 9; i++)
+                pcbs[1].Image = SmartBitmap.BWConversionToNewBitmap((Bitmap)pcbMain.Image);
+                for (int i = 2; i < 10; i++)
                 {
-                    pcbs[i].Image = SmartBitmap.BWConversionBitWiseToNewBitmap((Bitmap)pcbMain.Image, 8 - i);
+                    pcbs[i].Image = SmartBitmap.BWConversionBitWiseToNewBitmap((Bitmap)pcbMain.Image, 9 - i);
                 }
             }
             else
@@ -124,13 +128,13 @@ namespace DigitalImageProcessing
                     }
                 }
                 pcbs[0].Image = bp;
-                for (int i = 1; i < 9; i++)
+                for (int i = 2; i < 10; i++)
                 {
                     barProgress.Value = (int)((i + 1) * 100.0 / 9);
                     statusStrip1.Refresh();
 
                     bp = (Bitmap)pcbs[0].Image.Clone();
-                    int mask = 1 << (8 - i);
+                    int mask = 1 << (9 - i);
                     for (int r = 0; r < bp.Height; r++)
                     {
                         for (int c = 0; c < bp.Width; c++)
