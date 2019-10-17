@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.spcMain = new System.Windows.Forms.SplitContainer();
             this.flpMultiple = new System.Windows.Forms.FlowLayoutPanel();
             this.spcThird = new System.Windows.Forms.SplitContainer();
@@ -43,11 +43,10 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.pagTTransform = new System.Windows.Forms.TabPage();
+            this.cbxFilter = new System.Windows.Forms.ComboBox();
+            this.btnMedianFilter = new System.Windows.Forms.Button();
             this.btnExp = new System.Windows.Forms.Button();
-            this.cbxRGB = new System.Windows.Forms.ComboBox();
-            this.chtHistogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btnLog = new System.Windows.Forms.Button();
-            this.btnHistogram = new System.Windows.Forms.Button();
             this.btnAddPixelValue = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.nudShift = new System.Windows.Forms.NumericUpDown();
@@ -56,9 +55,15 @@
             this.rdbGray = new System.Windows.Forms.RadioButton();
             this.rdbBW = new System.Windows.Forms.RadioButton();
             this.btnGenerateGray = new System.Windows.Forms.Button();
+            this.pagHistogram = new System.Windows.Forms.TabPage();
+            this.cbxRGB = new System.Windows.Forms.ComboBox();
+            this.chtHistogram = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.btnHistogram = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.barProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.labMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnHVLaplacian = new System.Windows.Forms.Button();
+            this.btnDiagLaplacian = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
             this.spcMain.Panel2.SuspendLayout();
@@ -75,9 +80,10 @@
             this.spcSecond.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.pagTTransform.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chtHistogram)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShift)).BeginInit();
             this.pagGray.SuspendLayout();
+            this.pagHistogram.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chtHistogram)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -110,6 +116,7 @@
             this.flpMultiple.Size = new System.Drawing.Size(707, 418);
             this.flpMultiple.TabIndex = 2;
             this.flpMultiple.Visible = false;
+            this.flpMultiple.SizeChanged += new System.EventHandler(this.flpMultiple_SizeChanged);
             // 
             // spcThird
             // 
@@ -173,12 +180,12 @@
             // 
             this.spcSecond.Panel2.Controls.Add(this.tabMain);
             this.spcSecond.Size = new System.Drawing.Size(287, 526);
-            this.spcSecond.SplitterDistance = 172;
+            this.spcSecond.SplitterDistance = 226;
             this.spcSecond.TabIndex = 1;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(4, 104);
+            this.button1.Location = new System.Drawing.Point(3, 158);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
@@ -193,13 +200,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PropertyGrid.Location = new System.Drawing.Point(145, 13);
             this.PropertyGrid.Name = "PropertyGrid";
-            this.PropertyGrid.Size = new System.Drawing.Size(130, 144);
+            this.PropertyGrid.Size = new System.Drawing.Size(130, 198);
             this.PropertyGrid.TabIndex = 3;
             // 
             // cbxSizeMode
             // 
             this.cbxSizeMode.FormattingEnabled = true;
-            this.cbxSizeMode.Location = new System.Drawing.Point(4, 133);
+            this.cbxSizeMode.Location = new System.Drawing.Point(3, 187);
             this.cbxSizeMode.Name = "cbxSizeMode";
             this.cbxSizeMode.Size = new System.Drawing.Size(121, 24);
             this.cbxSizeMode.TabIndex = 2;
@@ -228,22 +235,24 @@
             // 
             this.tabMain.Controls.Add(this.pagTTransform);
             this.tabMain.Controls.Add(this.pagGray);
+            this.tabMain.Controls.Add(this.pagHistogram);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(287, 350);
+            this.tabMain.Size = new System.Drawing.Size(287, 296);
             this.tabMain.TabIndex = 0;
             this.tabMain.SelectedIndexChanged += new System.EventHandler(this.TabMain_TabIndexChanged);
             // 
             // pagTTransform
             // 
+            this.pagTTransform.Controls.Add(this.btnDiagLaplacian);
+            this.pagTTransform.Controls.Add(this.btnHVLaplacian);
+            this.pagTTransform.Controls.Add(this.cbxFilter);
+            this.pagTTransform.Controls.Add(this.btnMedianFilter);
             this.pagTTransform.Controls.Add(this.btnExp);
-            this.pagTTransform.Controls.Add(this.cbxRGB);
-            this.pagTTransform.Controls.Add(this.chtHistogram);
             this.pagTTransform.Controls.Add(this.btnLog);
-            this.pagTTransform.Controls.Add(this.btnHistogram);
             this.pagTTransform.Controls.Add(this.btnAddPixelValue);
             this.pagTTransform.Controls.Add(this.label1);
             this.pagTTransform.Controls.Add(this.nudShift);
@@ -251,76 +260,61 @@
             this.pagTTransform.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pagTTransform.Name = "pagTTransform";
             this.pagTTransform.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pagTTransform.Size = new System.Drawing.Size(279, 321);
+            this.pagTTransform.Size = new System.Drawing.Size(279, 267);
             this.pagTTransform.TabIndex = 0;
             this.pagTTransform.Text = "Sapce Transformation";
             this.pagTTransform.UseVisualStyleBackColor = true;
             // 
+            // cbxFilter
+            // 
+            this.cbxFilter.FormattingEnabled = true;
+            this.cbxFilter.Items.AddRange(new object[] {
+            "3",
+            "5",
+            "7",
+            "9",
+            "11",
+            "13"});
+            this.cbxFilter.Location = new System.Drawing.Point(9, 128);
+            this.cbxFilter.Name = "cbxFilter";
+            this.cbxFilter.Size = new System.Drawing.Size(40, 24);
+            this.cbxFilter.TabIndex = 8;
+            // 
+            // btnMedianFilter
+            // 
+            this.btnMedianFilter.Location = new System.Drawing.Point(55, 126);
+            this.btnMedianFilter.Name = "btnMedianFilter";
+            this.btnMedianFilter.Size = new System.Drawing.Size(114, 27);
+            this.btnMedianFilter.TabIndex = 7;
+            this.btnMedianFilter.Text = "Median Filter";
+            this.btnMedianFilter.UseVisualStyleBackColor = true;
+            this.btnMedianFilter.Click += new System.EventHandler(this.btnMedianFilter_Click);
+            // 
             // btnExp
             // 
-            this.btnExp.Location = new System.Drawing.Point(11, 96);
+            this.btnExp.Location = new System.Drawing.Point(9, 93);
             this.btnExp.Name = "btnExp";
-            this.btnExp.Size = new System.Drawing.Size(171, 27);
+            this.btnExp.Size = new System.Drawing.Size(160, 27);
             this.btnExp.TabIndex = 6;
             this.btnExp.Text = "Exp Transformation";
             this.btnExp.UseVisualStyleBackColor = true;
             this.btnExp.Click += new System.EventHandler(this.btnLogExp_Click);
             // 
-            // cbxRGB
-            // 
-            this.cbxRGB.FormattingEnabled = true;
-            this.cbxRGB.Items.AddRange(new object[] {
-            "Red",
-            "Green",
-            "Blue"});
-            this.cbxRGB.Location = new System.Drawing.Point(188, 96);
-            this.cbxRGB.Name = "cbxRGB";
-            this.cbxRGB.Size = new System.Drawing.Size(83, 24);
-            this.cbxRGB.TabIndex = 5;
-            this.cbxRGB.SelectedIndexChanged += new System.EventHandler(this.cbxRGB_SelectedIndexChanged);
-            // 
-            // chtHistogram
-            // 
-            this.chtHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea3.Name = "ChartArea1";
-            this.chtHistogram.ChartAreas.Add(chartArea3);
-            this.chtHistogram.Location = new System.Drawing.Point(6, 167);
-            this.chtHistogram.Name = "chtHistogram";
-            this.chtHistogram.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series3.ChartArea = "ChartArea1";
-            series3.Name = "Series1";
-            this.chtHistogram.Series.Add(series3);
-            this.chtHistogram.Size = new System.Drawing.Size(265, 147);
-            this.chtHistogram.TabIndex = 4;
-            this.chtHistogram.Text = "chart1";
-            // 
             // btnLog
             // 
             this.btnLog.Location = new System.Drawing.Point(9, 63);
             this.btnLog.Name = "btnLog";
-            this.btnLog.Size = new System.Drawing.Size(171, 27);
+            this.btnLog.Size = new System.Drawing.Size(160, 27);
             this.btnLog.TabIndex = 3;
             this.btnLog.Text = "Log Transformation";
             this.btnLog.UseVisualStyleBackColor = true;
             this.btnLog.Click += new System.EventHandler(this.btnLogExp_Click);
             // 
-            // btnHistogram
-            // 
-            this.btnHistogram.Location = new System.Drawing.Point(188, 63);
-            this.btnHistogram.Name = "btnHistogram";
-            this.btnHistogram.Size = new System.Drawing.Size(85, 27);
-            this.btnHistogram.TabIndex = 3;
-            this.btnHistogram.Text = "Histogram";
-            this.btnHistogram.UseVisualStyleBackColor = true;
-            this.btnHistogram.Click += new System.EventHandler(this.btnHistogram_Click);
-            // 
             // btnAddPixelValue
             // 
-            this.btnAddPixelValue.Location = new System.Drawing.Point(87, 30);
+            this.btnAddPixelValue.Location = new System.Drawing.Point(76, 31);
             this.btnAddPixelValue.Name = "btnAddPixelValue";
-            this.btnAddPixelValue.Size = new System.Drawing.Size(171, 27);
+            this.btnAddPixelValue.Size = new System.Drawing.Size(93, 27);
             this.btnAddPixelValue.TabIndex = 2;
             this.btnAddPixelValue.Text = "Value Shifted";
             this.btnAddPixelValue.UseVisualStyleBackColor = true;
@@ -362,7 +356,7 @@
             this.pagGray.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pagGray.Name = "pagGray";
             this.pagGray.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pagGray.Size = new System.Drawing.Size(279, 324);
+            this.pagGray.Size = new System.Drawing.Size(279, 270);
             this.pagGray.TabIndex = 1;
             this.pagGray.Text = "Gray Image and Significent Digits";
             this.pagGray.UseVisualStyleBackColor = true;
@@ -370,6 +364,8 @@
             // ckbSmart
             // 
             this.ckbSmart.AutoSize = true;
+            this.ckbSmart.Checked = true;
+            this.ckbSmart.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ckbSmart.Location = new System.Drawing.Point(12, 75);
             this.ckbSmart.Name = "ckbSmart";
             this.ckbSmart.Size = new System.Drawing.Size(60, 20);
@@ -409,6 +405,56 @@
             this.btnGenerateGray.UseVisualStyleBackColor = true;
             this.btnGenerateGray.Click += new System.EventHandler(this.btnGenerateGray_Click);
             // 
+            // pagHistogram
+            // 
+            this.pagHistogram.Controls.Add(this.cbxRGB);
+            this.pagHistogram.Controls.Add(this.chtHistogram);
+            this.pagHistogram.Controls.Add(this.btnHistogram);
+            this.pagHistogram.Location = new System.Drawing.Point(4, 22);
+            this.pagHistogram.Name = "pagHistogram";
+            this.pagHistogram.Size = new System.Drawing.Size(279, 270);
+            this.pagHistogram.TabIndex = 2;
+            this.pagHistogram.Text = "Pixel Histogram";
+            this.pagHistogram.UseVisualStyleBackColor = true;
+            // 
+            // cbxRGB
+            // 
+            this.cbxRGB.FormattingEnabled = true;
+            this.cbxRGB.Items.AddRange(new object[] {
+            "Red",
+            "Green",
+            "Blue"});
+            this.cbxRGB.Location = new System.Drawing.Point(188, 12);
+            this.cbxRGB.Name = "cbxRGB";
+            this.cbxRGB.Size = new System.Drawing.Size(83, 24);
+            this.cbxRGB.TabIndex = 8;
+            // 
+            // chtHistogram
+            // 
+            this.chtHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea2.Name = "ChartArea1";
+            this.chtHistogram.ChartAreas.Add(chartArea2);
+            this.chtHistogram.Location = new System.Drawing.Point(6, 55);
+            this.chtHistogram.Name = "chtHistogram";
+            this.chtHistogram.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.chtHistogram.Series.Add(series2);
+            this.chtHistogram.Size = new System.Drawing.Size(265, 206);
+            this.chtHistogram.TabIndex = 7;
+            this.chtHistogram.Text = "chart1";
+            // 
+            // btnHistogram
+            // 
+            this.btnHistogram.Location = new System.Drawing.Point(6, 12);
+            this.btnHistogram.Name = "btnHistogram";
+            this.btnHistogram.Size = new System.Drawing.Size(85, 27);
+            this.btnHistogram.TabIndex = 6;
+            this.btnHistogram.Text = "Histogram";
+            this.btnHistogram.UseVisualStyleBackColor = true;
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -430,6 +476,26 @@
             this.labMessage.Name = "labMessage";
             this.labMessage.Size = new System.Drawing.Size(841, 17);
             this.labMessage.Spring = true;
+            // 
+            // btnHVLaplacian
+            // 
+            this.btnHVLaplacian.Location = new System.Drawing.Point(9, 159);
+            this.btnHVLaplacian.Name = "btnHVLaplacian";
+            this.btnHVLaplacian.Size = new System.Drawing.Size(160, 27);
+            this.btnHVLaplacian.TabIndex = 9;
+            this.btnHVLaplacian.Text = "H/V Laplacian";
+            this.btnHVLaplacian.UseVisualStyleBackColor = true;
+            this.btnHVLaplacian.Click += new System.EventHandler(this.btnHVLaplacian_Click);
+            // 
+            // btnDiagLaplacian
+            // 
+            this.btnDiagLaplacian.Location = new System.Drawing.Point(9, 192);
+            this.btnDiagLaplacian.Name = "btnDiagLaplacian";
+            this.btnDiagLaplacian.Size = new System.Drawing.Size(160, 27);
+            this.btnDiagLaplacian.TabIndex = 10;
+            this.btnDiagLaplacian.Text = "DIagonal Laplacian";
+            this.btnDiagLaplacian.UseVisualStyleBackColor = true;
+            this.btnDiagLaplacian.Click += new System.EventHandler(this.btnDiagLaplacian_Click);
             // 
             // MainForm
             // 
@@ -460,10 +526,11 @@
             this.tabMain.ResumeLayout(false);
             this.pagTTransform.ResumeLayout(false);
             this.pagTTransform.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chtHistogram)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShift)).EndInit();
             this.pagGray.ResumeLayout(false);
             this.pagGray.PerformLayout();
+            this.pagHistogram.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chtHistogram)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -495,13 +562,18 @@
         private System.Windows.Forms.ToolStripProgressBar barProgress;
         private System.Windows.Forms.ToolStripStatusLabel labMessage;
         private System.Windows.Forms.Button btnLog;
-        private System.Windows.Forms.Button btnHistogram;
-        private System.Windows.Forms.ComboBox cbxRGB;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chtHistogram;
         private System.Windows.Forms.Button btnExp;
         private System.Windows.Forms.PropertyGrid PropertyGrid;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox ckbSmart;
+        private System.Windows.Forms.TabPage pagHistogram;
+        private System.Windows.Forms.ComboBox cbxRGB;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chtHistogram;
+        private System.Windows.Forms.Button btnHistogram;
+        private System.Windows.Forms.Button btnMedianFilter;
+        private System.Windows.Forms.ComboBox cbxFilter;
+        private System.Windows.Forms.Button btnDiagLaplacian;
+        private System.Windows.Forms.Button btnHVLaplacian;
     }
 }
 

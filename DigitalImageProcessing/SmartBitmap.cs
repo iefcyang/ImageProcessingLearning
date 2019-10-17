@@ -10,6 +10,214 @@ namespace DigitalImageProcessing
 {
     unsafe public class SmartBitmap
     {
+        public static void MaskFilter( Bitmap sourceBmp, double[,] filter )
+        {
+            sourceBmp = MaskFilterToNewBitmap(sourceBmp, filter);
+        }
+
+        public static Bitmap MaskFilterToNewBitmap(Bitmap sourceBmp, double[,] filter )
+        {
+            int xoff = filter.GetLength(1) / 2; // mask = (1+ 2 off)x(1+2 off)
+            int xn = 1 + xoff + xoff;
+            int yoff = filter.GetLength(0) / 2;
+            int yn = 1 + yoff + yoff;
+             
+
+            Rectangle rect = new Rectangle(0, 0, sourceBmp.Width, sourceBmp.Height);
+            Bitmap targetBmp = new Bitmap(sourceBmp.Width, sourceBmp.Height, sourceBmp.PixelFormat);
+
+            BitmapData sourceData = sourceBmp.LockBits(rect, ImageLockMode.ReadWrite, sourceBmp.PixelFormat);
+            BitmapData targetData = targetBmp.LockBits(rect, ImageLockMode.WriteOnly, targetBmp.PixelFormat);
+
+            byte* targetStart = (byte*)targetData.Scan0.ToPointer();
+            byte* sourceStart = (byte*)sourceData.Scan0.ToPointer();
+
+            int channels = sourceData.Stride / sourceData.Width;
+
+            byte* sourcePtr;
+            byte* targetPtr;
+            int xNum = 0, yNum = 0;
+            int diff;
+            byte* rowPtr;
+            byte centerValue;
+            for (int h = 0; h < channels; h++)
+            {
+                for (int r = 0; r < sourceData.Height; r++)
+                {
+                    // set start address of each row
+                   
+                    targetPtr = targetStart + r * targetData.Stride + h;
+
+                    if (r < yoff)
+                    {
+                        diff = yoff - r;
+                        yNum = yn - diff;
+                    }
+                    else if (r > sourceData.Height - 1 - yoff)
+                    {
+                        diff = r - sourceData.Height + 1 + yoff;
+                        yNum = yn - diff;
+                    }
+                    else yNum = yn;
+
+                    if (r < yoff) sourcePtr = sourceStart + h;
+                    else sourcePtr = sourceStart + (r - yoff) * sourceData.Stride + h;
+
+                    
+                    for (int c = 0; c < sourceData.Width; c++)
+                    {
+                       centerValue = *( sourceStart + r * sourceData.Stride + h + c* channels );
+
+                        if (c < xoff)
+                        {
+                            diff = xoff - c;
+                            xNum = xn - diff;
+                        }
+                        else if (c > sourceData.Width - 1 - xoff)
+                        {
+                            diff = c - sourceData.Width + 1 + xoff;
+                            xNum = xn - diff;
+                        }
+                        else xNum = xn;
+
+                        if (c < xoff) rowPtr = sourcePtr + c * channels;
+                        else rowPtr = sourcePtr + (c - xoff) * channels;
+
+                        byte* ptr;
+
+                        double total = 0;
+                        // filter element times pixel value
+                        int yo = yn - yNum;
+                        int xo = xn - xNum;
+                        for (int j = 0; j < yNum; j++)
+                        {
+                            //*sourcePtr
+                            ptr = rowPtr + j * sourceData.Stride;
+                            for (int i = 0; i < xNum; i++)
+                            {
+                                byte v = *ptr;
+                                total += v * filter[yo+j, xo+i];
+                                ptr += channels;
+                            }
+                        }
+                        // find middle value
+                        *targetPtr =(byte)( centerValue + total );
+                        targetPtr += channels;
+                    }
+                }
+            }
+            sourceBmp.UnlockBits(sourceData);
+            targetBmp.UnlockBits(targetData);
+            return targetBmp;
+        }
+
+        public static void MedianFilter( Bitmap sourceBmp, int maskSize )
+        {
+            sourceBmp = MedianFilterToNewBitmap(sourceBmp, maskSize);
+        }
+
+
+
+        public static Bitmap MedianFilterToNewBitmap(Bitmap sourceBmp,int maskSize)
+        {
+            int off = maskSize / 2 ; // mask = (1+ 2 off)x(1+2 off)
+            int n = 1 + off + off;
+            byte[] maskedValues = new byte[n * n];
+
+            Rectangle rect = new Rectangle(0, 0, sourceBmp.Width, sourceBmp.Height);
+            Bitmap targetBmp = new Bitmap(sourceBmp.Width, sourceBmp.Height,sourceBmp.PixelFormat);
+
+            BitmapData sourceData = sourceBmp.LockBits(rect, ImageLockMode.ReadWrite, sourceBmp.PixelFormat);
+            BitmapData targetData = targetBmp.LockBits(rect, ImageLockMode.WriteOnly, targetBmp.PixelFormat);
+
+            byte* targetStart = (byte*)targetData.Scan0.ToPointer();
+            byte* sourceStart = (byte*)sourceData.Scan0.ToPointer();
+
+            int channels = sourceData.Stride / sourceData.Width;
+
+            byte* sourcePtr;
+            byte* targetPtr;
+            int xNum = 0, yNum = 0;
+            int diff;
+            byte* xptr;
+
+            for (int h = 0; h < channels; h++)
+            {
+                for (int r = 0; r < sourceData.Height; r++)
+                {
+                    // set start address of each row
+                    targetPtr = targetStart + r * targetData.Stride + h;
+
+                    if (r < off)
+                    {
+                        diff = off - r;
+                        yNum = n - diff;
+                    }
+                    else if (r > sourceData.Height - 1 - off)
+                    {
+                        diff = r - sourceData.Height + 1 + off;
+                        yNum = n - diff;
+                    }
+                    else yNum = n;
+
+                    if( r < off ) sourcePtr = sourceStart + h;
+                    else  sourcePtr = sourceStart + (r - off ) * sourceData.Stride + h;
+  
+                    for (int c = 0; c < sourceData.Width; c++)
+                    {
+                        for (int i = 0; i < maskedValues.Length; i++) maskedValues[i] = 255;
+
+                       
+                        if (c < off)
+                        {
+                            diff = off - c;
+                            xNum = n - diff;
+                        }
+                        else if (c > sourceData.Width - 1 - off)
+                        {
+                            diff = c - sourceData.Width + 1 + off;
+                            xNum = n - diff;
+                        }
+                        else xNum = n;
+
+                        if( c < off ) xptr = sourcePtr + c * channels;
+                        else  xptr = sourcePtr + (c - off) * channels;
+
+
+                        int bound = xNum * yNum;
+                        byte* ptr;
+
+                        for ( int j =  0; j < yNum; j++ )
+                        {
+                            //*sourcePtr
+                            ptr = xptr + j * sourceData.Stride;
+                            for ( int i = 0; i < xNum; i++ )
+                            {
+                                byte v = *ptr;
+                                for( int k = 0; k < maskedValues.Length; k++)
+                                {
+                                    if( v <= maskedValues[k] )
+                                    {
+                                        for (int z = k + 1; z < bound; z++)
+                                            maskedValues[z] = maskedValues[z-1];
+                                        maskedValues[k] = v;
+                                        break;
+                                    }
+                                }
+                                ptr += channels;
+                            }
+                        }
+                        // find middle value
+                        *targetPtr = (byte) maskedValues[bound/ 2];
+                        targetPtr += channels;
+                    }
+                }
+            }
+            sourceBmp.UnlockBits(sourceData);
+            targetBmp.UnlockBits(targetData);
+            return targetBmp;
+        }
+
         public static void GrayConversion( Bitmap bmp )
         {
             bmp =  GrayConversionToNewBitmap(bmp);
