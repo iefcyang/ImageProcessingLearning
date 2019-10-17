@@ -24,7 +24,7 @@ namespace DigitalImageProcessing
              
 
             Rectangle rect = new Rectangle(0, 0, sourceBmp.Width, sourceBmp.Height);
-            Bitmap targetBmp = new Bitmap(sourceBmp.Width, sourceBmp.Height, sourceBmp.PixelFormat);
+            Bitmap targetBmp = (Bitmap) sourceBmp.Clone();
 
             BitmapData sourceData = sourceBmp.LockBits(rect, ImageLockMode.ReadWrite, sourceBmp.PixelFormat);
             BitmapData targetData = targetBmp.LockBits(rect, ImageLockMode.WriteOnly, targetBmp.PixelFormat);
@@ -36,49 +36,38 @@ namespace DigitalImageProcessing
 
             byte* sourcePtr;
             byte* targetPtr;
-            int xNum = 0, yNum = 0;
+            int xSize = 0, ySize = 0;
             int diff;
-            byte* rowPtr;
+            byte* rowPtr, centerPtr;
             byte centerValue;
             for (int h = 0; h < channels; h++)
             {
                 for (int r = 0; r < sourceData.Height; r++)
                 {
                     // set start address of each row
-                   
                     targetPtr = targetStart + r * targetData.Stride + h;
+                    centerPtr = sourceStart + r * sourceData.Stride + h;
 
                     if (r < yoff)
-                    {
-                        diff = yoff - r;
-                        yNum = yn - diff;
-                    }
+                        ySize = yn - (yoff - r); 
                     else if (r > sourceData.Height - 1 - yoff)
-                    {
-                        diff = r - sourceData.Height + 1 + yoff;
-                        yNum = yn - diff;
-                    }
-                    else yNum = yn;
+                        ySize = yn - (r - sourceData.Height + 1 + yoff);
+                    else ySize = yn; // full size
 
-                    if (r < yoff) sourcePtr = sourceStart + h;
+                    if (r < yoff) sourcePtr = sourceStart + h; // data collection source row
                     else sourcePtr = sourceStart + (r - yoff) * sourceData.Stride + h;
-
                     
                     for (int c = 0; c < sourceData.Width; c++)
                     {
-                       centerValue = *( sourceStart + r * sourceData.Stride + h + c* channels );
+                        // target pixel [r,c]
+                        centerValue = *centerPtr; // + c* channels );
+                        centerPtr += channels;
 
                         if (c < xoff)
-                        {
-                            diff = xoff - c;
-                            xNum = xn - diff;
-                        }
+                            xSize = xn - (xoff - c);
                         else if (c > sourceData.Width - 1 - xoff)
-                        {
-                            diff = c - sourceData.Width + 1 + xoff;
-                            xNum = xn - diff;
-                        }
-                        else xNum = xn;
+                            xSize = xn - (c - sourceData.Width + 1 + xoff);
+                        else xSize = xn;
 
                         if (c < xoff) rowPtr = sourcePtr + c * channels;
                         else rowPtr = sourcePtr + (c - xoff) * channels;
@@ -87,21 +76,26 @@ namespace DigitalImageProcessing
 
                         double total = 0;
                         // filter element times pixel value
-                        int yo = yn - yNum;
-                        int xo = xn - xNum;
-                        for (int j = 0; j < yNum; j++)
+                        int yo = yn - ySize;
+                        int xo = xn - xSize;
+                        double sum = 0;
+                        for (int j = 0; j < ySize; j++)
                         {
                             //*sourcePtr
                             ptr = rowPtr + j * sourceData.Stride;
-                            for (int i = 0; i < xNum; i++)
+                            for (int i = 0; i < xSize; i++)
                             {
+                                sum += filter[yo + j, xo + i];
                                 byte v = *ptr;
                                 total += v * filter[yo+j, xo+i];
                                 ptr += channels;
                             }
                         }
+                        total -= sum * centerValue;
                         // find middle value
-                        *targetPtr =(byte)( centerValue + total );
+                        if (centerValue + total > 255) *targetPtr = 255;
+                        else if (centerValue + total < 0 ) *targetPtr = 0;
+                        else *targetPtr =(byte)( centerValue + total );
                         targetPtr += channels;
                     }
                 }
@@ -374,7 +368,9 @@ namespace DigitalImageProcessing
                 {
                     for( int n = 0; n < numberOfBytes; n++)
                     {
-                        *ptr = (byte)(*ptr + shift);
+                        if (*ptr + shift > 255) *ptr = 255;
+                        else if (*ptr + shift < 0) *ptr = 0;
+                        else *ptr = (byte)(*ptr + shift);
                         ptr++;
                     }
                 }
@@ -404,7 +400,10 @@ namespace DigitalImageProcessing
                 {
                     for (int n = 0; n < numberOfBytes; n++)
                     {
-                        *ptr = (byte)( 45.99 * Math.Log(1+*ptr) );
+                        double d = 45.99 * Math.Log(1 + *ptr);
+                        if (d > 255) *ptr = 255;
+                        else if (d < 0) *ptr = 0;
+                        else *ptr = (byte)( d );
                         ptr++;
                     }
                 }
@@ -435,7 +434,10 @@ namespace DigitalImageProcessing
                 {
                     for (int n = 0; n < numberOfBytes; n++)
                     {
-                        *ptr = (byte)( Math.Exp(  *ptr / 45.99 ) - 1);
+                        double d = Math.Exp(*ptr / 45.99) - 1;
+                        if (d > 255) *ptr = 255;
+                        else if (d < 0) *ptr = 0;
+                        else *ptr = (byte)( d);
                         ptr++;
                     }
                 }

@@ -371,9 +371,9 @@ namespace DigitalImageProcessing
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnGray_Click(object sender, EventArgs e)
         {
-            pcbSecond.Image = SmartBitmap.BWConversionBitWiseToNewBitmap((Bitmap)pcbMain.Image, 7);
+            pcbSecond.Image = SmartBitmap.GrayConversionToNewBitmap((Bitmap)pcbMain.Image );
         }
 
         private void PictureBoxClicked(object sender, EventArgs e)
@@ -423,6 +423,11 @@ namespace DigitalImageProcessing
             pcbSecond.Image = SmartBitmap.MaskFilterToNewBitmap((Bitmap)pcbMain.Image, filter);
             labMessage.Text = $"Diagonal Laplacian Filter Applied: {DateTime.Now - start}";
             Cursor = Cursors.Default;
+        }
+
+        private void btnReplace_Click(object sender, EventArgs e)
+        {
+            pcbMain.Image = pcbSecond.Image;
         }
     }
 }

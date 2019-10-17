@@ -28,21 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.spcMain = new System.Windows.Forms.SplitContainer();
             this.flpMultiple = new System.Windows.Forms.FlowLayoutPanel();
             this.spcThird = new System.Windows.Forms.SplitContainer();
             this.pcbMain = new System.Windows.Forms.PictureBox();
             this.pcbSecond = new System.Windows.Forms.PictureBox();
             this.spcSecond = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnGray = new System.Windows.Forms.Button();
             this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.cbxSizeMode = new System.Windows.Forms.ComboBox();
             this.btnResume = new System.Windows.Forms.Button();
             this.btnOpen = new System.Windows.Forms.Button();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.pagTTransform = new System.Windows.Forms.TabPage();
+            this.btnDiagLaplacian = new System.Windows.Forms.Button();
+            this.btnHVLaplacian = new System.Windows.Forms.Button();
             this.cbxFilter = new System.Windows.Forms.ComboBox();
             this.btnMedianFilter = new System.Windows.Forms.Button();
             this.btnExp = new System.Windows.Forms.Button();
@@ -62,8 +64,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.barProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.labMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnHVLaplacian = new System.Windows.Forms.Button();
-            this.btnDiagLaplacian = new System.Windows.Forms.Button();
+            this.btnReplace = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
             this.spcMain.Panel2.SuspendLayout();
@@ -170,7 +171,8 @@
             // 
             // spcSecond.Panel1
             // 
-            this.spcSecond.Panel1.Controls.Add(this.button1);
+            this.spcSecond.Panel1.Controls.Add(this.btnReplace);
+            this.spcSecond.Panel1.Controls.Add(this.btnGray);
             this.spcSecond.Panel1.Controls.Add(this.PropertyGrid);
             this.spcSecond.Panel1.Controls.Add(this.cbxSizeMode);
             this.spcSecond.Panel1.Controls.Add(this.btnResume);
@@ -183,15 +185,15 @@
             this.spcSecond.SplitterDistance = 226;
             this.spcSecond.TabIndex = 1;
             // 
-            // button1
+            // btnGray
             // 
-            this.button1.Location = new System.Drawing.Point(3, 158);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnGray.Location = new System.Drawing.Point(3, 158);
+            this.btnGray.Name = "btnGray";
+            this.btnGray.Size = new System.Drawing.Size(121, 23);
+            this.btnGray.TabIndex = 4;
+            this.btnGray.Text = "Gray ";
+            this.btnGray.UseVisualStyleBackColor = true;
+            this.btnGray.Click += new System.EventHandler(this.btnGray_Click);
             // 
             // PropertyGrid
             // 
@@ -216,7 +218,7 @@
             // 
             this.btnResume.Location = new System.Drawing.Point(3, 42);
             this.btnResume.Name = "btnResume";
-            this.btnResume.Size = new System.Drawing.Size(75, 23);
+            this.btnResume.Size = new System.Drawing.Size(118, 23);
             this.btnResume.TabIndex = 1;
             this.btnResume.Text = "Resume";
             this.btnResume.UseVisualStyleBackColor = true;
@@ -225,7 +227,7 @@
             // 
             this.btnOpen.Location = new System.Drawing.Point(3, 12);
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(75, 23);
+            this.btnOpen.Size = new System.Drawing.Size(121, 23);
             this.btnOpen.TabIndex = 0;
             this.btnOpen.Text = "Open";
             this.btnOpen.UseVisualStyleBackColor = true;
@@ -264,6 +266,26 @@
             this.pagTTransform.TabIndex = 0;
             this.pagTTransform.Text = "Sapce Transformation";
             this.pagTTransform.UseVisualStyleBackColor = true;
+            // 
+            // btnDiagLaplacian
+            // 
+            this.btnDiagLaplacian.Location = new System.Drawing.Point(9, 192);
+            this.btnDiagLaplacian.Name = "btnDiagLaplacian";
+            this.btnDiagLaplacian.Size = new System.Drawing.Size(160, 27);
+            this.btnDiagLaplacian.TabIndex = 10;
+            this.btnDiagLaplacian.Text = "DIagonal Laplacian";
+            this.btnDiagLaplacian.UseVisualStyleBackColor = true;
+            this.btnDiagLaplacian.Click += new System.EventHandler(this.btnDiagLaplacian_Click);
+            // 
+            // btnHVLaplacian
+            // 
+            this.btnHVLaplacian.Location = new System.Drawing.Point(9, 159);
+            this.btnHVLaplacian.Name = "btnHVLaplacian";
+            this.btnHVLaplacian.Size = new System.Drawing.Size(160, 27);
+            this.btnHVLaplacian.TabIndex = 9;
+            this.btnHVLaplacian.Text = "H/V Laplacian";
+            this.btnHVLaplacian.UseVisualStyleBackColor = true;
+            this.btnHVLaplacian.Click += new System.EventHandler(this.btnHVLaplacian_Click);
             // 
             // cbxFilter
             // 
@@ -434,14 +456,14 @@
             this.chtHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.Name = "ChartArea1";
-            this.chtHistogram.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.chtHistogram.ChartAreas.Add(chartArea1);
             this.chtHistogram.Location = new System.Drawing.Point(6, 55);
             this.chtHistogram.Name = "chtHistogram";
             this.chtHistogram.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series2.ChartArea = "ChartArea1";
-            series2.Name = "Series1";
-            this.chtHistogram.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Name = "Series1";
+            this.chtHistogram.Series.Add(series1);
             this.chtHistogram.Size = new System.Drawing.Size(265, 206);
             this.chtHistogram.TabIndex = 7;
             this.chtHistogram.Text = "chart1";
@@ -477,25 +499,15 @@
             this.labMessage.Size = new System.Drawing.Size(841, 17);
             this.labMessage.Spring = true;
             // 
-            // btnHVLaplacian
+            // btnReplace
             // 
-            this.btnHVLaplacian.Location = new System.Drawing.Point(9, 159);
-            this.btnHVLaplacian.Name = "btnHVLaplacian";
-            this.btnHVLaplacian.Size = new System.Drawing.Size(160, 27);
-            this.btnHVLaplacian.TabIndex = 9;
-            this.btnHVLaplacian.Text = "H/V Laplacian";
-            this.btnHVLaplacian.UseVisualStyleBackColor = true;
-            this.btnHVLaplacian.Click += new System.EventHandler(this.btnHVLaplacian_Click);
-            // 
-            // btnDiagLaplacian
-            // 
-            this.btnDiagLaplacian.Location = new System.Drawing.Point(9, 192);
-            this.btnDiagLaplacian.Name = "btnDiagLaplacian";
-            this.btnDiagLaplacian.Size = new System.Drawing.Size(160, 27);
-            this.btnDiagLaplacian.TabIndex = 10;
-            this.btnDiagLaplacian.Text = "DIagonal Laplacian";
-            this.btnDiagLaplacian.UseVisualStyleBackColor = true;
-            this.btnDiagLaplacian.Click += new System.EventHandler(this.btnDiagLaplacian_Click);
+            this.btnReplace.Location = new System.Drawing.Point(3, 71);
+            this.btnReplace.Name = "btnReplace";
+            this.btnReplace.Size = new System.Drawing.Size(118, 23);
+            this.btnReplace.TabIndex = 5;
+            this.btnReplace.Text = "Replace Original";
+            this.btnReplace.UseVisualStyleBackColor = true;
+            this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
             // 
             // MainForm
             // 
@@ -564,7 +576,7 @@
         private System.Windows.Forms.Button btnLog;
         private System.Windows.Forms.Button btnExp;
         private System.Windows.Forms.PropertyGrid PropertyGrid;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnGray;
         private System.Windows.Forms.CheckBox ckbSmart;
         private System.Windows.Forms.TabPage pagHistogram;
         private System.Windows.Forms.ComboBox cbxRGB;
@@ -574,6 +586,7 @@
         private System.Windows.Forms.ComboBox cbxFilter;
         private System.Windows.Forms.Button btnDiagLaplacian;
         private System.Windows.Forms.Button btnHVLaplacian;
+        private System.Windows.Forms.Button btnReplace;
     }
 }
 
