@@ -28,14 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.spcMain = new System.Windows.Forms.SplitContainer();
             this.flpMultiple = new System.Windows.Forms.FlowLayoutPanel();
             this.spcThird = new System.Windows.Forms.SplitContainer();
             this.pcbMain = new System.Windows.Forms.PictureBox();
             this.pcbSecond = new System.Windows.Forms.PictureBox();
             this.spcSecond = new System.Windows.Forms.SplitContainer();
+            this.btnReplace = new System.Windows.Forms.Button();
             this.btnGray = new System.Windows.Forms.Button();
             this.PropertyGrid = new System.Windows.Forms.PropertyGrid();
             this.cbxSizeMode = new System.Windows.Forms.ComboBox();
@@ -64,7 +65,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.barProgress = new System.Windows.Forms.ToolStripProgressBar();
             this.labMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnReplace = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
             this.spcMain.Panel2.SuspendLayout();
@@ -112,9 +113,9 @@
             // flpMultiple
             // 
             this.flpMultiple.AutoScroll = true;
-            this.flpMultiple.Location = new System.Drawing.Point(28, 84);
+            this.flpMultiple.Location = new System.Drawing.Point(28, 30);
             this.flpMultiple.Name = "flpMultiple";
-            this.flpMultiple.Size = new System.Drawing.Size(707, 418);
+            this.flpMultiple.Size = new System.Drawing.Size(716, 472);
             this.flpMultiple.TabIndex = 2;
             this.flpMultiple.Visible = false;
             this.flpMultiple.SizeChanged += new System.EventHandler(this.flpMultiple_SizeChanged);
@@ -171,6 +172,7 @@
             // 
             // spcSecond.Panel1
             // 
+            this.spcSecond.Panel1.Controls.Add(this.button1);
             this.spcSecond.Panel1.Controls.Add(this.btnReplace);
             this.spcSecond.Panel1.Controls.Add(this.btnGray);
             this.spcSecond.Panel1.Controls.Add(this.PropertyGrid);
@@ -184,6 +186,16 @@
             this.spcSecond.Size = new System.Drawing.Size(287, 526);
             this.spcSecond.SplitterDistance = 226;
             this.spcSecond.TabIndex = 1;
+            // 
+            // btnReplace
+            // 
+            this.btnReplace.Location = new System.Drawing.Point(3, 71);
+            this.btnReplace.Name = "btnReplace";
+            this.btnReplace.Size = new System.Drawing.Size(118, 23);
+            this.btnReplace.TabIndex = 5;
+            this.btnReplace.Text = "Replace Original";
+            this.btnReplace.UseVisualStyleBackColor = true;
+            this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
             // 
             // btnGray
             // 
@@ -374,11 +386,11 @@
             this.pagGray.Controls.Add(this.rdbGray);
             this.pagGray.Controls.Add(this.rdbBW);
             this.pagGray.Controls.Add(this.btnGenerateGray);
-            this.pagGray.Location = new System.Drawing.Point(4, 22);
+            this.pagGray.Location = new System.Drawing.Point(4, 25);
             this.pagGray.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pagGray.Name = "pagGray";
             this.pagGray.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pagGray.Size = new System.Drawing.Size(279, 270);
+            this.pagGray.Size = new System.Drawing.Size(279, 267);
             this.pagGray.TabIndex = 1;
             this.pagGray.Text = "Gray Image and Significent Digits";
             this.pagGray.UseVisualStyleBackColor = true;
@@ -432,9 +444,9 @@
             this.pagHistogram.Controls.Add(this.cbxRGB);
             this.pagHistogram.Controls.Add(this.chtHistogram);
             this.pagHistogram.Controls.Add(this.btnHistogram);
-            this.pagHistogram.Location = new System.Drawing.Point(4, 22);
+            this.pagHistogram.Location = new System.Drawing.Point(4, 25);
             this.pagHistogram.Name = "pagHistogram";
-            this.pagHistogram.Size = new System.Drawing.Size(279, 270);
+            this.pagHistogram.Size = new System.Drawing.Size(279, 267);
             this.pagHistogram.TabIndex = 2;
             this.pagHistogram.Text = "Pixel Histogram";
             this.pagHistogram.UseVisualStyleBackColor = true;
@@ -456,15 +468,15 @@
             this.chtHistogram.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.Name = "ChartArea1";
-            this.chtHistogram.ChartAreas.Add(chartArea1);
+            chartArea2.Name = "ChartArea1";
+            this.chtHistogram.ChartAreas.Add(chartArea2);
             this.chtHistogram.Location = new System.Drawing.Point(6, 55);
             this.chtHistogram.Name = "chtHistogram";
             this.chtHistogram.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.SemiTransparent;
-            series1.ChartArea = "ChartArea1";
-            series1.Name = "Series1";
-            this.chtHistogram.Series.Add(series1);
-            this.chtHistogram.Size = new System.Drawing.Size(265, 206);
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.chtHistogram.Series.Add(series2);
+            this.chtHistogram.Size = new System.Drawing.Size(265, 203);
             this.chtHistogram.TabIndex = 7;
             this.chtHistogram.Text = "chart1";
             // 
@@ -499,15 +511,15 @@
             this.labMessage.Size = new System.Drawing.Size(841, 17);
             this.labMessage.Spring = true;
             // 
-            // btnReplace
+            // button1
             // 
-            this.btnReplace.Location = new System.Drawing.Point(3, 71);
-            this.btnReplace.Name = "btnReplace";
-            this.btnReplace.Size = new System.Drawing.Size(118, 23);
-            this.btnReplace.TabIndex = 5;
-            this.btnReplace.Text = "Replace Original";
-            this.btnReplace.UseVisualStyleBackColor = true;
-            this.btnReplace.Click += new System.EventHandler(this.btnReplace_Click);
+            this.button1.Location = new System.Drawing.Point(4, 114);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // MainForm
             // 
@@ -587,6 +599,7 @@
         private System.Windows.Forms.Button btnDiagLaplacian;
         private System.Windows.Forms.Button btnHVLaplacian;
         private System.Windows.Forms.Button btnReplace;
+        private System.Windows.Forms.Button button1;
     }
 }
 

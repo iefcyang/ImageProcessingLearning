@@ -73,6 +73,13 @@ namespace DigitalImageProcessing
             return new Complex(r, i);
         }
 
+        public static Complex operator *( double b, Complex a)
+        {
+            a.real *= b;
+            a.image *= b;
+            return a;
+        }
+
         public Complex Mul(Complex z)
         {
             double r = real * z.real - image * z.image;
@@ -88,6 +95,14 @@ namespace DigitalImageProcessing
             double i = (a.image * b.real - a.real * b.image) / d;
             return new Complex(r, i);
         }
+
+        public static Complex operator /(Complex a, double b)
+        {
+            a.real /= b;
+            a.image /= b;
+            return a;
+        }
+
 
         public Complex Div(Complex z)
         {
@@ -157,9 +172,36 @@ namespace DigitalImageProcessing
             return y;
         }
 
-        public static Complex[] DFT(double[] x)
+
+        public static double[,] DiscreteFourierTransform(double[,] x)
         {
-            double pi2oN = 2.0 * Math.PI / x.Length;
+            int rows = x.GetLength(0);
+            int cols = x.GetLength(1);
+            double[] xary = new double[cols];
+            double[] yary = new double[rows];
+            Complex[] y;
+            double[,] output = new double[rows, cols];
+
+            // Row-wise transform
+            for( int r = 0; r < rows; r++ )
+            {
+                for (int c = 0; c < cols; c++) xary[c] = x[r, c];
+                y = DiscreteFourierTransform(xary);
+                for (int c = 0; c < cols; c++) output[r, c] = y[c].real;
+            }
+            // Column-wise transform
+            for (int c = 0; c < cols; c++)
+            {
+                for (int r = 0; r < rows; r++) yary[c] = output[r, c];
+                y = DiscreteFourierTransform(yary);
+                for (int r = 0; r < cols; r++) output[r, c] = y[r].real;
+            }
+            return output;
+        }
+
+        public static Complex[] DiscreteFourierTransform(Complex[] x)
+        {
+            double twoPiOverN = 2.0 * Math.PI / x.Length;
             int k, n;
             Complex[] X = new Complex[x.Length];
 
@@ -169,33 +211,52 @@ namespace DigitalImageProcessing
 
                 for (n = 0; n < x.Length; n++)
                 {
-                    X[k].real += x[n] * Math.Cos(pi2oN * k * n);
-                    X[k].image -= x[n] * Math.Sin(pi2oN * k * n);
+                    double cs = Math.Cos(twoPiOverN * k * n);
+                    double ss = Math.Sin(twoPiOverN * k * n);
+                    X[k].real += x[n].real * cs - x[n].image * ss;
+                    X[k].image -= x[n].real * ss - x[n].image * cs;
                 }
-
-                X[k].real /= x.Length;
-                X[k].image /= x.Length;
+                X[k] = X[k] / x.Length;
             }
             return X;
         }
 
 
 
-        public static double[] InverseDFT(Complex[] X)
+
+        public static Complex[] DiscreteFourierTransform(double[] x)
+        {
+            double twoPiOverN = 2.0 * Math.PI / x.Length;
+            int k, n;
+            Complex[] X = new Complex[x.Length];
+
+            for (k = 0; k < x.Length; k++)
+            {
+                X[k] = new Complex(0.0, 0.0);
+
+                for (n = 0; n < x.Length; n++)
+                {
+                    X[k].real += x[n] * Math.Cos(twoPiOverN * k * n);
+                    X[k].image -= x[n] * Math.Sin(twoPiOverN * k * n);
+                }
+                X[k] = X[k] / x.Length;
+            }
+            return X;
+        }
+
+
+
+        public static double[] InverseDiscreteFourierTransfrom(Complex[] X)
         {
             double[] x = new double[X.Length];
-            double imag, pi2oN = 2.0 * Math.PI / X.Length;
+            double twoPiOverN = 2.0 * Math.PI / X.Length;
 
             for (int n = 0; n < X.Length; n++)
             {
-                imag = x[n] = 0.0;
-
                 for (int k = 0; k < X.Length; k++)
                 {
-                    x[n] += X[k].real * Math.Cos(pi2oN * k * n)
-                          - X[k].image * Math.Sin(pi2oN * k * n);
-                    imag += X[k].real * Math.Sin(pi2oN * k * n)
-                          + X[k].image * Math.Cos(pi2oN * k * n);
+                    x[n] += X[k].real * Math.Cos(twoPiOverN * k * n)
+                          - X[k].image * Math.Sin(twoPiOverN * k * n);
                 }
             }
             return x;
@@ -207,7 +268,7 @@ namespace DigitalImageProcessing
         // dir = -1 gives reverse transform  
         // see http://astronomy.swin.edu.au/~pbourke/analysis/dft/ 
 
-        public static void FFT(short dir, int m, double[] x, double[] y)
+        public static void FastFourierTransform(short dir, int m, double[] x, double[] y)
         {
             int n, i, i1, j, k, i2, l, l1, l2;
             double c1, c2, tx, ty, t1, t2, u1, u2, z;

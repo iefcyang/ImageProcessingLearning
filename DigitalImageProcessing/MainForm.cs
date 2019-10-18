@@ -429,5 +429,16 @@ namespace DigitalImageProcessing
         {
             pcbMain.Image = pcbSecond.Image;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            double[,] m = new double[8, 8];
+            for(int i = 0; i < 8; i++ )
+                for( int j = 0; j < 8; j++ )
+                    m[i,j] = 128;
+
+            double[,] n =  Complex.DiscreteFourierTransform(m);
+
+        }
     }
 }
