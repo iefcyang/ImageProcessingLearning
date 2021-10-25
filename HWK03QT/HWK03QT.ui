@@ -174,7 +174,7 @@ p, li { white-space: pre-wrap; }
      <string>Get Mask</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="cbxFilters">
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -183,6 +183,21 @@ p, li { white-space: pre-wrap; }
       <height>31</height>
      </rect>
     </property>
+    <item>
+     <property name="text">
+      <string>aaa</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>bbb</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ccc</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
