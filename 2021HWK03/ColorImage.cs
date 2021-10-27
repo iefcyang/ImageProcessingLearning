@@ -31,7 +31,8 @@ namespace _2021HWK03
                                }
                            }
                            net = net / msk.total;
-                           if( net > 255 ) net = 255;
+                           if (net > 255) net = 255;
+                           else if (net < 0) net = 0;
                            pixels[ d, r, c ] = (int) net;
                        }
                    }
@@ -61,6 +62,7 @@ namespace _2021HWK03
                         }
                         net = net / msk.total;
                         if( net > 255 ) net = 255;
+                        else if (net < 0) net = 0;
                         pixels[ d, r, c ] = (int) net;
                     }
                 }

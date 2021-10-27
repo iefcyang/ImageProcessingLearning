@@ -22,7 +22,7 @@ namespace _2021HWK03
             InitializeComponent();
 
             // Create stocked masks
-            stockMasks = new Mask[ 12 ];
+            stockMasks = new Mask[ 15 ];
             cbxFilters.Items.Clear( );
             double oneO9 = 1.0;
             stockMasks[0] = new Mask( new double[ 3, 3 ] { { oneO9, oneO9, oneO9 }, { oneO9, oneO9, oneO9 }, { oneO9, oneO9, oneO9 } }, "Custom" );
@@ -49,6 +49,13 @@ namespace _2021HWK03
             cbxFilters.Items.Add( stockMasks[ 10 ] );
             stockMasks[ 11 ] = Mask.CreateGaussianFilter( 151, 151, 1, 25 );
             cbxFilters.Items.Add( stockMasks[ 11 ] );
+            stockMasks[12] = Mask.CreateLaplacianOfGaussian(25, 25, 4);
+            cbxFilters.Items.Add(stockMasks[12]);
+            stockMasks[13] = new Mask(new double[,] { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } }, "Sobel Horizontal");
+            cbxFilters.Items.Add(stockMasks[13]);
+            stockMasks[14] = new Mask(new double[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } }, "Sobel Vertical");
+            cbxFilters.Items.Add(stockMasks[14]);
+
             cbxFilters.SelectedIndex = 0;
         }
 
@@ -157,6 +164,20 @@ namespace _2021HWK03
     //}
     public class Mask
     {
+        public static Mask CreateLaplacianOfGaussian( int height, int width, double std)
+        {
+            double[,] w = new double[height, width];
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
+                {
+                    double deltaY = r - height / 2;
+                    double deltaX = c - width / 2;
+                    double distanceSquare = deltaY * deltaY + deltaX * deltaX;
+                    w[r, c] = ( (distanceSquare /std / std - 2 ) / std / std ) * Math.Exp(-0.5 * distanceSquare / std / std);
+                }
+            return new Mask(w, $"LoG[{std}]({height}x{width})");
+
+        }
         public static Mask CreateGaussianFilter( int height, int width, double scale, double standardDeviation )
         {
             double[ , ] w = new double[ height, width ];
