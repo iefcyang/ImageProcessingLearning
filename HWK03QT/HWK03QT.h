@@ -15,7 +15,7 @@ private slots:
     void on_pushButton_clicked();
     void on_btnCreate_clicked();
     void on_btnGetMask_clicked();
-    void on_cbxFilters_currentlndexChanged(int index);
+    void on_cbxFilters_currentIndexChanged(int index);
 private:
     int** mask;
     Ui::HWK03QTClass ui;

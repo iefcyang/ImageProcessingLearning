@@ -45,31 +45,30 @@ void HWK03QT::on_btnGetMask_clicked()
     GetMaskFromTableView();
 }
 
-void HWK03QT::on_cbxFilters_currentlndexChanged(int index)
+void HWK03QT::on_cbxFilters_currentIndexChanged(int index)
 {
 
-        mask = new int* [3];
-        for (int r = 0; r < 3; r++)
-        {
-            mask[r] = new int[3];
-        }
-        for (int c = 0; c < 3; c++)
-            ui.tbwMask->setColumnWidth(c, 40);
-        QStandardItemModel* model = new QStandardItemModel(3,3);
-        ui.tbwMask->setModel(model);
+    mask = new int* [3];
+    for (int r = 0; r < 3; r++)
+    {
+        mask[r] = new int[3];
+    }
+    for (int c = 0; c < 3; c++)
+        ui.tbwMask->setColumnWidth(c, 40);
+    QStandardItemModel* model = new QStandardItemModel(3, 3);
+    ui.tbwMask->setModel(model);
 
     switch (index)
     {
-    case 0://aaa
-        mask[0][0] = 1;
-
+    case 0://box
+        mask[0][0] = 1; mask[0][1] = 1; mask[0][2] = 1;
+        mask[1][0] = 1; mask[1][1] = 1; mask[1][2] = 1;
+        mask[2][0] = 1; mask[2][1] = 1; mask[2][2] = 1;
         break;
     }
-for (int r = 0; r < 3; r++)
-for (int c = 0; c < 3; c++)
-    model->setItem(r, c, new QStandardItem(QString::number(mask[r][c])));
-
-
+    for (int r = 0; r < 3; r++)
+        for (int c = 0; c < 3; c++)
+            model->setItem(r, c, new QStandardItem(QString::number(mask[r][c])));
 }
 
 void HWK03QT::GetMaskFromTableView()
