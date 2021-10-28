@@ -9,6 +9,29 @@ namespace _2021HWK03
 {
     class MonoImage
     {
+        public static double[,] operator+( double[,] mask, MonoImage img)
+        {
+            double[,] pixels = new double[img.height, img.width];
+            int hhh = mask.GetLength(0);
+            int www = mask.GetLength(1);
+            for (int r = 0; r < img.height; r++)
+            {
+                for (int c = 0; c < img.width; c++)
+                {
+                    pixels[r,c] = 0;
+                    for (int h = 0, y = r - hhh / 2; h < hhh; h++, y++)
+                    {
+                        for (int w = 0, x = c - www / 2; w < www; w++, x++)
+                        {
+                            if (x < 0 || x >= img.width) continue;
+                            if (y < 0 || y >= img.height) continue;
+                            pixels[r, c] += mask[h, w] * img.pixels[y, x];
+                        }
+                    }
+                }
+            }
+            return pixels;
+        }
         public static MonoImage operator +( MonoImage img1, MonoImage img2 )
         {
             int[ , ] pixels = new int[ img1.height, img1.width ];

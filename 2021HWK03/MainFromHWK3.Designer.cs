@@ -55,6 +55,11 @@
             this.nudCols = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.rdbPositive = new System.Windows.Forms.RadioButton();
+            this.rdbABsolute = new System.Windows.Forms.RadioButton();
+            this.rdbMiddleMap = new System.Windows.Forms.RadioButton();
+            this.btnLaplacian = new System.Windows.Forms.Button();
             this.txbSTD = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.btnMarr = new System.Windows.Forms.Button();
@@ -62,6 +67,7 @@
             this.nudMarrHeight = new System.Windows.Forms.NumericUpDown();
             this.nudMarrWidth = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -84,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrWidth)).BeginInit();
             this.SuspendLayout();
@@ -237,6 +244,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -260,7 +268,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(275, 573);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Filter/Mask Application";
+            this.tabPage1.Text = "(1) Filtering";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -432,6 +440,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox2);
+            this.tabPage2.Controls.Add(this.btnLaplacian);
             this.tabPage2.Controls.Add(this.txbSTD);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.btnMarr);
@@ -444,8 +454,62 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(275, 573);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Marr-Hildreth edge detector";
+            this.tabPage2.Text = "(2) Edge Detection";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.rdbPositive);
+            this.groupBox2.Controls.Add(this.rdbABsolute);
+            this.groupBox2.Controls.Add(this.rdbMiddleMap);
+            this.groupBox2.Location = new System.Drawing.Point(18, 302);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(223, 100);
+            this.groupBox2.TabIndex = 15;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Display";
+            // 
+            // rdbPositive
+            // 
+            this.rdbPositive.AutoSize = true;
+            this.rdbPositive.Location = new System.Drawing.Point(18, 74);
+            this.rdbPositive.Name = "rdbPositive";
+            this.rdbPositive.Size = new System.Drawing.Size(104, 20);
+            this.rdbPositive.TabIndex = 2;
+            this.rdbPositive.Text = "Positive Value";
+            this.rdbPositive.UseVisualStyleBackColor = true;
+            // 
+            // rdbABsolute
+            // 
+            this.rdbABsolute.AutoSize = true;
+            this.rdbABsolute.Location = new System.Drawing.Point(18, 48);
+            this.rdbABsolute.Name = "rdbABsolute";
+            this.rdbABsolute.Size = new System.Drawing.Size(111, 20);
+            this.rdbABsolute.TabIndex = 1;
+            this.rdbABsolute.Text = "Absolute Value";
+            this.rdbABsolute.UseVisualStyleBackColor = true;
+            // 
+            // rdbMiddleMap
+            // 
+            this.rdbMiddleMap.AutoSize = true;
+            this.rdbMiddleMap.Checked = true;
+            this.rdbMiddleMap.Location = new System.Drawing.Point(18, 22);
+            this.rdbMiddleMap.Name = "rdbMiddleMap";
+            this.rdbMiddleMap.Size = new System.Drawing.Size(122, 20);
+            this.rdbMiddleMap.TabIndex = 0;
+            this.rdbMiddleMap.TabStop = true;
+            this.rdbMiddleMap.Text = "Lacpacian Image";
+            this.rdbMiddleMap.UseVisualStyleBackColor = true;
+            // 
+            // btnLaplacian
+            // 
+            this.btnLaplacian.Location = new System.Drawing.Point(18, 408);
+            this.btnLaplacian.Name = "btnLaplacian";
+            this.btnLaplacian.Size = new System.Drawing.Size(223, 31);
+            this.btnLaplacian.TabIndex = 14;
+            this.btnLaplacian.Text = "Laplacian Filtering";
+            this.btnLaplacian.UseVisualStyleBackColor = true;
+            this.btnLaplacian.Click += new System.EventHandler(this.btnLaplacian_Click);
             // 
             // txbSTD
             // 
@@ -550,6 +614,15 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Height                            Width";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(275, 576);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "(3) Order-Statistics";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
             // MainFromHWK3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -558,7 +631,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainFromHWK3";
@@ -591,6 +664,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrWidth)).EndInit();
             this.ResumeLayout(false);
@@ -634,6 +709,12 @@
         private System.Windows.Forms.NumericUpDown nudMarrWidth;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txbSTD;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RadioButton rdbPositive;
+        private System.Windows.Forms.RadioButton rdbABsolute;
+        private System.Windows.Forms.RadioButton rdbMiddleMap;
+        private System.Windows.Forms.Button btnLaplacian;
     }
 }
 

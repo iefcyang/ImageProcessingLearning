@@ -17,6 +17,7 @@ namespace _2021HWK03
         ColorImage originalImage;
         MonoImage averageGrayOriginal;
         MonoImage weightedGrayOriginal;
+
         ColorImage resultingImage;
 
         public MainFromHWK3()
@@ -24,7 +25,7 @@ namespace _2021HWK03
             InitializeComponent();
 
             // Create stocked masks
-            stockMasks = new Mask[ 17 ];
+            stockMasks = new Mask[ 19 ];
             cbxFilters.Items.Clear( );
             double oneO9 = 1.0;
             stockMasks[0] = new Mask( new double[ 3, 3 ] { { oneO9, oneO9, oneO9 }, { oneO9, oneO9, oneO9 }, { oneO9, oneO9, oneO9 } }, "Custom" );
@@ -68,6 +69,14 @@ namespace _2021HWK03
             stockMasks[ 16 ] = new Mask( new double[ , ] { { 1, 0, -1 }, { 2, 0, -2 }, { 1, 0, -1 } }, "Sobel -Vertical" );
             stockMasks[ 16 ].total = 1.0;
             cbxFilters.Items.Add( stockMasks[ 16 ] );
+
+            stockMasks[17] = new Mask(new double[,] { { 1, 1, 1 }, { 1, -8, 1 }, { 1, 1, 1 } }, "Laplacian (full)");
+            stockMasks[17].total = 1.0;
+            cbxFilters.Items.Add(stockMasks[17]);
+
+            stockMasks[18] = new Mask(new double[,] { { 1, 0, 1 }, { 0, -4, 0 }, { 1, 0, 1 } }, "Laplacian (half)");
+            stockMasks[18].total = 1.0;
+            cbxFilters.Items.Add(stockMasks[18]);
 
             cbxFilters.SelectedIndex = 0;
         }
@@ -225,6 +234,41 @@ namespace _2021HWK03
             Cursor = Cursors.Default;
             labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
             Console.Beep( );
+
+        }
+
+        private void btnLaplacian_Click(object sender, EventArgs e)
+        {
+            double[,] laplacian =  new double[,] { { 1, 1, 1 }, { 1, -8, 1 }, { 1, 1, 1 } } ;
+            double[,] values = laplacian + averageGrayOriginal;
+
+            int[,] pixels = new int[averageGrayOriginal.height, averageGrayOriginal.width];
+            if( rdbMiddleMap.Checked)
+            {
+                for(int r = 0; r < averageGrayOriginal.height; r++)
+                    for( int c = 0; c < averageGrayOriginal.width; c++)
+                    {
+                        pixels[r,c] = (int)( values[r, c] + 128);
+                    }
+            }
+            else if( rdbABsolute.Checked)
+            {
+                for (int r = 0; r < averageGrayOriginal.height; r++)
+                    for (int c = 0; c < averageGrayOriginal.width; c++)
+                    {
+                        pixels[r, c] = values[r, c] >= 0 ? (int)values[r, c] : (int)-values[r, c];
+                    }
+            }
+            else
+            {
+                for (int r = 0; r < averageGrayOriginal.height; r++)
+                    for (int c = 0; c < averageGrayOriginal.width; c++)
+                    {
+                        pixels[r, c] = values[r, c] >= 0 ? (int)values[r, c] : 0;
+                    }
+            }
+            MonoImage output = new MonoImage(pixels);
+            pcbResults.Image = output.displayedBitmap;
 
         }
     }
