@@ -15,6 +15,8 @@ namespace _2021HWK03
         Mask[ ] stockMasks;
 
         ColorImage originalImage;
+        MonoImage averageGrayOriginal;
+        MonoImage weightedGrayOriginal;
         ColorImage resultingImage;
 
         public MainFromHWK3()
@@ -52,8 +54,11 @@ namespace _2021HWK03
             stockMasks[12] = Mask.CreateLaplacianOfGaussian(25, 25, 4);
             cbxFilters.Items.Add(stockMasks[12]);
             stockMasks[13] = new Mask(new double[,] { { -1, -2, -1 }, { 0, 0, 0 }, { 1, 2, 1 } }, "Sobel Horizontal");
+            // Sobel is a special filter without normalization; therefore, set its total value to 1;
+            stockMasks[ 13].total = 1.0;
             cbxFilters.Items.Add(stockMasks[13]);
             stockMasks[14] = new Mask(new double[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } }, "Sobel Vertical");
+            stockMasks[ 14 ].total = 1.0;
             cbxFilters.Items.Add(stockMasks[14]);
 
             cbxFilters.SelectedIndex = 0;
@@ -65,6 +70,10 @@ namespace _2021HWK03
             if( dlg.ShowDialog( ) != DialogResult.OK ) return;
             originalImage = new ColorImage( new Bitmap( dlg.FileName ) );
             pcbOriginal.Image = originalImage.displayedBitmap;
+
+            // store gray images
+            averageGrayOriginal = new MonoImage( originalImage.displayedBitmap );
+            weightedGrayOriginal = new MonoImage( originalImage.displayedBitmap, true );
         }
 
         private void cbxFilters_SelectedIndexChanged( object sender, EventArgs e )
@@ -144,9 +153,26 @@ namespace _2021HWK03
             Cursor = Cursors.WaitCursor;
 
             startTime = DateTime.Now;
-            if( ckbTurbo.Checked) resultingImage = ( cbxFilters.SelectedItem as Mask ) * originalImage;
-            else resultingImage = ( cbxFilters.SelectedItem as Mask ) + originalImage;
-            pcbResults.Image = resultingImage.displayedBitmap;
+
+            if( rdbColor.Checked )
+            {
+                if( ckbTurbo.Checked ) resultingImage = ( cbxFilters.SelectedItem as Mask ) * originalImage;
+                else resultingImage = ( cbxFilters.SelectedItem as Mask ) + originalImage;
+                 pcbResults.Image = resultingImage.displayedBitmap;
+            }
+            else
+            {
+                MonoImage output;
+                if( rdbAverageGray.Checked )
+                    if( ckbTurbo.Checked ) output = ( cbxFilters.SelectedItem as Mask ) * averageGrayOriginal;
+                    else output = ( cbxFilters.SelectedItem as Mask ) + averageGrayOriginal;
+                else
+                                    if( ckbTurbo.Checked ) output = ( cbxFilters.SelectedItem as Mask ) * weightedGrayOriginal;
+                else output = ( cbxFilters.SelectedItem as Mask ) + weightedGrayOriginal;
+
+                pcbResults.Image = output.displayedBitmap;
+            }
+
             Cursor = Cursors.Default;
             labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
             Console.Beep( );

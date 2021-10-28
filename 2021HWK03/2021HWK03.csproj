@@ -54,6 +54,7 @@
     <Compile Include="MainFromHWK3.Designer.cs">
       <DependentUpon>MainFromHWK3.cs</DependentUpon>
     </Compile>
+    <Compile Include="MonoImage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainFromHWK3.resx">

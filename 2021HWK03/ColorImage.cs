@@ -30,10 +30,10 @@ namespace _2021HWK03
                                    net += msk.weights[ h, w ] * img.pixels[ d, y, x ];
                                }
                            }
-                           net = net / msk.total;
-                           if (net > 255) net = 255;
-                           else if (net < 0) net = 0;
-                           pixels[ d, r, c ] = (int) net;
+                           int pxl = (int) ( net / msk.total );                           
+                           if ( pxl > 255) pxl = 255;
+                           else if ( pxl < 0) pxl = 0;
+                           pixels[ d, r, c ] =   pxl;
                        }
                    }
                } );
@@ -60,10 +60,10 @@ namespace _2021HWK03
                                 net += msk.weights[ h, w ] * img.pixels[d, y, x ];
                             }
                         }
-                        net = net / msk.total;
-                        if( net > 255 ) net = 255;
-                        else if (net < 0) net = 0;
-                        pixels[ d, r, c ] = (int) net;
+                        int pxl = (int)( net / msk.total);
+                        if( pxl > 255 ) pxl = 255;
+                        else if ( pxl < 0) pxl = 0;
+                        pixels[ d, r, c ] = pxl;
                     }
                 }
             }
