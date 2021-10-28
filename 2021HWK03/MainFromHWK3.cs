@@ -24,7 +24,7 @@ namespace _2021HWK03
             InitializeComponent();
 
             // Create stocked masks
-            stockMasks = new Mask[ 15 ];
+            stockMasks = new Mask[ 17 ];
             cbxFilters.Items.Clear( );
             double oneO9 = 1.0;
             stockMasks[0] = new Mask( new double[ 3, 3 ] { { oneO9, oneO9, oneO9 }, { oneO9, oneO9, oneO9 }, { oneO9, oneO9, oneO9 } }, "Custom" );
@@ -60,6 +60,14 @@ namespace _2021HWK03
             stockMasks[14] = new Mask(new double[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } }, "Sobel Vertical");
             stockMasks[ 14 ].total = 1.0;
             cbxFilters.Items.Add(stockMasks[14]);
+
+            stockMasks[ 15 ] = new Mask( new double[ , ] { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } }, "Sobel -Horizontal" );
+            // Sobel is a special filter without normalization; therefore, set its total value to 1;
+            stockMasks[ 15 ].total = 1.0;
+            cbxFilters.Items.Add( stockMasks[ 15 ] );
+            stockMasks[ 16 ] = new Mask( new double[ , ] { { 1, 0, -1 }, { 2, 0, -2 }, { 1, 0, -1 } }, "Sobel -Vertical" );
+            stockMasks[ 16 ].total = 1.0;
+            cbxFilters.Items.Add( stockMasks[ 16 ] );
 
             cbxFilters.SelectedIndex = 0;
         }
@@ -176,6 +184,48 @@ namespace _2021HWK03
             Cursor = Cursors.Default;
             labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
             Console.Beep( );
+        }
+
+        private void btnSobel_Click( object sender, EventArgs e )
+        {
+            Cursor = Cursors.WaitCursor;
+
+            startTime = DateTime.Now;
+ 
+            MonoImage output1 = ( stockMasks[ 13 ] + averageGrayOriginal ) + ( stockMasks[ 14 ] + averageGrayOriginal );
+            MonoImage output2 = ( stockMasks[ 15 ] + averageGrayOriginal ) + ( stockMasks[ 16 ] + averageGrayOriginal );
+            pcbResults.Image = (output1+output2).displayedBitmap;
+
+            Cursor = Cursors.Default;
+            labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
+            Console.Beep( );
+
+        }
+
+        private void label5_Click( object sender, EventArgs e )
+        {
+
+        }
+
+        private void btnMarr_Click( object sender, EventArgs e )
+        {
+            Cursor = Cursors.WaitCursor;
+
+            startTime = DateTime.Now;
+
+            // Gaussian
+            int h = (int)nudMarrHeight.Value;
+            int w = (int) nudMarrWidth.Value;
+            double std = double.Parse( txbSTD.Text );
+            Mask msk =  Mask.CreateLaplacianOfGaussian( h, w, std );
+            MonoImage output = msk * averageGrayOriginal;
+            pcbResults.Image = output.displayedBitmap;
+
+
+            Cursor = Cursors.Default;
+            labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
+            Console.Beep( );
+
         }
     }
 

@@ -9,6 +9,21 @@ namespace _2021HWK03
 {
     class MonoImage
     {
+        public static MonoImage operator +( MonoImage img1, MonoImage img2 )
+        {
+            int[ , ] pixels = new int[ img1.height, img1.width ];
+            for( int r = 0 ; r < img1.height ; r++ )
+            {
+
+                for( int c = 0 ; c < img1.width ; c++ )
+                {
+                    pixels[ r, c ] = (int) ( img1.pixels[ r, c ] + img2.pixels[ r, c ] / 2.0 );
+                    if( pixels[ r, c ] > 255 ) pixels[ r, c ] = 255;
+                    else if( pixels[ r, c ] < 0 ) pixels[ r, c ] = 0;
+                }
+            }
+            return new MonoImage( pixels );
+        }
 
         // Parallel operation 
         public static MonoImage operator *( Mask msk, MonoImage img )

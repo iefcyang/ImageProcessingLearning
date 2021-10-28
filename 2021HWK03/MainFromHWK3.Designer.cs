@@ -55,6 +55,13 @@
             this.nudCols = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txbSTD = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.btnMarr = new System.Windows.Forms.Button();
+            this.btnSobel = new System.Windows.Forms.Button();
+            this.nudMarrHeight = new System.Windows.Forms.NumericUpDown();
+            this.nudMarrWidth = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -76,6 +83,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudRows)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).BeginInit();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMarrHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMarrWidth)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -422,13 +432,123 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Controls.Add(this.txbSTD);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Controls.Add(this.btnMarr);
+            this.tabPage2.Controls.Add(this.btnSobel);
+            this.tabPage2.Controls.Add(this.nudMarrHeight);
+            this.tabPage2.Controls.Add(this.nudMarrWidth);
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(275, 576);
+            this.tabPage2.Size = new System.Drawing.Size(275, 573);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Marr-Hildreth edge detector";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // txbSTD
+            // 
+            this.txbSTD.Location = new System.Drawing.Point(148, 39);
+            this.txbSTD.Name = "txbSTD";
+            this.txbSTD.Size = new System.Drawing.Size(94, 23);
+            this.txbSTD.TabIndex = 13;
+            this.txbSTD.Text = "25";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(25, 42);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(117, 16);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Standard Deviation";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // btnMarr
+            // 
+            this.btnMarr.Location = new System.Drawing.Point(28, 117);
+            this.btnMarr.Name = "btnMarr";
+            this.btnMarr.Size = new System.Drawing.Size(223, 31);
+            this.btnMarr.TabIndex = 11;
+            this.btnMarr.Text = "LoG";
+            this.btnMarr.UseVisualStyleBackColor = true;
+            this.btnMarr.Click += new System.EventHandler(this.btnMarr_Click);
+            // 
+            // btnSobel
+            // 
+            this.btnSobel.Location = new System.Drawing.Point(18, 482);
+            this.btnSobel.Name = "btnSobel";
+            this.btnSobel.Size = new System.Drawing.Size(223, 31);
+            this.btnSobel.TabIndex = 9;
+            this.btnSobel.Text = "Sobel vertical + horizontal";
+            this.btnSobel.UseVisualStyleBackColor = true;
+            this.btnSobel.Click += new System.EventHandler(this.btnSobel_Click);
+            // 
+            // nudMarrHeight
+            // 
+            this.nudMarrHeight.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.nudMarrHeight.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudMarrHeight.Location = new System.Drawing.Point(83, 78);
+            this.nudMarrHeight.Maximum = new decimal(new int[] {
+            299,
+            0,
+            0,
+            0});
+            this.nudMarrHeight.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.nudMarrHeight.Name = "nudMarrHeight";
+            this.nudMarrHeight.Size = new System.Drawing.Size(47, 23);
+            this.nudMarrHeight.TabIndex = 6;
+            this.nudMarrHeight.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // nudMarrWidth
+            // 
+            this.nudMarrWidth.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.nudMarrWidth.Increment = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudMarrWidth.Location = new System.Drawing.Point(195, 78);
+            this.nudMarrWidth.Maximum = new decimal(new int[] {
+            299,
+            0,
+            0,
+            0});
+            this.nudMarrWidth.Minimum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.nudMarrWidth.Name = "nudMarrWidth";
+            this.nudMarrWidth.Size = new System.Drawing.Size(47, 23);
+            this.nudMarrWidth.TabIndex = 7;
+            this.nudMarrWidth.Value = new decimal(new int[] {
+            31,
+            0,
+            0,
+            0});
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(25, 81);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(164, 16);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Height                            Width";
             // 
             // MainFromHWK3
             // 
@@ -469,6 +589,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudRows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMask)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).EndInit();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMarrHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMarrWidth)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -503,6 +627,13 @@
         private System.Windows.Forms.RadioButton rdbWeightedGray;
         private System.Windows.Forms.RadioButton rdbAverageGray;
         private System.Windows.Forms.RadioButton rdbColor;
+        private System.Windows.Forms.Button btnSobel;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnMarr;
+        private System.Windows.Forms.NumericUpDown nudMarrHeight;
+        private System.Windows.Forms.NumericUpDown nudMarrWidth;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txbSTD;
     }
 }
 
