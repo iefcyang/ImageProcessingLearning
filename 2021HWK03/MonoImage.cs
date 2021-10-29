@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace _2021HWK03
 {
+    public enum OrderStatisticsMode
+    {
+        Median, Min, Max
+    }
+
     class MonoImage
     {
         public static double[,] operator+( double[,] mask, MonoImage img)
@@ -124,7 +129,43 @@ namespace _2021HWK03
             return new MonoImage(pixels);
         }
 
+        public static MonoImage OrderStatistics( MonoImage img, int h ,int w, OrderStatisticsMode mode = OrderStatisticsMode.Median)
+        {
+            int cnt = 0;
+            int[] orders = new int[w * h];
+            int[,] pixels = new int[img.height, img.width];
 
+            for( int r = 0; r < img.height; r++)
+            {
+                for( int c = 0; c < img.width; c++)
+                {
+                    cnt = 0;
+                    for( int vv = 0, y=r-h/2; vv < h; vv++,y++)
+                    {
+                        for( int hh = 0, x= c-w/2; hh < w; hh++,x++)
+                        {
+                            if (x < 0 || x >= img.width) continue;
+                            if (y < 0 || y >= img.height) continue;
+                            orders[cnt++] = img.pixels[y, x];
+                        }
+                    }
+                    Array.Sort(orders, 0, cnt);
+                    switch( mode)
+                    {
+                        case OrderStatisticsMode.Median:
+                            pixels[r, c] = orders[cnt / 2];
+                            break;
+                        case OrderStatisticsMode.Min:
+                            pixels[r, c] = orders[0];
+                            break;
+                        case OrderStatisticsMode.Max:
+                            pixels[r, c] = orders[cnt-1];
+                            break;
+                    }
+                }
+            }
+            return new MonoImage(pixels);
+        }
 
 
         public Bitmap displayedBitmap;

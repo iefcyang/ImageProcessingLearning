@@ -95,6 +95,7 @@ namespace _2021HWK03
             // store gray images
             averageGrayOriginal = new MonoImage( originalImage.displayedBitmap );
             weightedGrayOriginal = new MonoImage( originalImage.displayedBitmap, true );
+            tbcMain.Enabled = true;
         }
 
         private void cbxFilters_SelectedIndexChanged( object sender, EventArgs e )
@@ -458,6 +459,44 @@ namespace _2021HWK03
                     pcbResults.Image = (weightedGrayOriginal - (msk * weightedGrayOriginal)).displayedBitmap;
             }
 
+            Cursor = Cursors.Default;
+            labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
+            Console.Beep();
+        }
+
+        private void btnApplyOrderFilter_Click(object sender, EventArgs e)
+        {
+            startTime = DateTime.Now;
+            Cursor = Cursors.WaitCursor;
+
+            int h = (int)nudOrderHeight.Value;
+            int w = (int)nudOrderWidth.Value;
+
+            if (rdbMean.Checked)
+                pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w).displayedBitmap;
+            else if( rdbMin.Checked)
+                pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w, OrderStatisticsMode.Min).displayedBitmap;
+            else
+                pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w, OrderStatisticsMode.Max).displayedBitmap;
+
+            Cursor = Cursors.Default;
+            labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
+            Console.Beep();
+        }
+
+        private void btnGaussian_Click(object sender, EventArgs e)
+        {
+            int h = (int)nudOrderHeight.Value;
+            int w = (int)nudOrderWidth.Value;
+
+            Mask msk = null;
+
+            double std = double.Parse(txbStandardDE.Text);
+            msk = Mask.CreateGaussianFilter(h, w, 1, std);
+
+            startTime = DateTime.Now;
+            Cursor = Cursors.WaitCursor;
+            pcbResults.Image = (msk * averageGrayOriginal).displayedBitmap;
             Cursor = Cursors.Default;
             labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
             Console.Beep();
