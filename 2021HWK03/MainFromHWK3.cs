@@ -25,7 +25,7 @@ namespace _2021HWK03
             InitializeComponent();
 
             // Create stocked masks
-            stockMasks = new Mask[ 19 ];
+            stockMasks = new Mask[ 20 ];
             cbxFilters.Items.Clear( );
             double oneO9 = 1.0;
             stockMasks[0] = new Mask( new double[ 3, 3 ] { { oneO9, oneO9, oneO9 }, { oneO9, oneO9, oneO9 }, { oneO9, oneO9, oneO9 } }, "Custom" );
@@ -77,6 +77,10 @@ namespace _2021HWK03
             stockMasks[18] = new Mask(new double[,] { { 1, 0, 1 }, { 0, -4, 0 }, { 1, 0, 1 } }, "Laplacian (half)");
             stockMasks[18].total = 1.0;
             cbxFilters.Items.Add(stockMasks[18]);
+
+            stockMasks[19] = new Mask(new double[,] { { 0, 0, -1, 0, 0 }, { 0, -1, -2, -1, 0 }, { -1, -2, 16, -2, -1 }, { 0, -1, -2, -1, 0 }, { 0, 0, -1, 0, 0 } }, "LoG(5)");
+            stockMasks[19].total = 1.0;
+            cbxFilters.Items.Add(stockMasks[19]);
 
             cbxFilters.SelectedIndex = 0;
         }
@@ -240,23 +244,42 @@ namespace _2021HWK03
         private void btnLaplacian_Click(object sender, EventArgs e)
         {
             double[,] laplacian =  new double[,] { { 1, 1, 1 }, { 1, -8, 1 }, { 1, 1, 1 } } ;
+            
             double[,] values = laplacian + averageGrayOriginal;
 
             int[,] pixels = new int[averageGrayOriginal.height, averageGrayOriginal.width];
-            if( rdbMiddleMap.Checked)
+
+            //for (int r = 0; r < averageGrayOriginal.height; r++)
+            //    for (int c = 0; c < averageGrayOriginal.width; c++)
+            //    {
+            //        pixels[r, c] = (int)( averageGrayOriginal.pixels[r,c] - values[r, c]  );
+            //        if (pixels[r, c] > 255) pixels[r, c] = 255;
+            //        else if (pixels[r, c] < 0) pixels[r, c] = 0;
+            //    }
+            double max = double.MinValue, min = double.MaxValue;
+            for (int r = 0; r < averageGrayOriginal.height; r++)
+                for (int c = 0; c < averageGrayOriginal.width; c++)
+                {
+                    if (values[r, c] > max) max = values[r, c];
+                    else if (values[r, c] < min) min = values[r, c];
+                }
+            if (rdbABsolute.Checked)
             {
                 for(int r = 0; r < averageGrayOriginal.height; r++)
                     for( int c = 0; c < averageGrayOriginal.width; c++)
                     {
-                        pixels[r,c] = (int)( values[r, c] + 128);
+                        if (values[r, c] > 0)
+                            pixels[r, c] = 128 + (int)(128 * values[r, c] / max);
+                        else
+                            pixels[r, c] = 127 + (int)(127 * (1- values[r, c] / min));
                     }
             }
-            else if( rdbABsolute.Checked)
+            else if(rdbMiddleMap.Checked)
             {
                 for (int r = 0; r < averageGrayOriginal.height; r++)
                     for (int c = 0; c < averageGrayOriginal.width; c++)
                     {
-                        pixels[r, c] = values[r, c] >= 0 ? (int)values[r, c] : (int)-values[r, c];
+                            pixels[r, c] = (int)(255 * (values[r, c]-min) / (max-min) );
                     }
             }
             else
@@ -264,11 +287,54 @@ namespace _2021HWK03
                 for (int r = 0; r < averageGrayOriginal.height; r++)
                     for (int c = 0; c < averageGrayOriginal.width; c++)
                     {
-                        pixels[r, c] = values[r, c] >= 0 ? (int)values[r, c] : 0;
+                        if( values[r,c] > 0 )
+                            pixels[r, c] = (int)( 255 * values[r, c] / max );
+                        else 
+                            pixels[r, c] =  0;
                     }
             }
+            for (int r = 0; r < averageGrayOriginal.height; r++)
+                for (int c = 0; c < averageGrayOriginal.width; c++)
+                {
+                    if (pixels[r, c] > 255) pixels[r, c] = 255;
+                    else if (pixels[r, c] < 0) pixels[r, c] = 0;
+                }
             MonoImage output = new MonoImage(pixels);
             pcbResults.Image = output.displayedBitmap;
+
+        }
+
+        private void btnLineFinder_Click(object sender, EventArgs e)
+        {
+            double[,] weights;
+            if( rdbHorizontal.Checked)
+                weights = new double[,] { { -1, -1, -1 }, { 2, 2, 2 }, { -1, -1, -1 } };
+            else if( rdb45Deg.Checked)
+                weights = new double[,] { { -1, -1, 2 }, { -1, 2, -1 }, {2, -1, -1 } };
+            else if (rdbVertical.Checked)
+                weights = new double[,] { { -1, 2, -1 }, { -1, 2, -1 }, { -1, 2, -1 } };
+            else  
+                weights = new double[,] { { 2, -1, -1 }, { -1, 2, -1 }, { -1, -1, 2 } };
+            Mask msk = new Mask(weights);
+            msk.total = 1.0;
+
+            MonoImage output = msk * averageGrayOriginal;
+            pcbResults.Image = output.displayedBitmap;
+
+        }
+
+        private void nudMarrHeight_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nudMarrWidth_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
 
         }
     }
@@ -293,7 +359,7 @@ namespace _2021HWK03
                     double deltaY = r - height / 2;
                     double deltaX = c - width / 2;
                     double distanceSquare = deltaY * deltaY + deltaX * deltaX;
-                    w[r, c] = ( (distanceSquare /std / std - 2 ) / std / std ) * Math.Exp(-0.5 * distanceSquare / std / std);
+                    w[r, c] =- ( (distanceSquare /std / std - 2 ) / std / std ) * Math.Exp(-0.5 * distanceSquare / std / std);
                 }
             return new Mask(w, $"LoG[{std}]({height}x{width})");
 

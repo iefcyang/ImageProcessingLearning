@@ -55,6 +55,12 @@
             this.nudCols = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rdbM45Deg = new System.Windows.Forms.RadioButton();
+            this.rdbVertical = new System.Windows.Forms.RadioButton();
+            this.rdb45Deg = new System.Windows.Forms.RadioButton();
+            this.rdbHorizontal = new System.Windows.Forms.RadioButton();
+            this.btnLineFinder = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rdbPositive = new System.Windows.Forms.RadioButton();
             this.rdbABsolute = new System.Windows.Forms.RadioButton();
@@ -68,6 +74,7 @@
             this.nudMarrWidth = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -90,6 +97,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrWidth)).BeginInit();
@@ -440,6 +448,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.groupBox3);
+            this.tabPage2.Controls.Add(this.btnLineFinder);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.btnLaplacian);
             this.tabPage2.Controls.Add(this.txbSTD);
@@ -457,17 +468,82 @@
             this.tabPage2.Text = "(2) Edge Detection";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.rdbM45Deg);
+            this.groupBox3.Controls.Add(this.rdbVertical);
+            this.groupBox3.Controls.Add(this.rdb45Deg);
+            this.groupBox3.Controls.Add(this.rdbHorizontal);
+            this.groupBox3.Location = new System.Drawing.Point(19, 456);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(223, 77);
+            this.groupBox3.TabIndex = 17;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Directional Mask";
+            // 
+            // rdbM45Deg
+            // 
+            this.rdbM45Deg.AutoSize = true;
+            this.rdbM45Deg.Location = new System.Drawing.Point(129, 48);
+            this.rdbM45Deg.Name = "rdbM45Deg";
+            this.rdbM45Deg.Size = new System.Drawing.Size(89, 20);
+            this.rdbM45Deg.TabIndex = 3;
+            this.rdbM45Deg.Text = "-45 degree";
+            this.rdbM45Deg.UseVisualStyleBackColor = true;
+            // 
+            // rdbVertical
+            // 
+            this.rdbVertical.AutoSize = true;
+            this.rdbVertical.Location = new System.Drawing.Point(18, 48);
+            this.rdbVertical.Name = "rdbVertical";
+            this.rdbVertical.Size = new System.Drawing.Size(68, 20);
+            this.rdbVertical.TabIndex = 2;
+            this.rdbVertical.Text = "Vertical";
+            this.rdbVertical.UseVisualStyleBackColor = true;
+            // 
+            // rdb45Deg
+            // 
+            this.rdb45Deg.AutoSize = true;
+            this.rdb45Deg.Location = new System.Drawing.Point(129, 22);
+            this.rdb45Deg.Name = "rdb45Deg";
+            this.rdb45Deg.Size = new System.Drawing.Size(84, 20);
+            this.rdb45Deg.TabIndex = 1;
+            this.rdb45Deg.Text = "45 degree";
+            this.rdb45Deg.UseVisualStyleBackColor = true;
+            // 
+            // rdbHorizontal
+            // 
+            this.rdbHorizontal.AutoSize = true;
+            this.rdbHorizontal.Checked = true;
+            this.rdbHorizontal.Location = new System.Drawing.Point(18, 22);
+            this.rdbHorizontal.Name = "rdbHorizontal";
+            this.rdbHorizontal.Size = new System.Drawing.Size(85, 20);
+            this.rdbHorizontal.TabIndex = 0;
+            this.rdbHorizontal.TabStop = true;
+            this.rdbHorizontal.Text = "Horizontal";
+            this.rdbHorizontal.UseVisualStyleBackColor = true;
+            // 
+            // btnLineFinder
+            // 
+            this.btnLineFinder.Location = new System.Drawing.Point(19, 539);
+            this.btnLineFinder.Name = "btnLineFinder";
+            this.btnLineFinder.Size = new System.Drawing.Size(223, 31);
+            this.btnLineFinder.TabIndex = 16;
+            this.btnLineFinder.Text = "Line Filtering";
+            this.btnLineFinder.UseVisualStyleBackColor = true;
+            this.btnLineFinder.Click += new System.EventHandler(this.btnLineFinder_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.rdbPositive);
             this.groupBox2.Controls.Add(this.rdbABsolute);
             this.groupBox2.Controls.Add(this.rdbMiddleMap);
-            this.groupBox2.Location = new System.Drawing.Point(18, 302);
+            this.groupBox2.Location = new System.Drawing.Point(19, 229);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(223, 100);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Display";
+            this.groupBox2.Text = "Laplacian";
             // 
             // rdbPositive
             // 
@@ -503,7 +579,7 @@
             // 
             // btnLaplacian
             // 
-            this.btnLaplacian.Location = new System.Drawing.Point(18, 408);
+            this.btnLaplacian.Location = new System.Drawing.Point(19, 335);
             this.btnLaplacian.Name = "btnLaplacian";
             this.btnLaplacian.Size = new System.Drawing.Size(223, 31);
             this.btnLaplacian.TabIndex = 14;
@@ -531,7 +607,7 @@
             // 
             // btnMarr
             // 
-            this.btnMarr.Location = new System.Drawing.Point(28, 117);
+            this.btnMarr.Location = new System.Drawing.Point(28, 148);
             this.btnMarr.Name = "btnMarr";
             this.btnMarr.Size = new System.Drawing.Size(223, 31);
             this.btnMarr.TabIndex = 11;
@@ -541,7 +617,7 @@
             // 
             // btnSobel
             // 
-            this.btnSobel.Location = new System.Drawing.Point(18, 482);
+            this.btnSobel.Location = new System.Drawing.Point(19, 372);
             this.btnSobel.Name = "btnSobel";
             this.btnSobel.Size = new System.Drawing.Size(223, 31);
             this.btnSobel.TabIndex = 9;
@@ -557,7 +633,7 @@
             0,
             0,
             0});
-            this.nudMarrHeight.Location = new System.Drawing.Point(83, 78);
+            this.nudMarrHeight.Location = new System.Drawing.Point(83, 109);
             this.nudMarrHeight.Maximum = new decimal(new int[] {
             299,
             0,
@@ -576,6 +652,7 @@
             0,
             0,
             0});
+            this.nudMarrHeight.ValueChanged += new System.EventHandler(this.nudMarrHeight_ValueChanged);
             // 
             // nudMarrWidth
             // 
@@ -585,7 +662,7 @@
             0,
             0,
             0});
-            this.nudMarrWidth.Location = new System.Drawing.Point(195, 78);
+            this.nudMarrWidth.Location = new System.Drawing.Point(195, 109);
             this.nudMarrWidth.Maximum = new decimal(new int[] {
             299,
             0,
@@ -604,15 +681,17 @@
             0,
             0,
             0});
+            this.nudMarrWidth.ValueChanged += new System.EventHandler(this.nudMarrWidth_ValueChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 81);
+            this.label4.Location = new System.Drawing.Point(25, 112);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(164, 16);
             this.label4.TabIndex = 8;
             this.label4.Text = "Height                            Width";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // tabPage3
             // 
@@ -622,6 +701,16 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "(3) Order-Statistics";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Location = new System.Drawing.Point(3, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(269, 22);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Marr and Hildreth";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainFromHWK3
             // 
@@ -664,6 +753,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrHeight)).EndInit();
@@ -715,6 +806,13 @@
         private System.Windows.Forms.RadioButton rdbABsolute;
         private System.Windows.Forms.RadioButton rdbMiddleMap;
         private System.Windows.Forms.Button btnLaplacian;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton rdbM45Deg;
+        private System.Windows.Forms.RadioButton rdbVertical;
+        private System.Windows.Forms.RadioButton rdb45Deg;
+        private System.Windows.Forms.RadioButton rdbHorizontal;
+        private System.Windows.Forms.Button btnLineFinder;
+        private System.Windows.Forms.Label label6;
     }
 }
 
