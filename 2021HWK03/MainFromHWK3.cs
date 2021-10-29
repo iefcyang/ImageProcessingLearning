@@ -337,6 +337,47 @@ namespace _2021HWK03
         {
 
         }
+
+        private void btnCustomGaussianBox_Click(object sender, EventArgs e)
+        {
+            int h = (int)nudRows.Value;
+            int w = (int)nudCols.Value;
+
+            Mask msk = null;
+            if (sender == btnCustomBox)
+                msk = Mask.CreateBoxFilter(h, w);
+            else if (sender == btnCustomGaussian)
+            {
+                double std = double.Parse(txbStandardDE.Text);
+                msk = Mask.CreateGaussianFilter(h, w, 1, std);
+            }
+
+            startTime = DateTime.Now;
+            Cursor = Cursors.WaitCursor;
+
+            if( ckbTurbo.Checked)
+            {
+                if (rdbColor.Checked)
+                    pcbResults.Image = (msk * originalImage).displayedBitmap;
+                else if( rdbAverageGray.Checked)
+                    pcbResults.Image = (msk * averageGrayOriginal).displayedBitmap;
+                else
+                    pcbResults.Image = (msk * weightedGrayOriginal).displayedBitmap;
+            }
+            else
+            {
+                if (rdbColor.Checked)
+                    pcbResults.Image = (msk + originalImage).displayedBitmap;
+                else if (rdbAverageGray.Checked)
+                    pcbResults.Image = (msk + averageGrayOriginal).displayedBitmap;
+                else
+                    pcbResults.Image = (msk + weightedGrayOriginal).displayedBitmap;
+
+            }
+            Cursor = Cursors.Default;
+            labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
+            Console.Beep();
+        }
     }
 
     //public class ColorImage

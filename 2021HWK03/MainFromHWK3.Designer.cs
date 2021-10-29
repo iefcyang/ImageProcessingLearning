@@ -40,12 +40,17 @@
             this.labOriginal = new System.Windows.Forms.Label();
             this.pcbResults = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.rdbWeightedGray = new System.Windows.Forms.RadioButton();
             this.rdbAverageGray = new System.Windows.Forms.RadioButton();
             this.rdbColor = new System.Windows.Forms.RadioButton();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.txbStandardDE = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.btnCustomGaussian = new System.Windows.Forms.Button();
+            this.btnCustomBox = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
             this.ckbTurbo = new System.Windows.Forms.CheckBox();
             this.btnApply = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -55,6 +60,7 @@
             this.nudCols = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.rdbM45Deg = new System.Windows.Forms.RadioButton();
             this.rdbVertical = new System.Windows.Forms.RadioButton();
@@ -74,7 +80,7 @@
             this.nudMarrWidth = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label6 = new System.Windows.Forms.Label();
+            this.btnCustomLaplacian = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -83,6 +89,7 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
             this.splitContainer4.Panel1.SuspendLayout();
@@ -90,9 +97,9 @@
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbOriginal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbResults)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRows)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMask)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).BeginInit();
@@ -110,7 +117,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(1052, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1246, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -133,10 +140,10 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 627);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 659);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1052, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1246, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -144,7 +151,7 @@
             // 
             this.labMessage.ForeColor = System.Drawing.Color.Purple;
             this.labMessage.Name = "labMessage";
-            this.labMessage.Size = new System.Drawing.Size(1035, 17);
+            this.labMessage.Size = new System.Drawing.Size(1229, 17);
             this.labMessage.Spring = true;
             // 
             // splitContainer1
@@ -161,8 +168,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(1052, 602);
-            this.splitContainer1.SplitterDistance = 764;
+            this.splitContainer1.Size = new System.Drawing.Size(1246, 634);
+            this.splitContainer1.SplitterDistance = 903;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -177,8 +184,12 @@
             // splitContainer2.Panel1
             // 
             this.splitContainer2.Panel1.Controls.Add(this.splitContainer4);
-            this.splitContainer2.Size = new System.Drawing.Size(764, 602);
-            this.splitContainer2.SplitterDistance = 500;
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
+            this.splitContainer2.Size = new System.Drawing.Size(903, 634);
+            this.splitContainer2.SplitterDistance = 499;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -197,8 +208,8 @@
             // 
             this.splitContainer4.Panel2.Controls.Add(this.pcbResults);
             this.splitContainer4.Panel2.Controls.Add(this.label3);
-            this.splitContainer4.Size = new System.Drawing.Size(764, 500);
-            this.splitContainer4.SplitterDistance = 379;
+            this.splitContainer4.Size = new System.Drawing.Size(903, 499);
+            this.splitContainer4.SplitterDistance = 447;
             this.splitContainer4.TabIndex = 1;
             // 
             // pcbOriginal
@@ -208,7 +219,7 @@
             this.pcbOriginal.Location = new System.Drawing.Point(0, 29);
             this.pcbOriginal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pcbOriginal.Name = "pcbOriginal";
-            this.pcbOriginal.Size = new System.Drawing.Size(379, 471);
+            this.pcbOriginal.Size = new System.Drawing.Size(447, 470);
             this.pcbOriginal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbOriginal.TabIndex = 0;
             this.pcbOriginal.TabStop = false;
@@ -220,7 +231,7 @@
             this.labOriginal.ForeColor = System.Drawing.Color.White;
             this.labOriginal.Location = new System.Drawing.Point(0, 0);
             this.labOriginal.Name = "labOriginal";
-            this.labOriginal.Size = new System.Drawing.Size(379, 29);
+            this.labOriginal.Size = new System.Drawing.Size(447, 29);
             this.labOriginal.TabIndex = 1;
             this.labOriginal.Text = "Original";
             this.labOriginal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -231,7 +242,7 @@
             this.pcbResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbResults.Location = new System.Drawing.Point(0, 29);
             this.pcbResults.Name = "pcbResults";
-            this.pcbResults.Size = new System.Drawing.Size(381, 471);
+            this.pcbResults.Size = new System.Drawing.Size(452, 470);
             this.pcbResults.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbResults.TabIndex = 0;
             this.pcbResults.TabStop = false;
@@ -243,53 +254,23 @@
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(381, 29);
+            this.label3.Size = new System.Drawing.Size(452, 29);
             this.label3.TabIndex = 2;
             this.label3.Text = "Filtered";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(283, 602);
-            this.tabControl1.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Controls.Add(this.ckbTurbo);
-            this.tabPage1.Controls.Add(this.btnApply);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.cbxFilters);
-            this.tabPage1.Controls.Add(this.nudRows);
-            this.tabPage1.Controls.Add(this.dgvMask);
-            this.tabPage1.Controls.Add(this.nudCols);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(275, 573);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "(1) Filtering";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.rdbWeightedGray);
             this.groupBox1.Controls.Add(this.rdbAverageGray);
             this.groupBox1.Controls.Add(this.rdbColor);
-            this.groupBox1.Location = new System.Drawing.Point(11, 296);
+            this.groupBox1.Location = new System.Drawing.Point(682, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 100);
+            this.groupBox1.Size = new System.Drawing.Size(211, 100);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Channels";
+            this.groupBox1.Text = "Target Type of the Original";
             // 
             // rdbWeightedGray
             // 
@@ -323,10 +304,98 @@
             this.rdbColor.Text = "Color Original";
             this.rdbColor.UseVisualStyleBackColor = true;
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(338, 634);
+            this.tabControl1.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.btnCustomLaplacian);
+            this.tabPage1.Controls.Add(this.txbStandardDE);
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.btnCustomGaussian);
+            this.tabPage1.Controls.Add(this.btnCustomBox);
+            this.tabPage1.Controls.Add(this.label7);
+            this.tabPage1.Controls.Add(this.ckbTurbo);
+            this.tabPage1.Controls.Add(this.btnApply);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.cbxFilters);
+            this.tabPage1.Controls.Add(this.nudRows);
+            this.tabPage1.Controls.Add(this.dgvMask);
+            this.tabPage1.Controls.Add(this.nudCols);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(330, 605);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "(1) Filtering";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // txbStandardDE
+            // 
+            this.txbStandardDE.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbStandardDE.Location = new System.Drawing.Point(135, 376);
+            this.txbStandardDE.Name = "txbStandardDE";
+            this.txbStandardDE.Size = new System.Drawing.Size(187, 23);
+            this.txbStandardDE.TabIndex = 15;
+            this.txbStandardDE.Text = "1";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(12, 380);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(117, 16);
+            this.label8.TabIndex = 14;
+            this.label8.Text = "Standard Deviation";
+            // 
+            // btnCustomGaussian
+            // 
+            this.btnCustomGaussian.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCustomGaussian.Location = new System.Drawing.Point(9, 402);
+            this.btnCustomGaussian.Name = "btnCustomGaussian";
+            this.btnCustomGaussian.Size = new System.Drawing.Size(313, 31);
+            this.btnCustomGaussian.TabIndex = 11;
+            this.btnCustomGaussian.Text = "Apply Custom Gaussian Filter";
+            this.btnCustomGaussian.UseVisualStyleBackColor = true;
+            this.btnCustomGaussian.Click += new System.EventHandler(this.btnCustomGaussianBox_Click);
+            // 
+            // btnCustomBox
+            // 
+            this.btnCustomBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCustomBox.Location = new System.Drawing.Point(9, 324);
+            this.btnCustomBox.Name = "btnCustomBox";
+            this.btnCustomBox.Size = new System.Drawing.Size(313, 31);
+            this.btnCustomBox.TabIndex = 10;
+            this.btnCustomBox.Text = "Apply Custom Box Filter";
+            this.btnCustomBox.UseVisualStyleBackColor = true;
+            this.btnCustomBox.Click += new System.EventHandler(this.btnCustomGaussianBox_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 262);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(114, 16);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Custom Dimension";
+            // 
             // ckbTurbo
             // 
             this.ckbTurbo.AutoSize = true;
-            this.ckbTurbo.Location = new System.Drawing.Point(11, 402);
+            this.ckbTurbo.Location = new System.Drawing.Point(15, 225);
             this.ckbTurbo.Name = "ckbTurbo";
             this.ckbTurbo.Size = new System.Drawing.Size(61, 20);
             this.ckbTurbo.TabIndex = 7;
@@ -335,9 +404,11 @@
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(11, 428);
+            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnApply.Location = new System.Drawing.Point(82, 219);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(258, 31);
+            this.btnApply.Size = new System.Drawing.Size(240, 31);
             this.btnApply.TabIndex = 6;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -348,20 +419,22 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Location = new System.Drawing.Point(3, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(269, 29);
+            this.label1.Size = new System.Drawing.Size(324, 23);
             this.label1.TabIndex = 4;
             this.label1.Text = "Filter";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cbxFilters
             // 
+            this.cbxFilters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cbxFilters.FormattingEnabled = true;
             this.cbxFilters.Items.AddRange(new object[] {
             "Custom",
             "Box"});
-            this.cbxFilters.Location = new System.Drawing.Point(11, 37);
+            this.cbxFilters.Location = new System.Drawing.Point(6, 29);
             this.cbxFilters.Name = "cbxFilters";
-            this.cbxFilters.Size = new System.Drawing.Size(254, 24);
+            this.cbxFilters.Size = new System.Drawing.Size(316, 24);
             this.cbxFilters.TabIndex = 3;
             this.cbxFilters.SelectedIndexChanged += new System.EventHandler(this.cbxFilters_SelectedIndexChanged);
             // 
@@ -373,7 +446,7 @@
             0,
             0,
             0});
-            this.nudRows.Location = new System.Drawing.Point(80, 67);
+            this.nudRows.Location = new System.Drawing.Point(70, 286);
             this.nudRows.Maximum = new decimal(new int[] {
             299,
             0,
@@ -402,10 +475,10 @@
             this.dgvMask.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvMask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMask.Location = new System.Drawing.Point(11, 98);
+            this.dgvMask.Location = new System.Drawing.Point(9, 59);
             this.dgvMask.Name = "dgvMask";
             this.dgvMask.RowTemplate.Height = 24;
-            this.dgvMask.Size = new System.Drawing.Size(258, 154);
+            this.dgvMask.Size = new System.Drawing.Size(313, 154);
             this.dgvMask.TabIndex = 2;
             // 
             // nudCols
@@ -416,7 +489,7 @@
             0,
             0,
             0});
-            this.nudCols.Location = new System.Drawing.Point(192, 67);
+            this.nudCols.Location = new System.Drawing.Point(182, 286);
             this.nudCols.Maximum = new decimal(new int[] {
             299,
             0,
@@ -440,7 +513,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 70);
+            this.label2.Location = new System.Drawing.Point(12, 293);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(164, 16);
             this.label2.TabIndex = 5;
@@ -460,13 +533,23 @@
             this.tabPage2.Controls.Add(this.nudMarrHeight);
             this.tabPage2.Controls.Add(this.nudMarrWidth);
             this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(275, 573);
+            this.tabPage2.Size = new System.Drawing.Size(330, 608);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "(2) Edge Detection";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label6.Location = new System.Drawing.Point(3, 3);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(324, 22);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Marr and Hildreth";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox3
             // 
@@ -697,26 +780,27 @@
             // 
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(275, 576);
+            this.tabPage3.Size = new System.Drawing.Size(330, 608);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "(3) Order-Statistics";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // label6
+            // btnCustomLaplacian
             // 
-            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label6.Location = new System.Drawing.Point(3, 3);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(269, 22);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "Marr and Hildreth";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnCustomLaplacian.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCustomLaplacian.Location = new System.Drawing.Point(9, 505);
+            this.btnCustomLaplacian.Name = "btnCustomLaplacian";
+            this.btnCustomLaplacian.Size = new System.Drawing.Size(313, 31);
+            this.btnCustomLaplacian.TabIndex = 16;
+            this.btnCustomLaplacian.Text = "Apply Custom Laplacian Filter";
+            this.btnCustomLaplacian.UseVisualStyleBackColor = true;
             // 
             // MainFromHWK3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1052, 649);
+            this.ClientSize = new System.Drawing.Size(1246, 681);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -735,6 +819,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
@@ -743,11 +828,11 @@
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pcbOriginal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pcbResults)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRows)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMask)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).EndInit();
@@ -813,6 +898,12 @@
         private System.Windows.Forms.RadioButton rdbHorizontal;
         private System.Windows.Forms.Button btnLineFinder;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnCustomBox;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button btnCustomGaussian;
+        private System.Windows.Forms.TextBox txbStandardDE;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button btnCustomLaplacian;
     }
 }
 
