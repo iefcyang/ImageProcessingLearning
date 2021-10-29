@@ -46,6 +46,7 @@
             this.rdbColor = new System.Windows.Forms.RadioButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnCustomLaplacian = new System.Windows.Forms.Button();
             this.txbStandardDE = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.btnCustomGaussian = new System.Windows.Forms.Button();
@@ -80,7 +81,8 @@
             this.nudMarrWidth = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.btnCustomLaplacian = new System.Windows.Forms.Button();
+            this.rdbDiagonal = new System.Windows.Forms.RadioButton();
+            this.rdbHorVer = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -318,6 +320,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.rdbHorVer);
+            this.tabPage1.Controls.Add(this.rdbDiagonal);
             this.tabPage1.Controls.Add(this.btnCustomLaplacian);
             this.tabPage1.Controls.Add(this.txbStandardDE);
             this.tabPage1.Controls.Add(this.label8);
@@ -339,6 +343,18 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "(1) Filtering";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnCustomLaplacian
+            // 
+            this.btnCustomLaplacian.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCustomLaplacian.Location = new System.Drawing.Point(9, 505);
+            this.btnCustomLaplacian.Name = "btnCustomLaplacian";
+            this.btnCustomLaplacian.Size = new System.Drawing.Size(313, 31);
+            this.btnCustomLaplacian.TabIndex = 16;
+            this.btnCustomLaplacian.Text = "Apply Custom Laplacian Filter (Original Added)";
+            this.btnCustomLaplacian.UseVisualStyleBackColor = true;
+            this.btnCustomLaplacian.Click += new System.EventHandler(this.btnCustomLaplacian_Click);
             // 
             // txbStandardDE
             // 
@@ -785,16 +801,26 @@
             this.tabPage3.Text = "(3) Order-Statistics";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // btnCustomLaplacian
+            // rdbDiagonal
             // 
-            this.btnCustomLaplacian.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCustomLaplacian.Location = new System.Drawing.Point(9, 505);
-            this.btnCustomLaplacian.Name = "btnCustomLaplacian";
-            this.btnCustomLaplacian.Size = new System.Drawing.Size(313, 31);
-            this.btnCustomLaplacian.TabIndex = 16;
-            this.btnCustomLaplacian.Text = "Apply Custom Laplacian Filter";
-            this.btnCustomLaplacian.UseVisualStyleBackColor = true;
+            this.rdbDiagonal.AutoSize = true;
+            this.rdbDiagonal.Checked = true;
+            this.rdbDiagonal.Location = new System.Drawing.Point(15, 474);
+            this.rdbDiagonal.Name = "rdbDiagonal";
+            this.rdbDiagonal.Size = new System.Drawing.Size(130, 20);
+            this.rdbDiagonal.TabIndex = 17;
+            this.rdbDiagonal.Text = "Diagonal Included";
+            this.rdbDiagonal.UseVisualStyleBackColor = true;
+            // 
+            // rdbHorVer
+            // 
+            this.rdbHorVer.AutoSize = true;
+            this.rdbHorVer.Location = new System.Drawing.Point(160, 474);
+            this.rdbHorVer.Name = "rdbHorVer";
+            this.rdbHorVer.Size = new System.Drawing.Size(136, 20);
+            this.rdbHorVer.TabIndex = 18;
+            this.rdbHorVer.Text = "Horizontal+Vertical";
+            this.rdbHorVer.UseVisualStyleBackColor = true;
             // 
             // MainFromHWK3
             // 
@@ -904,6 +930,8 @@
         private System.Windows.Forms.TextBox txbStandardDE;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnCustomLaplacian;
+        private System.Windows.Forms.RadioButton rdbHorVer;
+        private System.Windows.Forms.RadioButton rdbDiagonal;
     }
 }
 

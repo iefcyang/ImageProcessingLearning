@@ -11,65 +11,114 @@ namespace _2021HWK03
     {
 
         // Parallel operation 
-        public static ColorImage operator *( Mask msk, ColorImage img )
+        public static ColorImage operator *(Mask msk, ColorImage img)
         {
-            int[ , , ] pixels = new int[ 3, img.height, img.width ];
-            Parallel.For( 0, 3, ( d ) =>
-               {
-                   for( int r = 0 ; r < img.height ; r++ )
-                   {
-                       for( int c = 0 ; c < img.width ; c++ )
-                       {
-                           double net = 0;
-                           for( int h = 0, y = r - msk.height / 2 ; h < msk.height ; h++, y++ )
-                           {
-                               for( int w = 0, x = c - msk.width / 2 ; w < msk.width ; w++, x++ )
-                               {
-                                   if( x < 0 || x >= img.width ) continue;
-                                   if( y < 0 || y >= img.height ) continue;
-                                   net += msk.weights[ h, w ] * img.pixels[ d, y, x ];
-                               }
-                           }
-                           int pxl = (int) ( net / msk.total );                           
-                           if ( pxl > 255) pxl = 255;
-                           else if ( pxl < 0) pxl = 0;
-                           pixels[ d, r, c ] =   pxl;
-                       }
-                   }
-               } );
-            return new ColorImage( pixels );
+            int[,,] pixels = new int[3, img.height, img.width];
+            Parallel.For(0, 3, (d) =>
+              {
+                  for (int r = 0; r < img.height; r++)
+                  {
+                      for (int c = 0; c < img.width; c++)
+                      {
+                          double net = 0;
+                          for (int h = 0, y = r - msk.height / 2; h < msk.height; h++, y++)
+                          {
+                              for (int w = 0, x = c - msk.width / 2; w < msk.width; w++, x++)
+                              {
+                                  if (x < 0 || x >= img.width) continue;
+                                  if (y < 0 || y >= img.height) continue;
+                                  net += msk.weights[h, w] * img.pixels[d, y, x];
+                              }
+                          }
+                          int pxl = (int)(net / msk.total);
+                          if (pxl > 255) pxl = 255;
+                          else if (pxl < 0) pxl = 0;
+                          pixels[d, r, c] = pxl;
+                      }
+                  }
+              });
+            return new ColorImage(pixels);
         }
 
 
-        public static ColorImage operator+( Mask msk, ColorImage img )
+        public static ColorImage operator +(Mask msk, ColorImage img)
         {
-            int[ , , ] pixels = new int[ 3, img.height, img.width ];
-            for( int d = 0 ; d < 3 ; d++ )
+            int[,,] pixels = new int[3, img.height, img.width];
+            for (int d = 0; d < 3; d++)
             {
-                for( int r = 0 ; r < img.height ; r++ )
+                for (int r = 0; r < img.height; r++)
                 {
-                    for( int c = 0 ; c < img.width ; c++ )
+                    for (int c = 0; c < img.width; c++)
                     {
                         double net = 0;
-                        for( int h =0, y= r - msk.height/2 ; h < msk.height ; h++, y++ )
+                        for (int h = 0, y = r - msk.height / 2; h < msk.height; h++, y++)
                         {
-                            for( int w=0, x= c- msk.width / 2 ; w < msk.width ; w++, x++ )
+                            for (int w = 0, x = c - msk.width / 2; w < msk.width; w++, x++)
                             {
-                                if( x < 0 || x >= img.width ) continue;
-                                if( y < 0 || y >= img.height ) continue;
-                                net += msk.weights[ h, w ] * img.pixels[d, y, x ];
+                                if (x < 0 || x >= img.width) continue;
+                                if (y < 0 || y >= img.height) continue;
+                                net += msk.weights[h, w] * img.pixels[d, y, x];
                             }
                         }
-                        int pxl = (int)( net / msk.total);
-                        if( pxl > 255 ) pxl = 255;
-                        else if ( pxl < 0) pxl = 0;
-                        pixels[ d, r, c ] = pxl;
+                        int pxl = (int)(net / msk.total);
+                        if (pxl > 255) pxl = 255;
+                        else if (pxl < 0) pxl = 0;
+                        pixels[d, r, c] = pxl;
                     }
                 }
             }
-            return new ColorImage( pixels );
+            return new ColorImage(pixels);
         }
 
+        public static ColorImage operator +(ColorImage img1, ColorImage img2)
+        {
+            int[,,] pixels = new int[3, img1.height, img1.width];
+            for (int d = 0; d < 3; d++)
+                for (int r = 0; r < img1.height; r++)
+                {
+
+                    for (int c = 0; c < img1.width; c++)
+                    {
+                        pixels[d, r, c] = (int)(img1.pixels[d, r, c] + img2.pixels[d, r, c] / 2.0);
+                        if (pixels[d, r, c] > 255) pixels[d, r, c] = 255;
+                        else if (pixels[d, r, c] < 0) pixels[d, r, c] = 0;
+                    }
+                }
+            return new ColorImage(pixels);
+        }
+
+        public static ColorImage operator -(ColorImage img1, ColorImage img2)
+        {
+            int[,,] pixels = new int[3, img1.height, img1.width];
+            for (int d = 0; d < 3; d++)
+                for (int r = 0; r < img1.height; r++)
+                {
+
+                    for (int c = 0; c < img1.width; c++)
+                    {
+                        pixels[d, r, c] = (int)(img1.pixels[d, r, c] - img2.pixels[d, r, c] ) ;
+                        if (pixels[d, r, c] > 255) pixels[d, r, c] = 255;
+                        else if (pixels[d, r, c] < 0) pixels[d, r, c] = 0;
+                    }
+                }
+            return new ColorImage(pixels);
+        }
+
+        //public static ColorImage operator -(ColorImage img1, ColorImage img2)
+        //{
+        //    int[,,] pixels = new int[3, img1.height, img1.width];
+        //    for (int d = 0; d < 3; d++)
+        //        for (int r = 0; r < img1.height; r++)
+        //            for (int c = 0; c < img1.width; c++)
+        //            {
+        //                pixels[d, r, c] = (int)(img1.pixels[d, r, c] - img2.pixels[d, r, c]));
+        //             }
+
+        //    if (pixels[d, r, c] > 255) pixels[d, r, c] = 255;
+        //    else if (pixels[d, r, c] < 0) pixels[d, r, c] = 0;
+
+        //    return new ColorImage(pixels);
+        //}
 
 
 
