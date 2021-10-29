@@ -61,7 +61,6 @@
             this.nudCols = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.rdbM45Deg = new System.Windows.Forms.RadioButton();
             this.rdbVertical = new System.Windows.Forms.RadioButton();
@@ -83,6 +82,9 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.rdbDiagonal = new System.Windows.Forms.RadioButton();
             this.rdbHorVer = new System.Windows.Forms.RadioButton();
+            this.txbThreshold = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -110,6 +112,7 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrWidth)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -119,7 +122,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(1246, 25);
+            this.menuStrip1.Size = new System.Drawing.Size(1239, 25);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -145,7 +148,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 659);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1246, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1239, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -153,7 +156,7 @@
             // 
             this.labMessage.ForeColor = System.Drawing.Color.Purple;
             this.labMessage.Name = "labMessage";
-            this.labMessage.Size = new System.Drawing.Size(1229, 17);
+            this.labMessage.Size = new System.Drawing.Size(1222, 17);
             this.labMessage.Spring = true;
             // 
             // splitContainer1
@@ -170,8 +173,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(1246, 634);
-            this.splitContainer1.SplitterDistance = 903;
+            this.splitContainer1.Size = new System.Drawing.Size(1239, 634);
+            this.splitContainer1.SplitterDistance = 927;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -190,7 +193,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.groupBox1);
-            this.splitContainer2.Size = new System.Drawing.Size(903, 634);
+            this.splitContainer2.Size = new System.Drawing.Size(927, 634);
             this.splitContainer2.SplitterDistance = 499;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 0;
@@ -210,8 +213,8 @@
             // 
             this.splitContainer4.Panel2.Controls.Add(this.pcbResults);
             this.splitContainer4.Panel2.Controls.Add(this.label3);
-            this.splitContainer4.Size = new System.Drawing.Size(903, 499);
-            this.splitContainer4.SplitterDistance = 447;
+            this.splitContainer4.Size = new System.Drawing.Size(927, 499);
+            this.splitContainer4.SplitterDistance = 458;
             this.splitContainer4.TabIndex = 1;
             // 
             // pcbOriginal
@@ -221,7 +224,7 @@
             this.pcbOriginal.Location = new System.Drawing.Point(0, 29);
             this.pcbOriginal.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pcbOriginal.Name = "pcbOriginal";
-            this.pcbOriginal.Size = new System.Drawing.Size(447, 470);
+            this.pcbOriginal.Size = new System.Drawing.Size(458, 470);
             this.pcbOriginal.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbOriginal.TabIndex = 0;
             this.pcbOriginal.TabStop = false;
@@ -233,18 +236,18 @@
             this.labOriginal.ForeColor = System.Drawing.Color.White;
             this.labOriginal.Location = new System.Drawing.Point(0, 0);
             this.labOriginal.Name = "labOriginal";
-            this.labOriginal.Size = new System.Drawing.Size(447, 29);
+            this.labOriginal.Size = new System.Drawing.Size(458, 29);
             this.labOriginal.TabIndex = 1;
             this.labOriginal.Text = "Original";
             this.labOriginal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pcbResults
             // 
-            this.pcbResults.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.pcbResults.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.pcbResults.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbResults.Location = new System.Drawing.Point(0, 29);
             this.pcbResults.Name = "pcbResults";
-            this.pcbResults.Size = new System.Drawing.Size(452, 470);
+            this.pcbResults.Size = new System.Drawing.Size(465, 470);
             this.pcbResults.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbResults.TabIndex = 0;
             this.pcbResults.TabStop = false;
@@ -256,7 +259,7 @@
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(452, 29);
+            this.label3.Size = new System.Drawing.Size(465, 29);
             this.label3.TabIndex = 2;
             this.label3.Text = "Filtered";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -267,7 +270,7 @@
             this.groupBox1.Controls.Add(this.rdbWeightedGray);
             this.groupBox1.Controls.Add(this.rdbAverageGray);
             this.groupBox1.Controls.Add(this.rdbColor);
-            this.groupBox1.Location = new System.Drawing.Point(682, 15);
+            this.groupBox1.Location = new System.Drawing.Point(706, 15);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(211, 100);
             this.groupBox1.TabIndex = 8;
@@ -315,7 +318,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(338, 634);
+            this.tabControl1.Size = new System.Drawing.Size(307, 634);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -537,45 +540,31 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.btnLineFinder);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.btnLaplacian);
-            this.tabPage2.Controls.Add(this.txbSTD);
-            this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Controls.Add(this.btnMarr);
             this.tabPage2.Controls.Add(this.btnSobel);
-            this.tabPage2.Controls.Add(this.nudMarrHeight);
-            this.tabPage2.Controls.Add(this.nudMarrWidth);
-            this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(330, 608);
+            this.tabPage2.Size = new System.Drawing.Size(299, 605);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "(2) Edge Detection";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // label6
-            // 
-            this.label6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label6.Location = new System.Drawing.Point(3, 3);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(324, 22);
-            this.label6.TabIndex = 18;
-            this.label6.Text = "Marr and Hildreth";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.rdbM45Deg);
             this.groupBox3.Controls.Add(this.rdbVertical);
             this.groupBox3.Controls.Add(this.rdb45Deg);
             this.groupBox3.Controls.Add(this.rdbHorizontal);
-            this.groupBox3.Location = new System.Drawing.Point(19, 456);
+            this.groupBox3.Location = new System.Drawing.Point(19, 481);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(223, 77);
+            this.groupBox3.Size = new System.Drawing.Size(273, 77);
             this.groupBox3.TabIndex = 17;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Directional Mask";
@@ -624,9 +613,11 @@
             // 
             // btnLineFinder
             // 
-            this.btnLineFinder.Location = new System.Drawing.Point(19, 539);
+            this.btnLineFinder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLineFinder.Location = new System.Drawing.Point(19, 564);
             this.btnLineFinder.Name = "btnLineFinder";
-            this.btnLineFinder.Size = new System.Drawing.Size(223, 31);
+            this.btnLineFinder.Size = new System.Drawing.Size(272, 31);
             this.btnLineFinder.TabIndex = 16;
             this.btnLineFinder.Text = "Line Filtering";
             this.btnLineFinder.UseVisualStyleBackColor = true;
@@ -634,15 +625,18 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.rdbPositive);
             this.groupBox2.Controls.Add(this.rdbABsolute);
             this.groupBox2.Controls.Add(this.rdbMiddleMap);
-            this.groupBox2.Location = new System.Drawing.Point(19, 229);
+            this.groupBox2.Location = new System.Drawing.Point(19, 336);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(223, 100);
+            this.groupBox2.Size = new System.Drawing.Size(272, 100);
             this.groupBox2.TabIndex = 15;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Laplacian";
+            this.groupBox2.Visible = false;
             // 
             // rdbPositive
             // 
@@ -678,37 +672,42 @@
             // 
             // btnLaplacian
             // 
-            this.btnLaplacian.Location = new System.Drawing.Point(19, 335);
+            this.btnLaplacian.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLaplacian.Location = new System.Drawing.Point(19, 442);
             this.btnLaplacian.Name = "btnLaplacian";
-            this.btnLaplacian.Size = new System.Drawing.Size(223, 31);
+            this.btnLaplacian.Size = new System.Drawing.Size(273, 31);
             this.btnLaplacian.TabIndex = 14;
             this.btnLaplacian.Text = "Laplacian Filtering";
             this.btnLaplacian.UseVisualStyleBackColor = true;
+            this.btnLaplacian.Visible = false;
             this.btnLaplacian.Click += new System.EventHandler(this.btnLaplacian_Click);
             // 
             // txbSTD
             // 
-            this.txbSTD.Location = new System.Drawing.Point(148, 39);
+            this.txbSTD.Location = new System.Drawing.Point(126, 25);
             this.txbSTD.Name = "txbSTD";
-            this.txbSTD.Size = new System.Drawing.Size(94, 23);
+            this.txbSTD.Size = new System.Drawing.Size(98, 23);
             this.txbSTD.TabIndex = 13;
-            this.txbSTD.Text = "25";
+            this.txbSTD.Text = "4";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(25, 42);
+            this.label5.Location = new System.Drawing.Point(3, 28);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(117, 16);
+            this.label5.Size = new System.Drawing.Size(186, 16);
             this.label5.TabIndex = 12;
-            this.label5.Text = "Standard Deviation";
+            this.label5.Text = "Standard Deviation                       ";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // btnMarr
             // 
-            this.btnMarr.Location = new System.Drawing.Point(28, 148);
+            this.btnMarr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMarr.Location = new System.Drawing.Point(6, 136);
             this.btnMarr.Name = "btnMarr";
-            this.btnMarr.Size = new System.Drawing.Size(223, 31);
+            this.btnMarr.Size = new System.Drawing.Size(266, 31);
             this.btnMarr.TabIndex = 11;
             this.btnMarr.Text = "LoG";
             this.btnMarr.UseVisualStyleBackColor = true;
@@ -716,9 +715,11 @@
             // 
             // btnSobel
             // 
-            this.btnSobel.Location = new System.Drawing.Point(19, 372);
+            this.btnSobel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSobel.Location = new System.Drawing.Point(15, 213);
             this.btnSobel.Name = "btnSobel";
-            this.btnSobel.Size = new System.Drawing.Size(223, 31);
+            this.btnSobel.Size = new System.Drawing.Size(278, 31);
             this.btnSobel.TabIndex = 9;
             this.btnSobel.Text = "Sobel vertical + horizontal";
             this.btnSobel.UseVisualStyleBackColor = true;
@@ -732,7 +733,7 @@
             0,
             0,
             0});
-            this.nudMarrHeight.Location = new System.Drawing.Point(83, 109);
+            this.nudMarrHeight.Location = new System.Drawing.Point(62, 97);
             this.nudMarrHeight.Maximum = new decimal(new int[] {
             299,
             0,
@@ -747,7 +748,7 @@
             this.nudMarrHeight.Size = new System.Drawing.Size(47, 23);
             this.nudMarrHeight.TabIndex = 6;
             this.nudMarrHeight.Value = new decimal(new int[] {
-            31,
+            25,
             0,
             0,
             0});
@@ -761,7 +762,7 @@
             0,
             0,
             0});
-            this.nudMarrWidth.Location = new System.Drawing.Point(195, 109);
+            this.nudMarrWidth.Location = new System.Drawing.Point(172, 97);
             this.nudMarrWidth.Maximum = new decimal(new int[] {
             299,
             0,
@@ -773,10 +774,10 @@
             0,
             0});
             this.nudMarrWidth.Name = "nudMarrWidth";
-            this.nudMarrWidth.Size = new System.Drawing.Size(47, 23);
+            this.nudMarrWidth.Size = new System.Drawing.Size(52, 23);
             this.nudMarrWidth.TabIndex = 7;
             this.nudMarrWidth.Value = new decimal(new int[] {
-            31,
+            25,
             0,
             0,
             0});
@@ -785,11 +786,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(25, 112);
+            this.label4.Location = new System.Drawing.Point(3, 100);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(164, 16);
+            this.label4.Size = new System.Drawing.Size(179, 16);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Height                            Width";
+            this.label4.Text = "Height                           Width      ";
             this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // tabPage3
@@ -822,11 +823,47 @@
             this.rdbHorVer.Text = "Horizontal+Vertical";
             this.rdbHorVer.UseVisualStyleBackColor = true;
             // 
+            // txbThreshold
+            // 
+            this.txbThreshold.Location = new System.Drawing.Point(158, 58);
+            this.txbThreshold.Name = "txbThreshold";
+            this.txbThreshold.Size = new System.Drawing.Size(66, 23);
+            this.txbThreshold.TabIndex = 20;
+            this.txbThreshold.Text = "5";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(3, 61);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(189, 16);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "Zero-crossing Threshold               ";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.txbThreshold);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.txbSTD);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.btnMarr);
+            this.groupBox4.Controls.Add(this.nudMarrHeight);
+            this.groupBox4.Controls.Add(this.nudMarrWidth);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Location = new System.Drawing.Point(13, 15);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(278, 176);
+            this.groupBox4.TabIndex = 21;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Marr and Hildreth";
+            // 
             // MainFromHWK3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1246, 681);
+            this.ClientSize = new System.Drawing.Size(1239, 681);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -863,13 +900,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvMask)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCols)).EndInit();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMarrWidth)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -923,7 +961,6 @@
         private System.Windows.Forms.RadioButton rdb45Deg;
         private System.Windows.Forms.RadioButton rdbHorizontal;
         private System.Windows.Forms.Button btnLineFinder;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btnCustomBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnCustomGaussian;
@@ -932,6 +969,9 @@
         private System.Windows.Forms.Button btnCustomLaplacian;
         private System.Windows.Forms.RadioButton rdbHorVer;
         private System.Windows.Forms.RadioButton rdbDiagonal;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox txbThreshold;
+        private System.Windows.Forms.Label label9;
     }
 }
 

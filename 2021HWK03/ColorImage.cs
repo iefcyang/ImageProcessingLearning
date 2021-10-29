@@ -9,6 +9,31 @@ namespace _2021HWK03
 {
     public class ColorImage
     {
+        public static double[,,] operator +(double[,] mask, ColorImage img)
+        {
+            double[,,] pixels = new double[3,img.height, img.width];
+            
+            int hhh = mask.GetLength(0);
+            int www = mask.GetLength(1);
+            for( int d = 0; d < 3; d++ )
+            for (int r = 0; r < img.height; r++)
+            {
+                for (int c = 0; c < img.width; c++)
+                {
+                    pixels[d,r, c] = 0;
+                    for (int h = 0, y = r - hhh / 2; h < hhh; h++, y++)
+                    {
+                        for (int w = 0, x = c - www / 2; w < www; w++, x++)
+                        {
+                            if (x < 0 || x >= img.width) continue;
+                            if (y < 0 || y >= img.height) continue;
+                                pixels[d, r, c] += mask[h, w] * img.pixels[d, y, x];
+                        }
+                    }
+                }
+            }
+            return pixels;
+        }
 
         // Parallel operation 
         public static ColorImage operator *(Mask msk, ColorImage img)
@@ -69,6 +94,8 @@ namespace _2021HWK03
             }
             return new ColorImage(pixels);
         }
+
+
 
         public static ColorImage operator +(ColorImage img1, ColorImage img2)
         {

@@ -230,10 +230,57 @@ namespace _2021HWK03
             int h = (int)nudMarrHeight.Value;
             int w = (int) nudMarrWidth.Value;
             double std = double.Parse( txbSTD.Text );
-            Mask msk =  Mask.CreateLaplacianOfGaussian( h, w, std );
-            MonoImage output = msk * averageGrayOriginal;
-            pcbResults.Image = output.displayedBitmap;
+            double threshold = double.Parse(txbThreshold.Text);
 
+            Mask msk =  Mask.CreateLaplacianOfGaussian( h, w, std );
+
+            // get weighted sum; the net value
+            double[,,] outputs = msk.weights + originalImage;
+
+            // Zero-crossing finding to get edge points
+            h = originalImage.height;
+            w = originalImage.width;
+            int[,] pixels = new int[h, w];
+
+            Parallel.For(0, h, (r) =>
+            {
+                for (int c = 0; c < w; c++)
+                {
+                    double intensity = (outputs[0, r, c] + outputs[0, r, c] + outputs[0, r, c]) / 3.0;
+                    if (intensity < threshold || r == 0 || c == 0 || r == h - 1 || c == w - 1)
+                    {
+                        pixels[r, c] = 0;
+                        continue;
+                    }
+                    // horizontal
+                    if ((outputs[0, r - 1, c] + outputs[1, r - 1, c] + outputs[2, r - 1, c]) * (outputs[0, r + 1, c] + outputs[1, r + 1, c] + outputs[2, r + 1, c]) <= 0.0)
+                    {
+                        pixels[r, c] = 255;
+                        continue;
+                    }
+                    // vertical
+                    if ((outputs[0, r, c - 1] + outputs[1, r, c - 1] + outputs[2, r, c - 1]) * (outputs[0, r, c + 1] + outputs[1, r, c + 1] + outputs[2, r, c + 1]) <= 0.0)
+                    {
+                        pixels[r, c] = 255;
+                        continue;
+                    }
+                    // Diagonal down
+                    if ((outputs[0, r - 1, c - 1] + outputs[1, r - 1, c - 1] + outputs[2, r - 1, c - 1]) * (outputs[0, r + 1, c + 1] + outputs[1, r + 1, c + 1] + outputs[2, r + 1, c + 1]) <= 0.0)
+                    {
+                        pixels[r, c] = 255;
+                        continue;
+                    }
+                    // Diagonal down
+                    if ((outputs[0, r + 1, c - 1] + outputs[1, r + 1, c - 1] + outputs[2, r + 1, c - 1]) * (outputs[0, r - 1, c + 1] + outputs[1, r - 1, c + 1] + outputs[2, r - 1, c + 1]) <= 0.0)
+                    {
+                        pixels[r, c] = 255;
+                        continue;
+                    }
+                    pixels[r, c] = 0;
+                }
+            });
+
+            pcbResults.Image = (new MonoImage(pixels)).displayedBitmap;
 
             Cursor = Cursors.Default;
             labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
