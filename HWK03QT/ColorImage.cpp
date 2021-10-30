@@ -1,0 +1,1 @@
+#include "ColorImage.h"

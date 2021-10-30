@@ -1,5 +1,8 @@
 #include "HWK03QT.h"
 #include <QStandardItem>
+
+#include "Filter.h"
+
 using namespace std;
 
 
@@ -7,6 +10,11 @@ HWK03QT::HWK03QT(QWidget *parent)
     : QMainWindow(parent)
 {
     ui.setupUi(this);
+
+    Filter* f = new Filter();
+    ColorImage* img = new ColorImage();
+    ColorImage* out = *f * img;
+    out = f + img;
 }
 
 

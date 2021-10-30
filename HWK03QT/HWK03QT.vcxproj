@@ -94,8 +94,14 @@
     <QtRcc Include="HWK03QT.qrc" />
     <QtUic Include="HWK03QT.ui" />
     <QtMoc Include="HWK03QT.h" />
+    <ClCompile Include="ColorImage.cpp" />
+    <ClCompile Include="Filter.cpp" />
     <ClCompile Include="HWK03QT.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ColorImage.h" />
+    <ClInclude Include="Filter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
