@@ -98,6 +98,7 @@
     <ClCompile Include="Filter.cpp" />
     <ClCompile Include="HWK03QT.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="Second.ui" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ColorImage.h" />

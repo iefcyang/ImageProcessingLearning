@@ -4,7 +4,7 @@
 #include "Filter.h"
 
 using namespace std;
-
+using namespace std::chrono; //  ::time_point).
 
 HWK03QT::HWK03QT(QWidget *parent)
     : QMainWindow(parent)
@@ -14,7 +14,9 @@ HWK03QT::HWK03QT(QWidget *parent)
     Filter* f = new Filter();
     ColorImage* img = new ColorImage();
     ColorImage* out = *f * img;
-    out = f + img;
+   // out = f + img;
+
+   // time_point t;
 }
 
 
