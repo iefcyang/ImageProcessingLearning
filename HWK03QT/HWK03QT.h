@@ -12,6 +12,8 @@ public:
     void GetMaskFromTableView();
 
 private slots:
+    void on_btn1_clicked();
+    void on_btn2_clicked();
     void on_pushButton_clicked();
     void on_btnCreate_clicked();
     void on_btnGetMask_clicked();

@@ -62,7 +62,42 @@ void HWK03QT::on_btnCreate_clicked()
         }
     ui.btnGetMask->setEnabled(true);
 }
+void HWK03QT::on_btn1_clicked()
+{
+    int h = 600, w=600;
 
+    clock_t start = clock();
+    double*** p1 = new double** [3];
+    for (int d = 0; d < 3; d++)
+    {
+        p1[d] = new double* [h];
+        for (int v = 0; v < h; v++)
+            p1[d][v] = new double[w];
+    }
+    for (int d = 0; d < 3; d++)
+    {
+        for (int r = 0; r < h; r++)
+            for (int c = 0; c < w; c++)
+                p1[d][r][c] = std::rand() * 100;
+    }
+    double time1 = (clock() - start) / CLOCKS_PER_SEC;
+    double* all = new double[3 * h * w];
+
+/*    for (int d = 0; d < 3; d++)
+    {
+        for (int r = 0; r < h; r++)
+        {
+            int off = r +d;
+            for (int c = 0; c < w; c++)
+                p1[d][r][c] = std::rand() * 100;
+        }
+    }*/
+    
+}
+void HWK03QT::on_btn2_clicked()
+{
+
+}
 void HWK03QT::on_btnGetMask_clicked()
 {
     GetMaskFromTableView();
