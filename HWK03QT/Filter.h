@@ -9,5 +9,6 @@ public:
 	ColorImage* operator*(ColorImage* operand);
 };
 
-ColorImage* operator+(Filter* ftr, ColorImage img);
+// Global
+ColorImage* operator+(Filter ftr, ColorImage* img);
 

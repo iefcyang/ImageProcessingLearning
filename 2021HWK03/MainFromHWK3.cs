@@ -472,12 +472,26 @@ namespace _2021HWK03
             int h = (int)nudOrderHeight.Value;
             int w = (int)nudOrderWidth.Value;
 
-            if (rdbMean.Checked)
-                pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w).displayedBitmap;
-            else if( rdbMin.Checked)
-                pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w, OrderStatisticsMode.Min).displayedBitmap;
+            if (rdbColor.Checked)
+            {
+                if (rdbMean.Checked)
+                    pcbResults.Image = MonoImage.OrderStatistics(originalImage, h, w).displayedBitmap;
+                else if (rdbMin.Checked)
+                    pcbResults.Image = MonoImage.OrderStatistics(originalImage, h, w, OrderStatisticsMode.Min).displayedBitmap;
+                else
+                    pcbResults.Image = MonoImage.OrderStatistics(originalImage, h, w, OrderStatisticsMode.Max).displayedBitmap;
+
+            }
             else
-                pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w, OrderStatisticsMode.Max).displayedBitmap;
+            {
+                if (rdbMean.Checked)
+                    pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w).displayedBitmap;
+                else if (rdbMin.Checked)
+                    pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w, OrderStatisticsMode.Min).displayedBitmap;
+                else
+                    pcbResults.Image = MonoImage.OrderStatistics(averageGrayOriginal, h, w, OrderStatisticsMode.Max).displayedBitmap;
+            }
+
 
             Cursor = Cursors.Default;
             labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";

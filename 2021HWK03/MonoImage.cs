@@ -167,6 +167,60 @@ namespace _2021HWK03
             return new MonoImage(pixels);
         }
 
+        public static ColorImage OrderStatistics(ColorImage img, int h, int w, OrderStatisticsMode mode = OrderStatisticsMode.Median)
+        {
+            int cnt = 0;
+            int[] orders = new int[w * h];
+            int[,,] pixels = new int[3,img.height, img.width];
+
+            for (int d = 0; d < 3; d++)
+                for (int r = 0; r < img.height; r++)
+                {
+                    for (int c = 0; c < img.width; c++)
+                    {
+                        cnt = 0;
+                        // Construct an ordered sequence
+                        for (int vv = 0, y = r - h / 2; vv < h; vv++, y++)
+                        {
+                            for (int hh = 0, x = c - w / 2; hh < w; hh++, x++)
+                            {
+                                if (x < 0 || x >= img.width) continue;
+                                if (y < 0 || y >= img.height) continue;
+
+                                orders[cnt] = img.pixels[d, y, x];
+                                for (int i = 0; i < cnt; i++)
+                                {
+                                    if (orders[i] >= img.pixels[d, y, x])
+                                    {
+                                        for (int j = cnt - 1; j >= i; j--)
+                                            orders[j + 1] = orders[j];
+                                        orders[i] = img.pixels[d, y, x];
+                                        break;
+                                    }
+                                }
+                                cnt++;
+                            }
+                        }
+
+                        //Array.Sort(orders, 0, cnt);
+                        switch (mode)
+                        {
+                            case OrderStatisticsMode.Median:
+                                pixels[d, r, c] = orders[cnt / 2];
+                                break;
+                            case OrderStatisticsMode.Min:
+                                pixels[d, r, c] = orders[0];
+                                break;
+                            case OrderStatisticsMode.Max:
+                                pixels[d, r, c] = orders[cnt - 1];
+                                break;
+                        }
+                    }
+
+                }
+            return new ColorImage(pixels);
+        }
+
 
         public Bitmap displayedBitmap;
         public int height;

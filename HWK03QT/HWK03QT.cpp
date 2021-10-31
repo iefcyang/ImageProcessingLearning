@@ -2,9 +2,12 @@
 #include <QStandardItem>
 
 #include "Filter.h"
+#include <iostream>
 
 using namespace std;
-using namespace std::chrono; //  ::time_point).
+
+
+
 
 HWK03QT::HWK03QT(QWidget *parent)
     : QMainWindow(parent)
@@ -14,22 +17,32 @@ HWK03QT::HWK03QT(QWidget *parent)
     Filter* f = new Filter();
     ColorImage* img = new ColorImage();
     ColorImage* out = *f * img;
-   // out = f + img;
+    out = *f + img;
 
    // time_point t;
 }
 
 
+
 void HWK03QT::on_pushButton_clicked()
 {
-    QString str = ui.textEdit->toPlainText();
-    string ss = str.toStdString();
-     
-    QStringList items = str.split(",",Qt::SkipEmptyParts);
-    string s1 = items[0].toStdString();
+   // std::chrono::duration diff = new duration();
 
-    int h = items[0].toInt();
-    int w = items[1].toInt();
+    clock_t startTime = clock(); // get and set system ticks
+    cursor().setShape(Qt::WaitCursor);
+
+    //QString str = ui.textEdit->toPlainText();
+    //string ss = str.toStdString();
+    // 
+    //QStringList items = str.split(",",Qt::SkipEmptyParts);
+    //string s1 = items[0].toStdString();
+
+    //int h = items[0].toInt();
+    //int w = items[1].toInt();
+
+    double seconds = (clock() - startTime) / CLOCKS_PER_SEC; // get seconds
+    cursor().setShape(Qt::ArrowCursor);
+    printf( "\a" ); // Beep
 
 }
 
