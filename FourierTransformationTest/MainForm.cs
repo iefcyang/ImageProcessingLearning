@@ -24,7 +24,7 @@ namespace FourierTransformationTest
             Series sine = new Series("Sine");
             sine.ChartType = SeriesChartType.Line;
             sine.Color = Color.Red;
-            chart1.Series.Add(sine);
+            chtMain.Series.Add(sine);
 
             bool realInput = false;// true;
             Complex[] z;
@@ -57,7 +57,7 @@ namespace FourierTransformationTest
             fourier.ChartType = SeriesChartType.Line;
             fourier.YAxisType = AxisType.Secondary;
             fourier.Color = Color.Blue;
-            chart1.Series.Add(fourier);
+            chtMain.Series.Add(fourier);
 
 
             for (int c = 0; c < 300; c++)
@@ -66,6 +66,21 @@ namespace FourierTransformationTest
             }
 
 
+        }
+
+        private void btnConstant_Click(object sender, EventArgs e)
+        {
+            chtMain.Series.Clear();
+            Series s = new Series("Ranged Constant Transform");
+            s.ChartType = SeriesChartType.Line;
+            double A = 1.0, W = 2.0;
+            double temp = A / Math.PI;
+            for( double mu = -10.0; mu <= 10.0; mu += 0.05)
+            {
+                double y = temp * Math.Sin(Math.PI * mu * W) / mu;
+                s.Points.AddXY(mu, y);
+            }
+            chtMain.Series.Add(s);
         }
     }
 }

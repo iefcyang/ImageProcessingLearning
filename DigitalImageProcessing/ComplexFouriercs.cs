@@ -34,37 +34,46 @@ namespace DigitalImageProcessing
         }
 
 
+
         public double real, image;
         
+
         public Complex()
         {
             real = image = 0.0;
         }
+
 
         public Complex(double r, double i)
         {
             real = r;
             image = i;
         }
+
+
         public static Complex operator+ (Complex a, Complex b )
         {
             return new Complex(a.real + b.real, a.image + b.image);
         }
+
 
         public Complex Add(Complex z)
         {
             return new Complex(real + z.real, image + z.image);
         }
 
+        
         public static Complex operator- (Complex a, Complex b )
         {
             return new Complex(a.real - b.real, a.image - b.image);
         }
 
+
         public Complex Sub(Complex z)
         {
             return new Complex(real - z.real, image - z.image);
         }
+
 
         public static Complex operator* (Complex a, Complex b)
         {
@@ -73,12 +82,14 @@ namespace DigitalImageProcessing
             return new Complex(r, i);
         }
 
+
         public static Complex operator *( double b, Complex a)
         {
             a.real *= b;
             a.image *= b;
             return a;
         }
+
 
         public Complex Mul(Complex z)
         {
@@ -88,6 +99,7 @@ namespace DigitalImageProcessing
             return new Complex(r, i);
         }
 
+
         public static Complex operator/ (Complex a, Complex b)
         {
             double d = b.real * b.real + b.image * b.image;
@@ -95,6 +107,7 @@ namespace DigitalImageProcessing
             double i = (a.image * b.real - a.real * b.image) / d;
             return new Complex(r, i);
         }
+
 
         public static Complex operator /(Complex a, double b)
         {
@@ -113,10 +126,12 @@ namespace DigitalImageProcessing
             return new Complex(r, i);
         }
 
+
         public static double Abs(Complex z)
         {
             return Math.Sqrt(z.real * z.real + z.image * z.image);
         }
+
 
         public static Complex Exp(Complex z)
         {
@@ -126,6 +141,7 @@ namespace DigitalImageProcessing
 
             return new Complex(e * r, e * i);
         }
+
 
         public static Complex[] RecursiveFFT(Complex[] a)
         {
@@ -199,6 +215,8 @@ namespace DigitalImageProcessing
             return output;
         }
 
+
+
         public static Complex[] DiscreteFourierTransform(Complex[] x)
         {
             double twoPiOverN = 2.0 * Math.PI / x.Length;
@@ -222,8 +240,6 @@ namespace DigitalImageProcessing
         }
 
 
-
-
         public static Complex[] DiscreteFourierTransform(double[] x)
         {
             double twoPiOverN = 2.0 * Math.PI / x.Length;
@@ -245,7 +261,6 @@ namespace DigitalImageProcessing
         }
 
 
-
         public static double[] InverseDiscreteFourierTransfrom(Complex[] X)
         {
             double[] x = new double[X.Length];
@@ -261,6 +276,7 @@ namespace DigitalImageProcessing
             }
             return x;
         }
+
 
         // This computes an in-place complex-to-complex FFT  
         // x and y are the real and imaginary arrays of 2^m points. 
@@ -345,5 +361,7 @@ namespace DigitalImageProcessing
                 }
             }
         }
+   
+    
     }
 }
