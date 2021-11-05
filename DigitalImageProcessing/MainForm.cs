@@ -14,6 +14,75 @@ namespace DigitalImageProcessing
 {
     public partial class MainForm : Form
     {
+
+        public static Bitmap RGB2Gray( Bitmap srcBitmap )
+        {
+            int wide = srcBitmap.Width;
+            int height = srcBitmap.Height;
+            Rectangle rect = new Rectangle( 0, 0, wide, height );
+
+            //將srcBitmap鎖定到系統內的記憶體的某個區塊中，並將這個結果交給BitmapData類別的srcBimap
+            BitmapData srcBmData = srcBitmap.LockBits( rect, ImageLockMode.ReadWrite,
+            PixelFormat.Format24bppRgb );
+
+            //將CreateGrayscaleImage灰階影像，並將這個結果交給Bitmap類別的dstBimap
+            Bitmap dstBitmap = CreateGrayscaleImage( wide, height );//這個函數在後面有定義
+
+            //將dstBitmap鎖定到系統內的記憶體的某個區塊中，並將這個結果交給BitmapData類別的dstBimap
+            BitmapData dstBmData = dstBitmap.LockBits( rect, ImageLockMode.ReadWrite,
+            PixelFormat.Format8bppIndexed );
+
+            //位元圖中第一個像素數據的地址。它也可以看成是位圖中的第一個掃描行
+            //目的是設兩個起始旗標srcPtr、dstPtr，為srcBmData、dstBmData的掃描行的開始位置
+            System.IntPtr srcPtr = srcBmData.Scan0;
+            System.IntPtr dstPtr = dstBmData.Scan0;
+
+            //將Bitmap對象的訊息存放到byte中
+            int src_bytes = srcBmData.Stride * height;
+            byte[ ] srcValues​​ = new byte[ src_bytes ];
+
+            int dst_bytes = dstBmData.Stride * height;
+            byte[ ] dstValues​​ = new byte[ dst_bytes ];
+
+            //複製GRB信息到byte中
+            System.Runtime.InteropServices.Marshal.Copy( srcPtr, srcValues​​, 0, src_bytes );
+            System.Runtime.InteropServices.Marshal.Copy( dstPtr, dstValues​​, 0, dst_bytes );
+
+            //根據Y=0.299*R+0.114*G+0.587B,Y為亮度
+            for( int i = 0 ; i < height ; i++ )
+                for( int j = 0 ; j < wide ; j++ )
+                {
+                    //只處理每行中圖像像素數據,捨棄未用空間
+                    //注意位圖結構中RGB按BGR的順序存儲
+                    int k = 3 * j;
+                    byte temp = (byte)
+                   ( srcValues​​[ i * srcBmData.Stride + k + 2 ] * .299 +
+                    srcValues​​[ i * srcBmData.Stride + k + 1 ] * .587 +
+                    srcValues​​[ i * srcBmData.Stride + k ] * .114 );
+                    dstValues​​[ i * dstBmData.Stride + j ] = temp;
+                }
+            System.Runtime.InteropServices.Marshal.Copy( dstValues​​, 0, dstPtr, dst_bytes );
+
+            //解鎖位圖
+            srcBitmap.UnlockBits( srcBmData );
+            dstBitmap.UnlockBits( dstBmData );
+            return dstBitmap;
+        }
+
+        private static Bitmap CreateGrayscaleImage( int wide, int height )
+        {
+            throw new NotImplementedException( );
+        }
+
+        #region DATA FIELDS
+
+        PictureBox[ ] pcbs = null;
+        GroupBox[ ] gps = null;
+        int[ , ] histograms;
+
+        #endregion
+
+
         public MainForm()
         {
             InitializeComponent();
@@ -25,6 +94,7 @@ namespace DigitalImageProcessing
             cbxFilter.SelectedIndex = 0;
         }
          
+
         private void btnOpen_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog dlg = new OpenFileDialog() { Filter = "JPG|*.jpg|JEPG|*.jepg|png|*.png", FilterIndex = 1 })
@@ -37,6 +107,7 @@ namespace DigitalImageProcessing
             }
         }
 
+
         private void cbxSizeMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             pcbMain.SizeMode = (PictureBoxSizeMode)cbxSizeMode.SelectedItem;
@@ -44,13 +115,15 @@ namespace DigitalImageProcessing
             pcbSecond.SizeMode = (PictureBoxSizeMode)cbxSizeMode.SelectedItem;
             pcbSecond.Refresh();
         }
+
+
         private void btnAddPixelValue_Click(object sender, EventArgs e)
         {
             pcbSecond.Image = SmartBitmap.ShiftPixelValueToNewBitmap((Bitmap)pcbMain.Image, (int)nudShift.Value);
             PropertyGrid.SelectedObject = pcbSecond.Image;
         }
-        PictureBox[] pcbs = null;
-        GroupBox[] gps = null;
+
+
         private void btnGenerateGray_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
@@ -144,6 +217,7 @@ namespace DigitalImageProcessing
             Cursor = Cursors.Default;
         }
 
+
         ColorPalette GetGrayScalePalette()
         {
             Bitmap bmp = new Bitmap(1, 1, PixelFormat.Format8bppIndexed);
@@ -160,6 +234,7 @@ namespace DigitalImageProcessing
             return monoPalette;
         }
 
+
         private void TabMain_TabIndexChanged(object sender, EventArgs e)
         {
             if( tabMain.SelectedTab == pagTTransform )
@@ -174,6 +249,7 @@ namespace DigitalImageProcessing
             }
         }
 
+
         private void btnLogExp_Click(object sender, EventArgs e)
         {
             Bitmap second;
@@ -184,6 +260,7 @@ namespace DigitalImageProcessing
             pcbSecond.Image = second;
             PropertyGrid.SelectedObject = pcbSecond.Image;
         }
+
 
         void ShowLogarithmicAndExponentialTransformationCurves()
         {
@@ -207,7 +284,7 @@ namespace DigitalImageProcessing
  
         }
 
-        int[,] histograms;
+
         private void btnHistogram_Click(object sender, EventArgs e)
         {
             histograms = SmartBitmap.GetPixelValueHistogram((Bitmap)pcbMain.Image);
@@ -237,6 +314,7 @@ namespace DigitalImageProcessing
             cbxRGB_SelectedIndexChanged(null, null);
 
         }
+
 
         private void LockUnlockBitsExample(PaintEventArgs e)
         {
@@ -275,66 +353,6 @@ namespace DigitalImageProcessing
 
         }
 
-        public static Bitmap RGB2Gray(Bitmap srcBitmap)
-        {
-            int wide = srcBitmap.Width;
-            int height = srcBitmap.Height;
-            Rectangle rect = new Rectangle(0, 0, wide, height);
-
-            //將srcBitmap鎖定到系統內的記憶體的某個區塊中，並將這個結果交給BitmapData類別的srcBimap
-            BitmapData srcBmData = srcBitmap.LockBits(rect, ImageLockMode.ReadWrite,
-            PixelFormat.Format24bppRgb);
-
-            //將CreateGrayscaleImage灰階影像，並將這個結果交給Bitmap類別的dstBimap
-            Bitmap dstBitmap = CreateGrayscaleImage(wide, height);//這個函數在後面有定義
-
-            //將dstBitmap鎖定到系統內的記憶體的某個區塊中，並將這個結果交給BitmapData類別的dstBimap
-            BitmapData dstBmData = dstBitmap.LockBits(rect, ImageLockMode.ReadWrite,
-            PixelFormat.Format8bppIndexed);
-
-            //位元圖中第一個像素數據的地址。它也可以看成是位圖中的第一個掃描行
-            //目的是設兩個起始旗標srcPtr、dstPtr，為srcBmData、dstBmData的掃描行的開始位置
-            System.IntPtr srcPtr = srcBmData.Scan0;
-            System.IntPtr dstPtr = dstBmData.Scan0;
-
-            //將Bitmap對象的訊息存放到byte中
-            int src_bytes = srcBmData.Stride * height;
-            byte[] srcValues​​ = new byte[src_bytes];
-
-            int dst_bytes = dstBmData.Stride * height;
-            byte[] dstValues​​ = new byte[dst_bytes];
-
-            //複製GRB信息到byte中
-            System.Runtime.InteropServices.Marshal.Copy(srcPtr, srcValues​​, 0, src_bytes);
-            System.Runtime.InteropServices.Marshal.Copy(dstPtr, dstValues​​, 0, dst_bytes);
-
-            //根據Y=0.299*R+0.114*G+0.587B,Y為亮度
-            for (int i = 0; i < height; i++)
-                for (int j = 0; j < wide; j++)
-                {
-                    //只處理每行中圖像像素數據,捨棄未用空間
-                    //注意位圖結構中RGB按BGR的順序存儲
-                    int k = 3 * j;
-                    byte temp = (byte)
-                   (srcValues​​[i * srcBmData.Stride + k + 2] * .299 +
-                    srcValues​​[i * srcBmData.Stride + k + 1] * .587 +
-                    srcValues​​[i * srcBmData.Stride + k] * .114);
-                    dstValues​​[i * dstBmData.Stride + j] = temp;
-                }
-            System.Runtime.InteropServices.Marshal.Copy(dstValues​​, 0, dstPtr, dst_bytes);
-
-            //解鎖位圖
-            srcBitmap.UnlockBits(srcBmData);
-            dstBitmap.UnlockBits(dstBmData);
-            return dstBitmap;
-        }
-
-        private static Bitmap CreateGrayscaleImage(int wide, int height)
-        {
-            throw new NotImplementedException();
-        }
-
-
 
         private void cbxRGB_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -371,16 +389,19 @@ namespace DigitalImageProcessing
             }
         }
 
+
         private void btnGray_Click(object sender, EventArgs e)
         {
             pcbSecond.Image = SmartBitmap.GrayConversionToNewBitmap((Bitmap)pcbMain.Image );
         }
+
 
         private void PictureBoxClicked(object sender, EventArgs e)
         {
             if (((PictureBox)sender).Image != null)
                 PropertyGrid.SelectedObject = ((PictureBox)sender).Image;
         }
+
 
         private void flpMultiple_SizeChanged(object sender, EventArgs e)
         {
@@ -391,6 +412,7 @@ namespace DigitalImageProcessing
             }
         }
 
+
         private void btnMedianFilter_Click(object sender, EventArgs e)
         {
             int size = Convert.ToInt32(cbxFilter.SelectedItem.ToString());
@@ -400,6 +422,7 @@ namespace DigitalImageProcessing
             labMessage.Text = $"Median Filter Applied: {DateTime.Now - start}";
             Cursor = Cursors.Default;
         }
+
 
         private void btnHVLaplacian_Click(object sender, EventArgs e)
         {
@@ -413,6 +436,7 @@ namespace DigitalImageProcessing
             Cursor = Cursors.Default;
         }
 
+
         private void btnDiagLaplacian_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
@@ -425,10 +449,12 @@ namespace DigitalImageProcessing
             Cursor = Cursors.Default;
         }
 
+
         private void btnReplace_Click(object sender, EventArgs e)
         {
             pcbMain.Image = pcbSecond.Image;
         }
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -437,8 +463,9 @@ namespace DigitalImageProcessing
                 for( int j = 0; j < 8; j++ )
                     m[i,j] = 128;
 
-            double[,] n =  Complex.DiscreteFourierTransform(m);
+            double[,] n = Fourier.DiscreteFourierTransform(m);
 
         }
+
     }
 }

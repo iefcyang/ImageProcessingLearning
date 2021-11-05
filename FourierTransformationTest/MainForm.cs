@@ -36,7 +36,7 @@ namespace FourierTransformationTest
                     y[c] = Math.Sin(c / 3.0);
                     sine.Points.AddXY(c, y[c]);
                 }
-                z = Complex.DiscreteFourierTransform(y);
+                z = Fourier.DiscreteFourierTransform(y);
             }
             else
             {
@@ -49,7 +49,7 @@ namespace FourierTransformationTest
                     sine.Points.AddXY(c, y[c].real);
                 }
                 // z = Complex.DiscreteFourierTransform(y);
-                z = Complex.RecursiveFFT(y);
+                z = Fourier.RecursiveFFT(y);
             }
  
 

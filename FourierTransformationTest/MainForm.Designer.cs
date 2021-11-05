@@ -54,7 +54,7 @@
             // 
             // btnSine
             // 
-            this.btnSine.Location = new System.Drawing.Point(1020, 58);
+            this.btnSine.Location = new System.Drawing.Point(1039, 56);
             this.btnSine.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnSine.Name = "btnSine";
             this.btnSine.Size = new System.Drawing.Size(135, 49);
@@ -82,7 +82,7 @@
             this.Controls.Add(this.btnConstant);
             this.Controls.Add(this.btnSine);
             this.Controls.Add(this.chtMain);
-            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
             this.Text = "Form1";
