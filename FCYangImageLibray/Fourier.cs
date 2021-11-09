@@ -1,6 +1,7 @@
-﻿using System;
+﻿
+using System;
 
-namespace F
+namespace FCYangImageLibray
 {
     public class Fourier
     {

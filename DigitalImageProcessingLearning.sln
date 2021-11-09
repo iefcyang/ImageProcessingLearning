@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HW4_CV", "HW4_CV\HW4_CV.vcx
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2021HWK04", "2021HWK04\2021HWK04.csproj", "{5DA93AE5-B21A-4839-A2A5-73CDF289F6DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCYangImageLibray", "FCYangImageLibray\FCYangImageLibray.csproj", "{81382AB2-EC31-4A8D-9362-BD56F38B5D31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,14 @@ Global
 		{5DA93AE5-B21A-4839-A2A5-73CDF289F6DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5DA93AE5-B21A-4839-A2A5-73CDF289F6DC}.Release|x64.ActiveCfg = Release|Any CPU
 		{5DA93AE5-B21A-4839-A2A5-73CDF289F6DC}.Release|x64.Build.0 = Release|Any CPU
+		{81382AB2-EC31-4A8D-9362-BD56F38B5D31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81382AB2-EC31-4A8D-9362-BD56F38B5D31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81382AB2-EC31-4A8D-9362-BD56F38B5D31}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{81382AB2-EC31-4A8D-9362-BD56F38B5D31}.Debug|x64.Build.0 = Debug|Any CPU
+		{81382AB2-EC31-4A8D-9362-BD56F38B5D31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81382AB2-EC31-4A8D-9362-BD56F38B5D31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81382AB2-EC31-4A8D-9362-BD56F38B5D31}.Release|x64.ActiveCfg = Release|Any CPU
+		{81382AB2-EC31-4A8D-9362-BD56F38B5D31}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

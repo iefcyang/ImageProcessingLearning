@@ -463,7 +463,7 @@ namespace DigitalImageProcessing
                 for( int j = 0; j < 8; j++ )
                     m[i,j] = 128;
 
-            double[,] n = Fourier.DiscreteFourierTransform(m);
+          //  double[,] n = Fourier.DiscreteFourierTransform(m);
 
         }
 
