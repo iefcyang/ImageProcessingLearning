@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2021HWK03", "2021HWK03\2021
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HWK03QT", "HWK03QT\HWK03QT.vcxproj", "{4D49F4D5-4FD5-4352-8039-966CC9CD63F7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HW4_CV", "HW4_CV\HW4_CV.vcxproj", "{29EBDD5B-054C-3E37-9848-AA4748574A57}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,12 @@ Global
 		{4D49F4D5-4FD5-4352-8039-966CC9CD63F7}.Release|Any CPU.ActiveCfg = Release|x64
 		{4D49F4D5-4FD5-4352-8039-966CC9CD63F7}.Release|x64.ActiveCfg = Release|x64
 		{4D49F4D5-4FD5-4352-8039-966CC9CD63F7}.Release|x64.Build.0 = Release|x64
+		{29EBDD5B-054C-3E37-9848-AA4748574A57}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{29EBDD5B-054C-3E37-9848-AA4748574A57}.Debug|x64.ActiveCfg = Debug|x64
+		{29EBDD5B-054C-3E37-9848-AA4748574A57}.Debug|x64.Build.0 = Debug|x64
+		{29EBDD5B-054C-3E37-9848-AA4748574A57}.Release|Any CPU.ActiveCfg = Release|x64
+		{29EBDD5B-054C-3E37-9848-AA4748574A57}.Release|x64.ActiveCfg = Release|x64
+		{29EBDD5B-054C-3E37-9848-AA4748574A57}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

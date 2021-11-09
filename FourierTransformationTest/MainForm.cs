@@ -17,6 +17,7 @@ namespace FourierTransformationTest
         public MainForm()
         {
             InitializeComponent();
+            nudPower_ValueChanged( null, null );
         }
 
         private void btnSine_Click(object sender, EventArgs e)
@@ -43,7 +44,6 @@ namespace FourierTransformationTest
                 Complex[] y = new Complex[300];
                 for (int c = 0; c < 300; c++)
                 {
-                    y[c] = new Complex();
                     y[c].real = Math.Sin(c / 3.0);
                     y[c].image = 0;
                     sine.Points.AddXY(c, y[c].real);
@@ -81,6 +81,59 @@ namespace FourierTransformationTest
                 s.Points.AddXY(mu, y);
             }
             chtMain.Series.Add(s);
+        }
+
+        private void btnFourierTest_Click( object sender, EventArgs e )
+        {
+            Cursor = Cursors.WaitCursor;
+            rtbOutput.Clear( );
+
+            DateTime start;
+            int power = (int) nudPower.Value; // 11;
+            Complex[ ] C = Complex.GetArray(200, power );
+            rtbOutput.AppendText( "Original C: \n" );
+
+            if( power <= 10) rtbOutput.AppendText( Complex.ArrayText( C ) );
+
+            rtbOutput.AppendText( "\n\nDiscrete FT : \n" );
+            start = DateTime.Now;
+            Complex[ ] X = Fourier.DiscreteFourierTransform( C );
+            rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
+            if( power <= 10 ) rtbOutput.AppendText(Complex.ArrayText(X) );
+
+            rtbOutput.AppendText( "\n\nRecursive FFT : \n" );
+            start = DateTime.Now;
+            X = Fourier.RecursiveFFT( C );
+            rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
+            if( power <= 10 ) rtbOutput.AppendText( Complex.ArrayText( X ) );
+
+
+            Complex[ ] CP = new Complex[ C.Length ];
+            for( int i = 0 ; i < CP.Length ; i++ )
+            {
+                CP[ i ].real = C[ i ].real;
+                CP[ i ].image = C[ i ].image;
+            }
+
+
+            rtbOutput.AppendText( "\n\nIn-Place Fast FT : \n" );
+            start = DateTime.Now;
+            Fourier.FastFourierTransform( true,  C );
+            rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
+            if( power <= 10 ) rtbOutput.AppendText( Complex.ArrayText( C ) );
+
+
+            rtbOutput.AppendText( "\n\nIn-Place Recursive FFT : \n" );
+            start = DateTime.Now;
+            Fourier.InPlaceRecursiveFFT( CP );
+            rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
+            if( power <= 10 ) rtbOutput.AppendText( Complex.ArrayText( CP ) );
+            Cursor = Cursors.Default;
+        }
+
+        private void nudPower_ValueChanged( object sender, EventArgs e )
+        {
+            label1.Text = $"n = 2 Power of {nudPower.Value} = {(int) Math.Pow( 2, (int) nudPower.Value )}";
         }
     }
 }
