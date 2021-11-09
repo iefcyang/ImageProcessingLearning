@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_HWK03QT.h"
+#include "ColorImage.h"
 
 class HWK03QT : public QMainWindow
 {
@@ -10,6 +11,14 @@ class HWK03QT : public QMainWindow
 public:
     HWK03QT(QWidget *parent = Q_NULLPTR);
     void GetMaskFromTableView();
+
+    static ColorImage* FFT(ColorImage* target, ColorImage** image)
+    {
+        ColorImage* realPart = new ColorImage();
+        ColorImage* imagePart = new ColorImage();
+        *image = imagePart;
+        return realPart;
+    }
 
 private slots:
     void on_btn1_clicked();
