@@ -57,7 +57,36 @@ namespace FCYangImageLibray
             }
             return output;
         }
+        public static Complex[,] TwoDimensionalDiscreteFourierTransform(Complex[,] X)
+        {
+            int rows = X.GetLength(0);
+            int cols = X.GetLength(1);
+            Complex[,] Z = new Complex[rows, cols];
+            Complex target = new Complex(0, 0);
+            double twoPi = Math.PI * 2.0;
+            double theta;
+            for( int r = 0; r < rows; r++)
+            {
+                for( int c = 0; c < cols; c++)
+                {
+                    Z[r, c] = new Complex(0, 0);
+                    for (int y = 0; y < rows; y++)
+                    {
+                       double temp = (double)r * y / rows;
+                        for (int x = 0; x < cols; x++)
+                        {
+                            theta = twoPi * ( (double)c * x / cols + temp);
+                            target.real = Math.Cos(theta);
+                            target.image = Math.Sin(-theta);
+                            Z[r, c] += X[y, x] * target;
+                        }
+                    }
+                    Z[r, c] /= rows * cols;
+                }
+            }
 
+            return Z;
+        }
 
         public static Complex[ , ] DiscreteFourier2DTransform( Complex[ , ] x )
         {

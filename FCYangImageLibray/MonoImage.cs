@@ -16,8 +16,14 @@ namespace FCYangImageLibray
             MonoImage spectrumImage = null;
             phaseAngleImg = null;
 
-            Complex[,] forwarded = Fourier.DiscreteFourierTransform( this );
+            Complex[,] forwarded; // = Fourier.DiscreteFourierTransform( this );
 
+            //Complex[,] input = new Complex[height, width];
+            //for (int r = 0; r < height; r++)
+            //    for (int c = 0; c < width; c++)
+            //        input[r, c].real = pixels[r, c];
+            //forwarded = Fourier.TwoDimensionalDiscreteFourierTransform(input);
+            forwarded = Fourier.DiscreteFourierTransform( this );
             double[ , ] real = new double[ height, width ];
             double[ , ] image = new double[ height, width ];
             double realMax = double.MinValue, realMin = double.MaxValue;
