@@ -16,13 +16,25 @@ namespace _2021HWK04
 
         private void btnGetImageForFFT_Click(object sender, EventArgs e)
         {
+            dlgOpen.FileName = "*.*";
             if (dlgOpen.ShowDialog() != DialogResult.OK) return;
-            Bitmap bmp = new Bitmap(dlgOpen.FileName);
-            pcbOriginal.Image = bmp;
-            MonoImage original = new MonoImage(bmp);
-            Complex[,] map =  Fourier.DiscreteFourierTransform(original);
             MonoImage spectrum, phaseAngle;
-            spectrum = MonoImage.ExtractSpecturmAndPhaseAngleImages(map, out phaseAngle, true);
+            Bitmap bmp = new Bitmap(dlgOpen.FileName);
+            MonoImage original = new MonoImage(bmp);
+            pcbOriginal.Image = original.displayedBitmap;
+            pcbSpectrum.Image = pcbPhaseAngle.Image = pcbForwardInversed.Image =  null;
+            //pcbOriginal.Refresh( );
+            tlpMain.Refresh( );
+            DateTime startTime = DateTime.Now;
+            Cursor = Cursors.WaitCursor;
+            spectrum = original.ExtractSpecturmAndPhaseAngleImages(out phaseAngle, ckbLogMap.Checked);
+
+            // 
+            
+             
+            Cursor = Cursors.Default;
+            labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
+            Console.Beep( );
             pcbSpectrum.Image = spectrum.displayedBitmap;
             pcbPhaseAngle.Image = phaseAngle.displayedBitmap;
              

@@ -8,6 +8,10 @@ namespace FCYangImageLibray
     {
         static Random rnd = new Random( );
 
+        public override string ToString( )
+        {
+            return $"({real:0.00},{image:0.00})";
+        }
         public override bool Equals( object obj )
         {
             Complex target = (Complex) obj;
@@ -170,6 +174,36 @@ namespace FCYangImageLibray
             return new Complex( e * r, e * i );
         }
 
+        public static string MatrixText( Complex[ , ] C )
+        {
+            StringBuilder sb = new StringBuilder( );
+            int cols = C.GetLength( 1 );
+            int cnt = 0;
+            foreach( Complex c in C )
+            {
+                sb.Append( $"({c.real:0.00},{c.image:0.00}), " );
+                cnt++;
+                if( cnt >= cols)
+                {
+                    sb.Append( "\n" );
+                    cnt = 0;
+                }
+            }
+            sb.Append( $" Dim = {C.GetLength(0)}x{C.GetLength(1)}" );
+            return sb.ToString( );
+        }
+
+        public static Complex[, ] Get2DMatrix( double upBound = 2000, int TwoPower = 8 )
+        {
+            int n = 1;
+            for( int i = 0 ; i < TwoPower ; i++ ) n *= 2;
+            Complex[, ] C = new Complex[ n,n ];
+            double half = upBound / 2;
+            for( int i = 0 ; i < n ; i++ )
+                for( int j = 0 ; j < n ; j++ )
+                    C[ i,j ] = new Complex( rnd.NextDouble( ) * upBound - half,rnd.NextDouble( ) * upBound - half );
+            return C;
+        }
     }
 
     //public class OriComplex

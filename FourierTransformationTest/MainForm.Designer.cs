@@ -40,6 +40,7 @@
             this.rtbOutput = new System.Windows.Forms.RichTextBox();
             this.btnFourierTest = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btn2DFFTTest = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chtMain)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -98,6 +99,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btn2DFFTTest);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.nudPower);
             this.tabPage1.Controls.Add(this.rtbOutput);
@@ -171,6 +173,16 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // btn2DFFTTest
+            // 
+            this.btn2DFFTTest.Location = new System.Drawing.Point(218, 24);
+            this.btn2DFFTTest.Name = "btn2DFFTTest";
+            this.btn2DFFTTest.Size = new System.Drawing.Size(98, 54);
+            this.btn2DFFTTest.TabIndex = 4;
+            this.btn2DFFTTest.Text = "2D FFT Test";
+            this.btn2DFFTTest.UseVisualStyleBackColor = true;
+            this.btn2DFFTTest.Click += new System.EventHandler(this.btn2DFFTTest_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -203,6 +215,7 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.NumericUpDown nudPower;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btn2DFFTTest;
     }
 }
 

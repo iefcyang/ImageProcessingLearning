@@ -9,30 +9,83 @@ namespace FCYangImageLibray
         {
             int rows = img.height;// x.GetLength(0);
             int cols = img.width; // x.GetLength(1);
-            double[] xary = new double[cols];
-            Complex[] yary = new Complex[rows];
-            Complex[] C;
+            double[] rowArray = new double[cols];
+            Complex[] columnArray = new Complex[rows];
+            Complex[] tempResult;
             Complex[,] output = new Complex[rows, cols];
 
             // Row-wise transform
             for (int r = 0; r < rows; r++)
             {
-                for (int c = 0; c < cols; c++) xary[c] = img.pixels[r, c];
-                C = DiscreteFourierTransform(xary);
-                for (int c = 0; c < cols; c++) output[r, c] = C[c];
+                for (int c = 0; c < cols; c++) rowArray[c] = img.pixels[r, c];
+                // Real array in Complex array out
+                tempResult = DiscreteFourierTransform(rowArray);
+                for (int c = 0; c < cols; c++) output[r, c] = tempResult[c];
             }
             // Column-wise transform
             for (int c = 0; c < cols; c++)
             {
-                for (int r = 0; r < rows; r++) yary[c] = output[r, c];
-                C = DiscreteFourierTransform(yary);
-                for (int r = 0; r < cols; r++) output[r, c] = C[r];
+                for (int r = 0; r < rows; r++) columnArray[ r] = output[r, c];
+                tempResult = DiscreteFourierTransform( columnArray );
+                for (int r = 0; r < rows; r++) output[r, c] = tempResult[r];
+            }
+            return output;
+        }
+
+        public static Complex[ , ] InverseTDiscreteFourier2Dransform( Complex[ , ] x )
+        {
+            int rows = x.GetLength( 0 );
+            int cols = x.GetLength( 1 );
+            Complex[ ] xary = new Complex[ cols ];
+            Complex[ ] yary = new Complex[ rows ];
+            Complex[ ] C;
+            Complex[ , ] output = new Complex[ rows, cols ];
+
+            // Row-wise transform
+            for( int r = 0 ; r < rows ; r++ )
+            {
+                for( int c = 0 ; c < cols ; c++ ) xary[ c ] = x[ r, c ];
+                C = InverseDiscreteFourierTransfromToComplex( xary );
+                for( int c = 0 ; c < cols ; c++ ) output[ r, c ] = C[ c ];
+            }
+            // Column-wise transform
+            for( int c = 0 ; c < cols ; c++ )
+            {
+                for( int r = 0 ; r < rows ; r++ ) yary[ r ] = output[ r, c ];
+                C = InverseDiscreteFourierTransfromToComplex( yary );
+                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = C[ r ];
             }
             return output;
         }
 
 
-        public static double[ , ] DiscreteFourierTransform( double[ , ] x )
+        public static Complex[ , ] DiscreteFourier2DTransform( Complex[ , ] x )
+        {
+            int rows = x.GetLength( 0 );
+            int cols = x.GetLength( 1 );
+            Complex[ ] xary = new Complex[ cols ];
+            Complex[ ] yary = new Complex[ rows ];
+            Complex[ ] C;
+            Complex[ , ] output = new Complex[ rows, cols ];
+
+            // Row-wise transform
+            for( int r = 0 ; r < rows ; r++ )
+            {
+                for( int c = 0 ; c < cols ; c++ ) xary[ c ] = x[ r, c ];
+                C = DiscreteFourierTransform( xary );
+                for( int c = 0 ; c < cols ; c++ ) output[ r, c ] = C[ c ];
+            }
+            // Column-wise transform
+            for( int c = 0 ; c < cols ; c++ )
+            {
+                for( int r = 0 ; r < rows ; r++ ) yary[ r ] = output[ r, c ];
+                C = DiscreteFourierTransform( yary );
+                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = C[ r ];
+            }
+            return output;
+        }
+
+        public static double[ , ] DiscreteFourier2DTransform( double[ , ] x )
         {
             int rows = x.GetLength( 0 );
             int cols = x.GetLength( 1 );
@@ -51,9 +104,9 @@ namespace FCYangImageLibray
             // Column-wise transform
             for( int c = 0 ; c < cols ; c++ )
             {
-                for( int r = 0 ; r < rows ; r++ ) yary[ c ] = output[ r, c ];
+                for( int r = 0 ; r < rows ; r++ ) yary[ r ] = output[ r, c ];
                 C = DiscreteFourierTransform( yary );
-                for( int r = 0 ; r < cols ; r++ ) output[ r, c ] = C[ r ].real;
+                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = C[ r ].real;
             }
             return output;
         }
@@ -70,10 +123,10 @@ namespace FCYangImageLibray
 
                 for( n = 0 ; n < x.Length ; n++ )
                 {
-                    double cs = Math.Cos( twoPiOverN * k * n );
-                    double ss = Math.Sin( twoPiOverN * k * n );
+                    double cs = Math.Cos( -twoPiOverN * k * n );
+                    double ss = Math.Sin( -twoPiOverN * k * n );
                     Z[ k ].real += x[ n ].real * cs - x[ n ].image * ss;
-                    Z[ k ].image -= x[ n ].real * ss - x[ n ].image * cs;
+                    Z[ k ].image += x[ n ].real * ss + x[ n ].image * cs;
                 }
                 Z[ k ] = Z[ k ] / x.Length;
             }
@@ -93,8 +146,8 @@ namespace FCYangImageLibray
 
                 for( n = 0 ; n < x.Length ; n++ )
                 {
-                    Z[ k ].real += x[ n ] * Math.Cos( twoPiOverN * k * n );
-                    Z[ k ].image -= x[ n ] * Math.Sin( twoPiOverN * k * n );
+                    Z[ k ].real += x[ n ] * Math.Cos( -twoPiOverN * k * n );
+                    Z[ k ].image += x[ n ] * Math.Sin( -twoPiOverN * k * n );
                 }
                 Z[ k ] = Z[ k ] / x.Length;
             }
@@ -102,7 +155,7 @@ namespace FCYangImageLibray
         }
 
 
-        public static double[ ] InverseDiscreteFourierTransfrom( Complex[ ] Z )
+        public static double[ ] InverseDiscreteFourierTransfromToReal( Complex[ ] Z )
         {
             double[ ] x = new double[ Z.Length ];
             double twoPiOverN = 2.0 * Math.PI / Z.Length;
@@ -111,13 +164,30 @@ namespace FCYangImageLibray
             {
                 for( int k = 0 ; k < Z.Length ; k++ )
                 {
-                    x[ n ] += Z[ k ].real * Math.Cos( twoPiOverN * k * n )
-                          - Z[ k ].image * Math.Sin( twoPiOverN * k * n );
+                    x[ n ] += Z[ k ].real * Math.Cos( twoPiOverN * k * n ) - Z[ k ].image * Math.Sin( twoPiOverN * k * n );
                 }
             }
             return x;
         }
 
+        public static Complex[ ] InverseDiscreteFourierTransfromToComplex( Complex[ ] Z )
+        {
+            Complex[ ] x = new Complex[ Z.Length ];
+            double twoPiOverN = 2.0 * Math.PI / Z.Length;
+
+            for( int n = 0 ; n < Z.Length ; n++ )
+            {
+                for( int k = 0 ; k < Z.Length ; k++ )
+                {
+                    double cs = Math.Cos( twoPiOverN * k * n );
+                    double ss = Math.Sin( twoPiOverN * k * n );
+
+                    x[ n ].real += Z[ k ].real * cs - Z[ k ].image * ss;
+                    x[ n ].image += Z[ k ].real * ss + Z[ k ].image * cs;
+                }
+            }
+            return x;
+        }
 
         // This computes an in-place complex-to-complex FFT  
         // x and y are the real and imaginary arrays of 2^m points. 
@@ -211,7 +281,7 @@ namespace FCYangImageLibray
             }
         }
 
-        public static void FastFourierTransform( bool forwardNotReverse, Complex[ ] C  )
+        public static void FastFourierTransform( Complex[ ] C, bool forwardNotReverse )
         {
             int n, i, i1, j, k, i2, l, l1, l2;
             double c1, c2, tempR, tempI, t1, t2, u1, u2, z;
@@ -337,6 +407,10 @@ namespace FCYangImageLibray
                 Z[ k + half ] = new Complex( 0.0, 0.0 );
                 Z[ k + half ] = evenOut[ k ] - ( oddOut[ k ] * omega );
                 omega *= omegaN;
+
+                // half?
+                Z[ k ] = Z[ k ] / 2.0;
+                Z[ k + half ] = Z[ k + half ] / 2.0;
             }
 
             return Z;
@@ -382,6 +456,10 @@ namespace FCYangImageLibray
                 C[ k + half ] = new Complex( 0.0, 0.0 );
                 C[ k + half ] = evenOut[ k ] - ( oddOut[ k ] * omega );
                 omega *= omegaN;
+
+                // half??
+                C[ k ] = C[ k ] / 2;
+                C[ k + half ] = C[ k + half ] / 2;
             }
 
             //return Z;

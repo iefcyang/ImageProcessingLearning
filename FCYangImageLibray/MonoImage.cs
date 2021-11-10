@@ -11,12 +11,56 @@ namespace FCYangImageLibray
 
     public class MonoImage
     {
-        public static MonoImage ExtractSpecturmAndPhaseAngleImages( Complex[,] map, out MonoImage phaseAngleImg, bool ReMapping = true )
+        public  MonoImage ExtractSpecturmAndPhaseAngleImages( out MonoImage phaseAngleImg, bool ReMapping = true )
         {
             MonoImage spectrumImage = null;
             phaseAngleImg = null;
 
+            Complex[,] forwarded = Fourier.DiscreteFourierTransform( this );
 
+            double[ , ] real = new double[ height, width ];
+            double[ , ] image = new double[ height, width ];
+            double realMax = double.MinValue, realMin = double.MaxValue;
+            double imageMax = double.MinValue, imageMin = double.MaxValue;
+
+            for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c < width ; c++ )
+                {
+                    // Spectrum
+                    real[ r, c ] =  Math.Sqrt( forwarded[ r, c ].real * forwarded[ r, c ].real + forwarded[ r, c ].image * forwarded[ r, c ].image );
+                    if( real[ r, c ] > realMax ) realMax = real[ r, c ];
+                    else if( real[ r, c ] < realMin ) realMin = real[ r, c ];
+
+                    // Phase Angle Range -Pi ~ Pi
+                    image[ r, c ] = Math.Atan2( forwarded[ r, c ].image, forwarded[r,c].real);
+                    if( image[ r, c ] > imageMax ) imageMax = image[ r, c ];
+                    else if( image[ r, c ] < imageMin ) imageMin = image[ r, c ];
+                }
+            if( realMax < 0 || realMin < 0 ) throw new Exception( "Negative Value Found!" );
+          //  if(imageMax < 0 || imageMin < 0 ) throw new Exception( "Negative Value Found!" );
+
+            imageMax = imageMax - imageMin;
+            if( ReMapping )
+            {
+                realMax = Math.Log( 1.0 + realMax );
+                realMin = Math.Log( 1.0 + realMin );
+            }
+            realMax = realMax - realMin;
+            int[ , ] spectrum = new int[ height, width ];
+            int[ , ] phaseAngle = new int[ height, width ];
+                // Normalize to [0,255]
+                for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c < width ; c++ )
+                {
+                    phaseAngle[ r, c ] = (int) ( ( image[ r, c ] - imageMin ) / imageMax * 255 );
+                    if( ReMapping)
+                        spectrum[ r, c ] = (int) ( ( Math.Log( 1.0 +  real[ r, c ] ) - realMin ) / realMax * 255 );
+                    else
+                        spectrum[ r, c ] = (int) ( ( real[ r, c ] - realMin ) / realMax * 255 );
+                }
+
+            spectrumImage = new MonoImage( spectrum );
+            phaseAngleImg = new MonoImage( phaseAngle );
 
             return spectrumImage;
         }
@@ -292,9 +336,25 @@ namespace FCYangImageLibray
         /// <param name="originalImage"></param>
         public MonoImage( Bitmap originalImage, bool weightedGray = false )
         {
-            displayedBitmap = originalImage;
+            height = originalImage.Height;
+            width = originalImage.Width;
+            displayedBitmap = new Bitmap( width, height  );
+            // reassign pixel value to gray image
+            int i;
+            for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c < width ; c++ )
+                {
+                    Color clr = originalImage.GetPixel( c, r );
+                    if(   weightedGray )
+                        i = (int) ( 0.299 * clr.R + 0.587 * clr.G + 0.114 * clr.B  );
+                    else
+                        i = (int) ( ( clr.R + clr.G + clr.B ) / 3.0 );
+
+                    displayedBitmap.SetPixel( c, r, Color.FromArgb(i,i,i) );
+                }
+            // 
             SetPixelsFromImage( weightedGray );
-        }
+       }
 
 
         /// <summary>
