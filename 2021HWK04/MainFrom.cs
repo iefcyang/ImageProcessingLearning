@@ -18,27 +18,34 @@ namespace _2021HWK04
         {
             labOne.Text = "Original Image";
             labTwo.Text = "Spectrum Image";
-            labThree.Text = "Phase Angle Image";
-            labFour.Text = "Forward and Inverse DFTed";
-            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = null;
+            labThree.Text = "Centered Spectrum";
+            labFour.Text = "Log Transformed Spectrum";
+            labFive.Text = "Phase Angle";
+            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
 
             dlgOpen.FileName = "*.*";
             if (dlgOpen.ShowDialog() != DialogResult.OK) return;
-            MonoImage spectrum, phaseAngle;
+            MonoImage spectrum, phaseAngle, centeredSpectrum, LogTransformedSpectrum;
             Bitmap bmp = new Bitmap(dlgOpen.FileName);
             MonoImage original = new MonoImage(bmp);
             pcbOne.Image = original.displayedBitmap;
 
             tlpMain.Refresh( );
+            labMessage.Text = "";
+            statusStrip1.Refresh( );
+
             DateTime startTime = DateTime.Now;
             Cursor = Cursors.WaitCursor;
-            spectrum = original.ExtractSpecturmAndPhaseAngleImages(out phaseAngle, ckbLogMap.Checked);
+            spectrum = MonoImage.ExtractSpecturmAndPhaseAngleImages(original, out phaseAngle, out centeredSpectrum, out LogTransformedSpectrum );
              
             Cursor = Cursors.Default;
-            labMessage.Text = $"Time Spent: {DateTime.Now - startTime}";
+            rtbOutput.Text = MonoImage.TextMessage.ToString( );
+
             Console.Beep( );
             pcbTwo.Image = spectrum.displayedBitmap;
-            pcbThree.Image = phaseAngle.displayedBitmap;
+            pcbThree.Image = centeredSpectrum.displayedBitmap;
+            pcbFour.Image = LogTransformedSpectrum.displayedBitmap;
+            pcbFive.Image = phaseAngle.displayedBitmap;
              
         }
 
@@ -48,7 +55,8 @@ namespace _2021HWK04
             labTwo.Text = "Ideal Filtering Result";
             labThree.Text = "Butterworth Filtering Result";
             labFour.Text = "Gaussian Filtering Result";
-            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = null;
+            labFive.Text = "";
+            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
         }
 
@@ -58,7 +66,8 @@ namespace _2021HWK04
             labTwo.Text = "Wiener Filter Recovered";
             labThree.Text = "Inverse Image Difference";
             labFour.Text = "Wiener Image Difference";
-            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = null;
+            labFive.Text = "";
+            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
         }
 
@@ -74,7 +83,8 @@ namespace _2021HWK04
             labTwo.Text = "Homomorphic Filtering";
             labThree.Text = "";
             labFour.Text = "";
-            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = null;
+            labFive.Text = "";
+            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
 
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FCYangImageLibray
@@ -11,24 +12,56 @@ namespace FCYangImageLibray
 
     public class MonoImage
     {
-        public  MonoImage ExtractSpecturmAndPhaseAngleImages( out MonoImage phaseAngleImg, bool ReMapping = true )
+        public static StringBuilder TextMessage = new StringBuilder( );
+
+        public static MonoImage ExtractSpecturmAndPhaseAngleImages( MonoImage source,  out MonoImage phaseAngleImg, out MonoImage centeredSpectrum, 
+            out MonoImage LogTransformedSpectrum )
         {
+            TextMessage.Clear( );
+            DateTime start = DateTime.Now;
+            int height = source.height;
+            int width = source.width;
+
             MonoImage spectrumImage = null;
-            phaseAngleImg = null;
+            phaseAngleImg = centeredSpectrum = LogTransformedSpectrum = null;
 
-            Complex[,] forwarded; // = Fourier.DiscreteFourierTransform( this );
-
-            //Complex[,] input = new Complex[height, width];
-            //for (int r = 0; r < height; r++)
-            //    for (int c = 0; c < width; c++)
-            //        input[r, c].real = pixels[r, c];
-            //forwarded = Fourier.TwoDimensionalDiscreteFourierTransform(input);
-            forwarded = Fourier.DiscreteFourierTransform( this );
-            double[ , ] real = new double[ height, width ];
-            double[ , ] image = new double[ height, width ];
+            Complex[,] forwarded; 
             double realMax = double.MinValue, realMin = double.MaxValue;
             double imageMax = double.MinValue, imageMin = double.MaxValue;
+            double[ , ] real = new double[ height, width ];
+            double[ , ] imaginary = new double[ height, width ];
+            TextMessage.AppendLine( $"*****Fourier Transform {height}x{width} Image *****" );
 
+            // *** Standard spectrum  //  Normal FT 
+            int[ , ] spectrum = new int[ height, width ];
+            TextMessage.AppendLine( $"(1) Standard DFT for Spectrum: " );
+            start = DateTime.Now;
+            forwarded = Fourier.DiscreteFourierTransform( source );
+
+            for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c < width ; c++ )
+                {
+                    real[ r, c ] = Math.Sqrt( forwarded[ r, c ].real * forwarded[ r, c ].real + forwarded[ r, c ].image * forwarded[ r, c ].image );
+                    if( real[ r, c ] > realMax ) realMax = real[ r, c ];
+                    else if( real[ r, c ] < realMin ) realMin = real[ r, c ];
+                }
+            // Normalize to [0,255]
+            realMax = realMax - realMin;
+            for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c < width ; c++ )
+                    spectrum[ r, c ] = (int) ( ( real[ r, c ] - realMin ) / realMax * 255 );
+            spectrumImage = new MonoImage( spectrum );
+
+            TextMessage.AppendLine( $"    Spectrum Image Obtained!  time spent: {DateTime.Now-start} \n" );
+
+            // ***  Centered F // Normal FT  
+            spectrum = new int[ height, width ];
+            realMax = double.MinValue;
+            realMin = double.MaxValue;
+            TextMessage.AppendLine( $"(2) Standard DEF for Center-Shifted Spectrum: " );
+
+            start = DateTime.Now;
+            forwarded = Fourier.DiscreteFourierTransform( source, true );
             for( int r = 0 ; r < height ; r++ )
                 for( int c = 0 ; c < width ; c++ )
                 {
@@ -36,40 +69,45 @@ namespace FCYangImageLibray
                     real[ r, c ] =  Math.Sqrt( forwarded[ r, c ].real * forwarded[ r, c ].real + forwarded[ r, c ].image * forwarded[ r, c ].image );
                     if( real[ r, c ] > realMax ) realMax = real[ r, c ];
                     else if( real[ r, c ] < realMin ) realMin = real[ r, c ];
-
                     // Phase Angle Range -Pi ~ Pi
-                    image[ r, c ] = Math.Atan2( forwarded[ r, c ].image, forwarded[r,c].real);
-                    if( image[ r, c ] > imageMax ) imageMax = image[ r, c ];
-                    else if( image[ r, c ] < imageMin ) imageMin = image[ r, c ];
+                    imaginary[ r, c ] = Math.Atan2( forwarded[ r, c ].image, forwarded[r,c].real);
                 }
-            if( realMax < 0 || realMin < 0 ) throw new Exception( "Negative Value Found!" );
-          //  if(imageMax < 0 || imageMin < 0 ) throw new Exception( "Negative Value Found!" );
-
-            imageMax = imageMax - imageMin;
-            if( ReMapping )
-            {
-                realMax = Math.Log( 1.0 + realMax );
-                realMin = Math.Log( 1.0 + realMin );
-            }
-            realMax = realMax - realMin;
-            int[ , ] spectrum = new int[ height, width ];
+            double Range = realMax - realMin;
+            double Two55Over2Pi = 127.5 / Math.PI; // = realMax - realMin;
             int[ , ] phaseAngle = new int[ height, width ];
-                // Normalize to [0,255]
-                for( int r = 0 ; r < height ; r++ )
+            // Normalize to [0,255]
+            for( int r = 0 ; r < height ; r++ )
                 for( int c = 0 ; c < width ; c++ )
                 {
-                    phaseAngle[ r, c ] = (int) ( ( image[ r, c ] - imageMin ) / imageMax * 255 );
-                    if( ReMapping)
-                        spectrum[ r, c ] = (int) ( ( Math.Log( 1.0 +  real[ r, c ] ) - realMin ) / realMax * 255 );
-                    else
-                        spectrum[ r, c ] = (int) ( ( real[ r, c ] - realMin ) / realMax * 255 );
+                    spectrum[ r, c ] = (int) ( ( real[ r, c ] - realMin ) / Range * 255 );
+                    // Actan -Pi ~ Pi, 
+                    phaseAngle[ r, c ] = (int) ( ( imaginary[ r, c ] + Math.PI ) * Two55Over2Pi );
                 }
 
-            spectrumImage = new MonoImage( spectrum );
+            TextMessage.AppendLine( $"    Centered Spectrum and Phase Angle Images Obtained!  time spent: { DateTime.Now - start} \n" );
+
+
+            centeredSpectrum = new MonoImage( spectrum );
             phaseAngleImg = new MonoImage( phaseAngle );
+
+            TextMessage.AppendLine( $"(3) Log Transformation: " );
+            start = DateTime.Now;
+
+            // Log mapped 
+            spectrum = new int[ height, width ];
+            realMax = Math.Log( 1.0 + realMax );
+            realMin = Math.Log( 1.0 + realMin );
+            Range = realMax - realMin;
+            for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c < width ; c++ )
+                        spectrum[ r, c ] = (int) ( ( Math.Log( 1.0 + real[ r, c ] ) - realMin ) / Range * 255 );
+            TextMessage.AppendLine( $"    Log Transformed Spectrum Image Obtained!  time spent: { DateTime.Now - start} \n" );
+
+            LogTransformedSpectrum = new MonoImage( spectrum );
 
             return spectrumImage;
         }
+
 
         public static double[,] operator+( double[,] mask, MonoImage img)
         {

@@ -5,7 +5,7 @@ namespace FCYangImageLibray
 {
     public class Fourier
     {
-        public static Complex[,] DiscreteFourierTransform( MonoImage img )
+        public static Complex[,] DiscreteFourierTransform( MonoImage img, bool isCentered = false )
         {
             int rows = img.height;// x.GetLength(0);
             int cols = img.width; // x.GetLength(1);
@@ -17,7 +17,12 @@ namespace FCYangImageLibray
             // Row-wise transform
             for (int r = 0; r < rows; r++)
             {
-                for (int c = 0; c < cols; c++) rowArray[c] = img.pixels[r, c];
+                for (int c = 0; c < cols; c++) 
+                    if( isCentered)
+                        rowArray[c] = (r+c) % 2 == 0 ? img.pixels[r, c] : -img.pixels[ r, c ];
+                    else
+                        rowArray[ c ] = img.pixels[ r, c ];
+
                 // Real array in Complex array out
                 tempResult = DiscreteFourierTransform(rowArray);
                 for (int c = 0; c < cols; c++) output[r, c] = tempResult[c];
@@ -46,17 +51,18 @@ namespace FCYangImageLibray
             {
                 for( int c = 0 ; c < cols ; c++ ) xary[ c ] = x[ r, c ];
                 C = InverseDiscreteFourierTransfromToComplex( xary );
-                for( int c = 0 ; c < cols ; c++ ) output[ r, c ] = C[ c ];
+                for( int c = 0 ; c < cols ; c++ ) output[ r, c ] = C[ c ] / cols;
             }
             // Column-wise transform
             for( int c = 0 ; c < cols ; c++ )
             {
                 for( int r = 0 ; r < rows ; r++ ) yary[ r ] = output[ r, c ];
                 C = InverseDiscreteFourierTransfromToComplex( yary );
-                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = C[ r ];
+                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = C[ r ] / rows;
             }
             return output;
         }
+
         public static Complex[,] TwoDimensionalDiscreteFourierTransform(Complex[,] X)
         {
             int rows = X.GetLength(0);
@@ -157,7 +163,7 @@ namespace FCYangImageLibray
                     Z[ k ].real += x[ n ].real * cs - x[ n ].image * ss;
                     Z[ k ].image += x[ n ].real * ss + x[ n ].image * cs;
                 }
-                Z[ k ] = Z[ k ] / x.Length;
+               // Z[ k ] = Z[ k ] / x.Length;
             }
             return Z;
         }
@@ -178,7 +184,7 @@ namespace FCYangImageLibray
                     Z[ k ].real += x[ n ] * Math.Cos( -twoPiOverN * k * n );
                     Z[ k ].image += x[ n ] * Math.Sin( -twoPiOverN * k * n );
                 }
-                Z[ k ] = Z[ k ] / x.Length;
+                //Z[ k ] = Z[ k ] / x.Length;
             }
             return Z;
         }
@@ -195,6 +201,7 @@ namespace FCYangImageLibray
                 {
                     x[ n ] += Z[ k ].real * Math.Cos( twoPiOverN * k * n ) - Z[ k ].image * Math.Sin( twoPiOverN * k * n );
                 }
+                x[ n ] = x[ n ] / Z.Length;
             }
             return x;
         }
@@ -214,6 +221,7 @@ namespace FCYangImageLibray
                     x[ n ].real += Z[ k ].real * cs - Z[ k ].image * ss;
                     x[ n ].image += Z[ k ].real * ss + Z[ k ].image * cs;
                 }
+                x[ n ] /= Z.Length;
             }
             return x;
         }
@@ -295,12 +303,12 @@ namespace FCYangImageLibray
                     u1 = z;
                 }
                 c2 = Math.Sqrt( ( 1.0 - c1 ) / 2.0 );
-                if( forwardNotReverse ) c2 = -c2;
+                if( !forwardNotReverse ) c2 = -c2;
                 c1 = Math.Sqrt( ( 1.0 + c1 ) / 2.0 );
             }
 
             // Scaling for forward transform 
-            if( forwardNotReverse )
+            if( !forwardNotReverse )
             {
                 for( i = 0 ; i < n ; i++ )
                 {
@@ -381,12 +389,12 @@ namespace FCYangImageLibray
                     u1 = z;
                 }
                 c2 = Math.Sqrt( ( 1.0 - c1 ) / 2.0 );
-                if( forwardNotReverse ) c2 = -c2;
+                if( !forwardNotReverse ) c2 = -c2;
                 c1 = Math.Sqrt( ( 1.0 + c1 ) / 2.0 );
             }
 
             // Scaling for forward transform 
-            if( forwardNotReverse )
+            if( !forwardNotReverse )
             {
                 for( i = 0 ; i < n ; i++ )
                 {
@@ -438,8 +446,8 @@ namespace FCYangImageLibray
                 omega *= omegaN;
 
                 // half?
-                Z[ k ] = Z[ k ] / 2.0;
-                Z[ k + half ] = Z[ k + half ] / 2.0;
+                //Z[ k ] = Z[ k ] / 2.0;
+                //Z[ k + half ] = Z[ k + half ] / 2.0;
             }
 
             return Z;
@@ -487,8 +495,8 @@ namespace FCYangImageLibray
                 omega *= omegaN;
 
                 // half??
-                C[ k ] = C[ k ] / 2;
-                C[ k + half ] = C[ k + half ] / 2;
+                //C[ k ] = C[ k ] / 2;
+                //C[ k + half ] = C[ k + half ] / 2;
             }
 
             //return Z;
