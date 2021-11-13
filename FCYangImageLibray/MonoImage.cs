@@ -12,6 +12,36 @@ namespace FCYangImageLibray
 
     public class MonoImage
     {
+        public static double ZeroCenterFunction( int r, int c )
+        {
+            if( r == 0 && r == 0 ) return 0;
+            else return 1;
+        }
+
+
+        public static MonoImage FrequencyDomainFiltering( MonoImage target, FilterFunctionReal filterFunction, Padding pad = Padding.None )
+        {
+            if( pad == Padding.None )
+            {
+
+            }
+
+            return null;
+        }
+
+        public static MonoImage FrequencyDomainFiltering( MonoImage target, FilterFunctionComplex filterFunction, Padding pad = Padding.None )
+        {
+            return null;
+        }
+
+        public static MonoImage FrequencyDomainFiltering( MonoImage target, Complex[ , ] filter, Padding pad = Padding.None )
+        {
+            return null;
+        }
+
+
+
+
         public static StringBuilder TextMessage = new StringBuilder( );
 
         public static MonoImage ExtractSpecturmAndPhaseAngleImages( MonoImage source,  out MonoImage phaseAngleImg, out MonoImage centeredSpectrum, 
@@ -36,7 +66,7 @@ namespace FCYangImageLibray
             int[ , ] spectrum = new int[ height, width ];
             TextMessage.AppendLine( $"(1) Standard DFT for Spectrum: " );
             start = DateTime.Now;
-            forwarded = Fourier.DiscreteFourierTransform( source );
+            forwarded = Fourier.DiscreteFourierTransform2DImage( source );
 
             for( int r = 0 ; r < height ; r++ )
                 for( int c = 0 ; c < width ; c++ )
@@ -61,7 +91,7 @@ namespace FCYangImageLibray
             TextMessage.AppendLine( $"(2) Standard DEF for Center-Shifted Spectrum: " );
 
             start = DateTime.Now;
-            forwarded = Fourier.DiscreteFourierTransform( source, true );
+            forwarded = Fourier.DiscreteFourierTransform2DImage( source, true );
             for( int r = 0 ; r < height ; r++ )
                 for( int c = 0 ; c < width ; c++ )
                 {

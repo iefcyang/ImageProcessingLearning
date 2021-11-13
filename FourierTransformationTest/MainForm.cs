@@ -32,7 +32,7 @@ namespace FourierTransformationTest
                     y[c] = Math.Sin(c / 3.0);
                     sine.Points.AddXY(c, y[c]);
                 }
-                z = Fourier.DiscreteFourierTransform(y);
+                z = Fourier.Discrete1DTransform(y);
             }
             else
             {
@@ -92,7 +92,7 @@ namespace FourierTransformationTest
 
             rtbOutput.AppendText( "\n\nDiscrete FT : \n" );
             start = DateTime.Now;
-            Complex[ ] X = Fourier.DiscreteFourierTransform( C );
+            Complex[ ] X = Fourier.Discrete1DTransform( C );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
             if( power <= 10 ) rtbOutput.AppendText(Complex.ArrayText(X) );
 
@@ -145,13 +145,13 @@ namespace FourierTransformationTest
 
             rtbOutput.AppendText( "\n\nDiscrete FT : \n" );
             start = DateTime.Now;
-            Complex[, ] X = Fourier.DiscreteFourier2DTransform( C );
+            Complex[, ] X = Fourier.Discrete2DTransform( C );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
             if( power <= 10 ) rtbOutput.AppendText( Complex.MatrixText( X ) );
 
             rtbOutput.AppendText( "\n\n+ Inverse FFT : \n" );
             start = DateTime.Now;
-            C = Fourier.InverseTDiscreteFourier2Dransform( X );
+            C = Fourier.Discrete2DInverseTransform( X );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
             if( power <= 10 ) rtbOutput.AppendText( Complex.MatrixText( C ) );
 

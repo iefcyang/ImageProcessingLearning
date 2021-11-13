@@ -58,6 +58,9 @@ namespace _2021HWK04
             labFive.Text = "";
             pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
+
+
+            MonoImage.FrequencyDomainFiltering( null, MonoImage.ZeroCenterFunction, FCYangImageLibray.Padding.Zero );
         }
 
         private void btnBlurAndRecover_Click(object sender, EventArgs e)
