@@ -9,30 +9,228 @@ namespace FCYangImageLibray
     {
         Median, Min, Max
     }
+    public enum Padding
+    {
+        None, Zero, Mirrow, Replicate
+    }
+
+    public class Filter
+    { 
+        public virtual Complex GetValue( double distanceToCenter) { return new Complex(0, 0); }
+    }
+
+    public class ZeroCenterLowPassFilter : Filter
+    {
+        public override Complex GetValue(double distanceToCenter)
+        {
+            if (distanceToCenter == 0) return new Complex(0,0);
+            else return new Complex(1,0);
+        }
+    }
+
+    public class IdealLowPassFilter : Filter
+    {
+        double radius = 10.0;
+        public IdealLowPassFilter( double dis )
+        {
+            radius = dis;
+        }
+        public override Complex GetValue(double distanceToCenter)
+        {
+            if (distanceToCenter <= radius) return new Complex(1, 0);
+            else return new Complex(0, 0);
+        }
+    }
+
+    public class ButterworthLowPassFilter : Filter
+    {
+        int order = 2;
+        double radius = 10.0;
+
+        public ButterworthLowPassFilter(double radius, int order )
+        {
+            this.radius = radius;
+            this.order = order;
+        }
+
+        public override Complex GetValue(double distanceToCenter)
+        {
+            double temp =1.0 + Math.Pow(distanceToCenter / radius, 2 * order);
+            return new Complex(1.0/temp, 0);
+        }
+    }
+
+
+
+    public class GaussianLowPassFilter : Filter
+    {
+        double std = 10.0;
+
+        public GaussianLowPassFilter(double value)
+        {
+        }
+
+        public override Complex GetValue(double distanceToCenter)
+        {
+            double temp = distanceToCenter / std;
+            double real = Math.Exp(-0.5 * temp * temp);
+            return new Complex(real, 0);
+        }
+    }
+
 
     public class MonoImage
     {
-        public static double ZeroCenterFunction( int r, int c )
+ 
+        /// <summary>
+        ///  (1) padding target image and set (-1)^(x+y) for centered Fourier Transform
+        ///  (2) Perform forwad Fourier Transform
+        ///  (3) Element-wise multiplication of filter function and the Fourier 
+        ///  (4) Perform Inverse Fourier Transform
+        ///  (5) Get clipper Image and set (-1)^(x+y) conversion
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="filterUsed"></param>
+        /// <param name="pad"></param>
+        /// <returns></returns>
+        public static MonoImage FrequencyDomainFiltering( MonoImage target, Filter filterUsed, Padding pad = Padding.None )
         {
-            if( r == 0 && r == 0 ) return 0;
-            else return 1;
-        }
-
-
-        public static MonoImage FrequencyDomainFiltering( MonoImage target, FilterFunctionReal filterFunction, Padding pad = Padding.None )
-        {
-            if( pad == Padding.None )
+            int p , q;
+            if( pad == Padding.None)
             {
+                p = target.height;
+                q = target.width;
+            }
+            else
+            {
+                p = target.height * 2;
+                q = target.width * 2;
+            }
+            int centerU, centerV;
+            centerU = p / 2;
+            centerV = q / 2;
 
+            // (1) Padding & interchangely alter signs
+            double[,] augmentedCenteredImage = new double[p, q];
+            bool positive = true;
+            for( int r = 0; r < p; r++)
+            {
+                positive = r % 2 == 0;
+
+                if (r < target.height)
+                {
+                    // upper half
+                    for (int c = 0; c < q; c++)
+                    {
+                        if ( c < target.width )
+                        {
+                            // First quadrant
+                            augmentedCenteredImage[r, c] = positive ? target.pixels[r, c] : -target.pixels[r, c];
+                        }
+                        else  
+                        {
+                            // Second quadrant
+                            switch (pad)
+                            {
+                                case Padding.Zero:
+                                    augmentedCenteredImage[r, c] = 0;
+                                    break;
+                                case Padding.Mirrow:
+                                    augmentedCenteredImage[r, c] = positive ?
+                                        target.pixels[r, target.width + target.width - c] : -target.pixels[r, target.width + target.width - c ];
+                                    break;
+                                case Padding.Replicate:
+                                    augmentedCenteredImage[r, c] = positive ? 
+                                        target.pixels[r, c-target.width] : -target.pixels[r, c-target.width];
+                                    break;
+                            }
+                        }
+                        positive = !positive;
+                    }
+                }
+                else
+                {
+                    // lower half
+                    for (int c = 0; c < q; c++)
+                    {
+                        if (c < target.width)
+                        {
+
+                            // Third quadrant
+                            switch (pad)
+                            {
+                                case Padding.Zero:
+                                    augmentedCenteredImage[r, c] = 0;
+                                    break;
+                                case Padding.Mirrow:
+                                    augmentedCenteredImage[r, c] = positive ?
+                                        target.pixels[target.height + target.height - r,  c] : -target.pixels[ target.height + target.height - r, c];
+                                    break;
+                                case Padding.Replicate:
+                                    augmentedCenteredImage[r, c] = positive ?
+                                        target.pixels[r - target.height, c ] : - target.pixels[r - target.height, c ];
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            // Forth quadrant
+                            switch (pad)
+                            {
+                                case Padding.Zero:
+                                    augmentedCenteredImage[r, c] = 0;
+                                    break;
+                                case Padding.Mirrow:
+                                    augmentedCenteredImage[r, c] = positive ?
+                                        target.pixels[target.height + target.height - r, target.width + target.width - c] :
+                                        -target.pixels[target.height + target.height - r, target.width + target.width - c];
+                                    break;
+                                case Padding.Replicate:
+                                    augmentedCenteredImage[r, c] = positive ?
+                                        target.pixels[r - target.height, c-target.width] : -target.pixels[r - target.height, c-target.width];
+                                    break;
+                            }
+                        }
+                        positive = !positive;
+                    }
+                }
             }
 
-            return null;
+            // (2) Perform forwad Fourier Transform
+            Complex[,] FTransformed = Fourier.Discrete2DTransform( augmentedCenteredImage, true );
+
+            // (3) Element - wise multiplication of filter function and the Fourier
+            for( int r = 0; r <= p/2; r++  )
+                for( int c = 0; c <= q/2; c++)
+                {
+                    double dis = Math.Sqrt((r - centerU) * (r - centerU) + (c - centerV) * (c - centerV));
+                    Complex C = filterUsed.GetValue( dis ); // Filter function value
+                    FTransformed[r, c] *= C;
+                    FTransformed[p-1-r, c] *= C;
+                    FTransformed[r, q-1-c] *= C;
+                    FTransformed[p-1-r, q-1-c] *= C;
+                }
+
+            // (4) Perform Inverse Fourier Transform
+            Complex[,] Filtered = Fourier.Discrete2DInverseTransform(FTransformed);
+
+            // (5) Get clipper Image and set (-1)^(x+y) conversion
+            int[,] resultPixels = new int[target.height, target.width];
+            for( int r = 0; r< target.height; r++)
+                for( int c = 0; c < target.width; c++)
+                {
+                    resultPixels[r, c] = (int)FTransformed[r, c].real;
+                    if (resultPixels[r, c] < 0) resultPixels[r, c] = 0;
+                    if (resultPixels[r, c] > 255) resultPixels[r, c] = 255;
+                }
+
+            return new MonoImage(resultPixels);
         }
 
-        public static MonoImage FrequencyDomainFiltering( MonoImage target, FilterFunctionComplex filterFunction, Padding pad = Padding.None )
-        {
-            return null;
-        }
+        //public static MonoImage FrequencyDomainFiltering( MonoImage target, FilterFunctionComplex filterFunction, Padding pad = Padding.None )
+        //{
+        //    return null;
+        //}
 
         public static MonoImage FrequencyDomainFiltering( MonoImage target, Complex[ , ] filter, Padding pad = Padding.None )
         {

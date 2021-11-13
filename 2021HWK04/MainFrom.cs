@@ -14,6 +14,13 @@ namespace _2021HWK04
             InitializeComponent( );
         }
 
+        MonoImage ReadInOriginalImage()
+        {
+            dlgOpen.FileName = "*.*";
+            if (dlgOpen.ShowDialog() != DialogResult.OK) return null;
+            return new MonoImage(new Bitmap(dlgOpen.FileName));
+        }
+
         private void btnGetImageForFFT_Click(object sender, EventArgs e)
         {
             labOne.Text = "Original Image";
@@ -22,12 +29,11 @@ namespace _2021HWK04
             labFour.Text = "Log Transformed Spectrum";
             labFive.Text = "Phase Angle";
             pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
+ 
+            MonoImage original = ReadInOriginalImage();
+            if (original == null) return;
 
-            dlgOpen.FileName = "*.*";
-            if (dlgOpen.ShowDialog() != DialogResult.OK) return;
             MonoImage spectrum, phaseAngle, centeredSpectrum, LogTransformedSpectrum;
-            Bitmap bmp = new Bitmap(dlgOpen.FileName);
-            MonoImage original = new MonoImage(bmp);
             pcbOne.Image = original.displayedBitmap;
 
             tlpMain.Refresh( );
@@ -59,8 +65,42 @@ namespace _2021HWK04
             pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
 
+            MonoImage original = ReadInOriginalImage();
+            if (original == null) return;
+            Cursor = Cursors.WaitCursor;
 
-            MonoImage.FrequencyDomainFiltering( null, MonoImage.ZeroCenterFunction, FCYangImageLibray.Padding.Zero );
+            pcbOne.Image = original.displayedBitmap;
+            pcbOne.Refresh();
+
+            DateTime start = DateTime.Now;
+            // Ideal Filter
+            Filter Ifilter = new IdealLowPassFilter((double)nudRadiusIdeal.Value);
+            MonoImage resultFromIdealFilter = MonoImage.FrequencyDomainFiltering(original, Ifilter, FCYangImageLibray.Padding.Zero);
+            pcbThree.Image = resultFromIdealFilter.displayedBitmap;
+            Console.Beep();
+            labMessage.Text = $"Ideal Filtering Done: {DateTime.Now - start}   ";
+            statusStrip1.Refresh();
+
+            start = DateTime.Now;
+            // Butterworth Filter
+            Filter Bfilter = new ButterworthLowPassFilter((double)nudRadiusButterworth.Value, (int)nudOrderButterworth.Value);
+            MonoImage resultFromButterworthFilter = MonoImage.FrequencyDomainFiltering(original, Bfilter, FCYangImageLibray.Padding.Zero);
+            pcbThree.Image = resultFromButterworthFilter.displayedBitmap;
+            Console.Beep();
+            labMessage.Text += $"ButterWorth Filtering Done: {DateTime.Now - start}   ";
+            statusStrip1.Refresh();
+
+            start = DateTime.Now;
+            // Gaussian Filter
+            Filter Gfilter = new GaussianLowPassFilter((double)nudStdGaussian.Value);
+            MonoImage resultFromGaussianFIlter = MonoImage.FrequencyDomainFiltering(original, Gfilter, FCYangImageLibray.Padding.Zero);
+            pcbFour.Image = resultFromGaussianFIlter.displayedBitmap;
+            Console.Beep();
+            labMessage.Text += $"Gaussian Filtering Done: {DateTime.Now - start}   ";
+            statusStrip1.Refresh();
+
+            Cursor = Cursors.Default;
+
         }
 
         private void btnBlurAndRecover_Click(object sender, EventArgs e)

@@ -3,12 +3,9 @@ using System;
 
 namespace FCYangImageLibray
 {
-    public enum Padding
-    {
-        None,  Zero, Mirrow, Reflect
-    }
-    public delegate Complex FilterFunctionComplex( int r, int c );
-    public delegate double FilterFunctionReal( int r, int c );
+
+    public delegate Complex FilterFunctionComplex( double dis );
+    public delegate double FilterFunctionReal( double dis  );
     public class Fourier
     {
 
@@ -97,6 +94,34 @@ namespace FCYangImageLibray
             return output;
         }
 
+
+        public static Complex[,] Discrete2DTransform(double[,] x, bool ToComplex = true)
+        {
+            int rows = x.GetLength(0);
+            int cols = x.GetLength(1);
+            Complex[] xary = new Complex[cols];
+            Complex[] yary = new Complex[rows];
+            Complex[] C;
+            Complex[,] output = new Complex[rows, cols];
+
+            // Row-wise transform
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++) xary[c] = new Complex(x[r, c], 0);
+                C = Discrete1DTransform(xary);
+                for (int c = 0; c < cols; c++) output[r, c] = C[c];
+            }
+            // Column-wise transform
+            for (int c = 0; c < cols; c++)
+            {
+                for (int r = 0; r < rows; r++) yary[r] = output[r, c];
+                C = Discrete1DTransform(yary);
+                for (int r = 0; r < rows; r++) output[r, c] = C[r];
+            }
+            return output;
+        }
+
+
         public static double[ , ] Discrete2DTransform( double[ , ] x )
         {
             int rows = x.GetLength( 0 );
@@ -144,6 +169,8 @@ namespace FCYangImageLibray
             }
             return Z;
         }
+
+
 
         public static Complex[ ] Discrete1DTransform( double[ ] x )
         {
