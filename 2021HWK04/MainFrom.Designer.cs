@@ -38,6 +38,16 @@ namespace _2021HWK04
             this.rtbOutput = new System.Windows.Forms.RichTextBox();
             this.btnGetImageForFFT = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cbxPad = new System.Windows.Forms.ComboBox();
+            this.nudStdGaussian = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
+            this.nudOrderButterworth = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.nudRadiusButterworth = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nudRadiusIdeal = new System.Windows.Forms.NumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
             this.btnIdealButterworthAndGaussianFiltering = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.nudDsub0 = new System.Windows.Forms.NumericUpDown();
@@ -76,18 +86,14 @@ namespace _2021HWK04
             this.pcbFour = new System.Windows.Forms.PictureBox();
             this.labFour = new System.Windows.Forms.Label();
             this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
-            this.label5 = new System.Windows.Forms.Label();
-            this.nudRadiusIdeal = new System.Windows.Forms.NumericUpDown();
-            this.nudRadiusButterworth = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.nudOrderButterworth = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
-            this.nudStdGaussian = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.pagProblem1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStdGaussian)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudOrderButterworth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRadiusButterworth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRadiusIdeal)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDsub0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudGamaL)).BeginInit();
@@ -116,10 +122,6 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pcbOne)).BeginInit();
             this.pnlFour.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbFour)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRadiusIdeal)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRadiusButterworth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudOrderButterworth)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudStdGaussian)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -182,7 +184,7 @@ namespace _2021HWK04
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbOutput.Location = new System.Drawing.Point(8, 47);
             this.rtbOutput.Name = "rtbOutput";
-            this.rtbOutput.Size = new System.Drawing.Size(316, 228);
+            this.rtbOutput.Size = new System.Drawing.Size(316, 231);
             this.rtbOutput.TabIndex = 1;
             this.rtbOutput.Text = "";
             // 
@@ -200,6 +202,8 @@ namespace _2021HWK04
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label11);
+            this.tabPage2.Controls.Add(this.cbxPad);
             this.tabPage2.Controls.Add(this.nudStdGaussian);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.nudOrderButterworth);
@@ -218,11 +222,132 @@ namespace _2021HWK04
             this.tabPage2.Text = "(2) Ideal, Butterworth, Gaussian Filters";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(19, 225);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(95, 16);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "Image Padding";
+            // 
+            // cbxPad
+            // 
+            this.cbxPad.FormattingEnabled = true;
+            this.cbxPad.Location = new System.Drawing.Point(125, 217);
+            this.cbxPad.Name = "cbxPad";
+            this.cbxPad.Size = new System.Drawing.Size(185, 24);
+            this.cbxPad.TabIndex = 13;
+            // 
+            // nudStdGaussian
+            // 
+            this.nudStdGaussian.Location = new System.Drawing.Point(169, 128);
+            this.nudStdGaussian.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudStdGaussian.Name = "nudStdGaussian";
+            this.nudStdGaussian.Size = new System.Drawing.Size(79, 23);
+            this.nudStdGaussian.TabIndex = 12;
+            this.nudStdGaussian.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(19, 130);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(110, 16);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "Gaussian Filte STD";
+            // 
+            // nudOrderButterworth
+            // 
+            this.nudOrderButterworth.Location = new System.Drawing.Point(169, 86);
+            this.nudOrderButterworth.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudOrderButterworth.Name = "nudOrderButterworth";
+            this.nudOrderButterworth.Size = new System.Drawing.Size(79, 23);
+            this.nudOrderButterworth.TabIndex = 10;
+            this.nudOrderButterworth.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(122, 88);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 16);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Order";
+            // 
+            // nudRadiusButterworth
+            // 
+            this.nudRadiusButterworth.Location = new System.Drawing.Point(169, 57);
+            this.nudRadiusButterworth.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudRadiusButterworth.Name = "nudRadiusButterworth";
+            this.nudRadiusButterworth.Size = new System.Drawing.Size(79, 23);
+            this.nudRadiusButterworth.TabIndex = 8;
+            this.nudRadiusButterworth.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(19, 59);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(144, 16);
+            this.label6.TabIndex = 7;
+            this.label6.Text = "Butterworth Filter Radius";
+            // 
+            // nudRadiusIdeal
+            // 
+            this.nudRadiusIdeal.Location = new System.Drawing.Point(169, 19);
+            this.nudRadiusIdeal.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudRadiusIdeal.Name = "nudRadiusIdeal";
+            this.nudRadiusIdeal.Size = new System.Drawing.Size(79, 23);
+            this.nudRadiusIdeal.TabIndex = 6;
+            this.nudRadiusIdeal.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(19, 21);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(107, 16);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Ideal Filter Radius";
+            // 
             // btnIdealButterworthAndGaussianFiltering
             // 
             this.btnIdealButterworthAndGaussianFiltering.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnIdealButterworthAndGaussianFiltering.Location = new System.Drawing.Point(22, 173);
+            this.btnIdealButterworthAndGaussianFiltering.Location = new System.Drawing.Point(22, 157);
             this.btnIdealButterworthAndGaussianFiltering.Name = "btnIdealButterworthAndGaussianFiltering";
             this.btnIdealButterworthAndGaussianFiltering.Size = new System.Drawing.Size(288, 37);
             this.btnIdealButterworthAndGaussianFiltering.TabIndex = 4;
@@ -702,110 +827,6 @@ namespace _2021HWK04
             this.dlgOpen.FileName = "*.*";
             this.dlgOpen.Filter = "Image File|jpg|Image File|png";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(19, 21);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(107, 16);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Ideal Filter Radius";
-            // 
-            // nudRadiusIdeal
-            // 
-            this.nudRadiusIdeal.Location = new System.Drawing.Point(169, 19);
-            this.nudRadiusIdeal.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudRadiusIdeal.Name = "nudRadiusIdeal";
-            this.nudRadiusIdeal.Size = new System.Drawing.Size(79, 23);
-            this.nudRadiusIdeal.TabIndex = 6;
-            this.nudRadiusIdeal.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            // 
-            // nudRadiusButterworth
-            // 
-            this.nudRadiusButterworth.Location = new System.Drawing.Point(169, 57);
-            this.nudRadiusButterworth.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudRadiusButterworth.Name = "nudRadiusButterworth";
-            this.nudRadiusButterworth.Size = new System.Drawing.Size(79, 23);
-            this.nudRadiusButterworth.TabIndex = 8;
-            this.nudRadiusButterworth.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(19, 59);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(144, 16);
-            this.label6.TabIndex = 7;
-            this.label6.Text = "Butterworth Filter Radius";
-            // 
-            // nudOrderButterworth
-            // 
-            this.nudOrderButterworth.Location = new System.Drawing.Point(169, 86);
-            this.nudOrderButterworth.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudOrderButterworth.Name = "nudOrderButterworth";
-            this.nudOrderButterworth.Size = new System.Drawing.Size(79, 23);
-            this.nudOrderButterworth.TabIndex = 10;
-            this.nudOrderButterworth.Value = new decimal(new int[] {
-            3,
-            0,
-            0,
-            0});
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(122, 88);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(41, 16);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "Order";
-            // 
-            // nudStdGaussian
-            // 
-            this.nudStdGaussian.Location = new System.Drawing.Point(169, 128);
-            this.nudStdGaussian.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.nudStdGaussian.Name = "nudStdGaussian";
-            this.nudStdGaussian.Size = new System.Drawing.Size(79, 23);
-            this.nudStdGaussian.TabIndex = 12;
-            this.nudStdGaussian.Value = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(19, 130);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(110, 16);
-            this.label10.TabIndex = 11;
-            this.label10.Text = "Gaussian Filte STD";
-            // 
             // MainFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -826,6 +847,10 @@ namespace _2021HWK04
             this.pagProblem1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStdGaussian)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudOrderButterworth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRadiusButterworth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudRadiusIdeal)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDsub0)).EndInit();
@@ -856,10 +881,6 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pcbOne)).EndInit();
             this.pnlFour.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pcbFour)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRadiusIdeal)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudRadiusButterworth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudOrderButterworth)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudStdGaussian)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -921,6 +942,8 @@ namespace _2021HWK04
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown nudRadiusButterworth;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cbxPad;
+        private System.Windows.Forms.Label label11;
     }
 }
 

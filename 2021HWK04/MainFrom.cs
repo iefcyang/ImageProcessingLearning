@@ -12,6 +12,8 @@ namespace _2021HWK04
         public MainFrom( )
         {
             InitializeComponent( );
+            cbxPad.DataSource = Enum.GetValues(typeof(FCYangImageLibray.Padding));
+            cbxPad.SelectedIndex = 1;
         }
 
         MonoImage ReadInOriginalImage()
@@ -75,8 +77,10 @@ namespace _2021HWK04
             DateTime start = DateTime.Now;
             // Ideal Filter
             Filter Ifilter = new IdealLowPassFilter((double)nudRadiusIdeal.Value);
-            MonoImage resultFromIdealFilter = MonoImage.FrequencyDomainFiltering(original, Ifilter, FCYangImageLibray.Padding.Zero);
-            pcbThree.Image = resultFromIdealFilter.displayedBitmap;
+            FCYangImageLibray.Padding pad = (FCYangImageLibray.Padding)cbxPad.SelectedItem;
+            MonoImage resultFromIdealFilter = MonoImage.FrequencyDomainFiltering(original, Ifilter, pad);
+            pcbTwo.Image = resultFromIdealFilter.displayedBitmap;
+            pcbTwo.Refresh();
             Console.Beep();
             labMessage.Text = $"Ideal Filtering Done: {DateTime.Now - start}   ";
             statusStrip1.Refresh();
@@ -86,6 +90,7 @@ namespace _2021HWK04
             Filter Bfilter = new ButterworthLowPassFilter((double)nudRadiusButterworth.Value, (int)nudOrderButterworth.Value);
             MonoImage resultFromButterworthFilter = MonoImage.FrequencyDomainFiltering(original, Bfilter, FCYangImageLibray.Padding.Zero);
             pcbThree.Image = resultFromButterworthFilter.displayedBitmap;
+            pcbThree.Refresh();
             Console.Beep();
             labMessage.Text += $"ButterWorth Filtering Done: {DateTime.Now - start}   ";
             statusStrip1.Refresh();
@@ -95,6 +100,7 @@ namespace _2021HWK04
             Filter Gfilter = new GaussianLowPassFilter((double)nudStdGaussian.Value);
             MonoImage resultFromGaussianFIlter = MonoImage.FrequencyDomainFiltering(original, Gfilter, FCYangImageLibray.Padding.Zero);
             pcbFour.Image = resultFromGaussianFIlter.displayedBitmap;
+            pcbFour.Refresh();
             Console.Beep();
             labMessage.Text += $"Gaussian Filtering Done: {DateTime.Now - start}   ";
             statusStrip1.Refresh();
@@ -129,6 +135,11 @@ namespace _2021HWK04
             labFive.Text = "";
             pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
 
         }
     }
