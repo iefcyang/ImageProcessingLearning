@@ -100,9 +100,10 @@ namespace FCYangImageLibray
     public class MotionBlurFilter : FourierTransformFilter
     {
         double a = 0.1, b = 0.1, T = 1.0;
-        public MotionBlurFilter(double aAlongX, double bAlongY, double Period )
+        bool inverse = false;
+        public MotionBlurFilter(double aAlongX, double bAlongY, double Period, bool inverse = false )
         {
-            a = aAlongX; b = bAlongY; T = Period;
+            a = aAlongX; b = bAlongY; T = Period; this.inverse = inverse;
         }
 
         public override bool ValueOnDistance => false;
@@ -110,11 +111,13 @@ namespace FCYangImageLibray
         public override Complex GetValue(int u, int v)
         {
             double theta = Math.PI * (u * a + v * b);
-
             Complex C = new Complex(Math.Cos(-theta), Math.Sin(-theta));
             if (theta == 0) return C;
             double temp =  T * Math.Sin(theta) / theta;
-            return temp * C;
+            if (!inverse)
+                return temp * C;
+            else
+                return 1.0 / (temp * C);
         }
         public  Complex oriGetValue(int u, int v)
         {

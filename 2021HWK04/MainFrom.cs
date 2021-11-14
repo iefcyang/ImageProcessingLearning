@@ -175,7 +175,9 @@ namespace _2021HWK04
 
             MonoImage original = ReadInOriginalImage();
             if (original == null) return;
+
             Cursor = Cursors.WaitCursor;
+
             pcbOne.Image = original.displayedBitmap;
             pcbOne.Refresh();
 
@@ -189,10 +191,22 @@ namespace _2021HWK04
             pcbTwo.Refresh();
 
             Console.Beep();
-            labMessage.Text = $"Time Spent: {DateTime.Now - start }";
-            Cursor = Cursors.Default;
+            labMessage.Text = $"Blur Completed! Time Spent: {DateTime.Now - start } ";
+            statusStrip1.Refresh();
+
+            start = DateTime.Now;
+            FourierTransformFilter inverseBlurFilter = new MotionBlurFilter((double)nudBlurA.Value, (double)nudBlurB.Value, (double)nudBlurT.Value, true );
+
+            MonoImage InverseRestored = MonoImage.FrequencyDomainFiltering(motionBlurred, inverseBlurFilter);
+            pcbThree.Image = InverseRestored.displayedBitmap;
+
+            Console.Beep();
+            labMessage.Text += $"Restore Completed! Time Spent: {DateTime.Now - start } ";
+
+           Cursor =  Cursors.Default;
 
         }
+            // Exact Inverse Filter
 
         private void btnAddNoiseAndRecover_Click(object sender, EventArgs e)
         {

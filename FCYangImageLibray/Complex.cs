@@ -100,6 +100,12 @@ namespace FCYangImageLibray
             return new Complex( a.real - b.real, a.imaginary - b.imaginary );
         }
 
+        public static Complex operator -(Complex a )
+        {
+            a.real = -a.real;
+            a.imaginary = -a.imaginary;
+            return a;
+        }
 
         public Complex Sub( Complex z )
         {
@@ -138,6 +144,22 @@ namespace FCYangImageLibray
             double r = ( a.real * b.real + a.imaginary * b.imaginary ) / d;
             double i = ( a.imaginary * b.real - a.real * b.imaginary ) / d;
             return new Complex( r, i );
+        }
+
+        public static Complex operator / (double k, Complex c)
+        {
+            double temp = c.real * c.real + c.imaginary * c.imaginary;
+            if (temp == 0)
+            {
+                c.real = 0;
+                c.imaginary = 0;
+            }
+            else
+            {
+                c.real = k * c.real / temp;
+                c.imaginary = -k * c.imaginary / temp;
+            }
+            return c;
         }
 
 
