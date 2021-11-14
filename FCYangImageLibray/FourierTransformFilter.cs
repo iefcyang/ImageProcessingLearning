@@ -3,8 +3,11 @@
 namespace FCYangImageLibray
 {
     public class FourierTransformFilter
-    { 
+    {
+        public virtual bool ValueOnDistance { get => true; }
+
         public virtual Complex GetValue( double distanceToCenter) { return new Complex(0, 0); }
+        public virtual Complex GetValue(int u, int v ) { return new Complex(0, 0); }
     }
 
     public class IdentityFilter : FourierTransformFilter
@@ -91,6 +94,35 @@ namespace FCYangImageLibray
             double temp = distanceToCenter / radius;             
             temp = low + (1.0 - Math.Exp(-c * temp * temp)) * range;
             return new Complex(temp, 0);
+        }
+    }
+
+    public class MotionBlurFilter : FourierTransformFilter
+    {
+        double a = 0.1, b = 0.1, T = 1.0;
+        public MotionBlurFilter(double aAlongX, double bAlongY, double Period )
+        {
+            a = aAlongX; b = bAlongY; T = Period;
+        }
+
+        public override bool ValueOnDistance => false;
+
+        public override Complex GetValue(int u, int v)
+        {
+            double theta = Math.PI * (u * a + v * b);
+
+            Complex C = new Complex(Math.Cos(-theta), Math.Sin(-theta));
+            if (theta == 0) return C;
+            double temp =  T * Math.Sin(theta) / theta;
+            return temp * C;
+        }
+        public  Complex oriGetValue(int u, int v)
+        {
+            double temp = Math.PI *(  u * a + v * b );
+            double sintemp = Math.Sin(temp);
+            double real = Math.Cos(-temp);
+            Complex result = new Complex(real, -sintemp);
+            return T / temp * sintemp * result;
         }
     }
 }

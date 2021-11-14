@@ -165,13 +165,33 @@ namespace _2021HWK04
 
         private void btnBlurAndRecover_Click(object sender, EventArgs e)
         {
-            labOne.Text = "Inverse Filter Recovered";
-            labTwo.Text = "Wiener Filter Recovered";
-            labThree.Text = "Inverse Image Difference";
-            labFour.Text = "Wiener Image Difference";
+            labOne.Text = "Original Image";
+            labTwo.Text = "Blurred Image";
+            labThree.Text = "Inverse Filter Recovered";
+            labFour.Text = "Wiener Filter Recovered";
             labFive.Text = "";
             pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
+
+            MonoImage original = ReadInOriginalImage();
+            if (original == null) return;
+            Cursor = Cursors.WaitCursor;
+            pcbOne.Image = original.displayedBitmap;
+            pcbOne.Refresh();
+
+            DateTime start = DateTime.Now;
+
+            FourierTransformFilter filter = new MotionBlurFilter((double)nudBlurA.Value, (double)nudBlurB.Value, (double)nudBlurT.Value);
+            //filter = new ZeroCenterLowPassFilter();
+            //filter = new IdealLowPassFilter(90);
+            MonoImage motionBlurred = MonoImage.FrequencyDomainFiltering(original, filter);
+            pcbTwo.Image = motionBlurred.displayedBitmap;
+            pcbTwo.Refresh();
+
+            Console.Beep();
+            labMessage.Text = $"Time Spent: {DateTime.Now - start }";
+            Cursor = Cursors.Default;
+
         }
 
         private void btnAddNoiseAndRecover_Click(object sender, EventArgs e)
@@ -179,7 +199,7 @@ namespace _2021HWK04
 
         }
 
-        int counter = 1;
+
         private void btnHomorphicFiltering_Click(object sender, EventArgs e)
         {
             labOne.Text = "Original Image";
@@ -193,12 +213,12 @@ namespace _2021HWK04
             MonoImage original = ReadInOriginalImage();
             if (original == null) return;
 
+            Cursor = Cursors.WaitCursor;
             labMessage.Text = "";
             pcbOne.Image = original.displayedBitmap;
             pcbOne.Refresh();
 
             DateTime start = DateTime.Now;
-            Cursor = Cursors.WaitCursor;
 
             Label[] labels = { labTwo, labThree, labFour, labFive };
             double power = (double)nudHomomorphicOrder.Value;
@@ -221,11 +241,9 @@ namespace _2021HWK04
 
             Console.Beep();
             labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
         }
 
-        private void label11_Click(object sender, EventArgs e)
-        {
 
-        }
     }
 }

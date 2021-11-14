@@ -144,17 +144,33 @@ namespace FCYangImageLibray
             for (int index = 0; index < filtersUsed.Length; index++)
             {
                 // (3) Element - wise multiplication of filter function and the Fourier
-                for (int r = 0; r <= p / 2; r++)
-                    for (int c = 0; c <= q / 2; c++)
-                    {
-                        double dis = Math.Sqrt((r - centerU) * (r - centerU) + (c - centerV) * (c - centerV));
-                        Complex C = filtersUsed[index].GetValue(dis); // Filter function value
-                        FTransformed[r, c] *= C;
-                        FTransformed[p - 1 - r, c] *= C;
-                        FTransformed[r, q - 1 - c] *= C;
-                        FTransformed[p - 1 - r, q - 1 - c] *= C;
-                    }
-
+                if (filtersUsed[index].ValueOnDistance)
+                {
+                    for (int r = 0; r <= p / 2; r++)
+                        for (int c = 0; c <= q / 2; c++)
+                        {
+                            Complex C;
+                            if (filtersUsed[index].ValueOnDistance)
+                            {
+                                double dis = Math.Sqrt((r - centerU) * (r - centerU) + (c - centerV) * (c - centerV));
+                                C = filtersUsed[index].GetValue(dis); // Filter function value
+                            }
+                            else
+                            {
+                                C = filtersUsed[index].GetValue(r - centerU, c - centerV);
+                            }
+                            FTransformed[r, c] *= C;
+                            FTransformed[p - 1 - r, c] *= C;
+                            FTransformed[r, q - 1 - c] *= C;
+                            FTransformed[p - 1 - r, q - 1 - c] *= C;
+                        }
+                }
+                else
+                {
+                    for (int r = 0; r < p ; r++)
+                        for (int c = 0; c < q; c++)
+                            FTransformed[r, c] *= filtersUsed[index].GetValue(r - centerU, c - centerV); 
+                }
                 // (4) Perform Inverse Fourier Transform
                 Complex[,] Filtered = Fourier.Discrete2DInverseTransform(FTransformed);
 
@@ -283,16 +299,30 @@ namespace FCYangImageLibray
             Complex[,] FTransformed = Fourier.Discrete2DTransform(augmentedCenteredImage, true);
 
             // (3) Element - wise multiplication of filter function and the Fourier
-            for (int r = 0; r <= p / 2; r++)
-                for (int c = 0; c <= q / 2; c++)
-                {
-                    double dis = Math.Sqrt((r - centerU) * (r - centerU) + (c - centerV) * (c - centerV));
-                    Complex C = filterUsed.GetValue(dis); // Filter function value
-                    FTransformed[r, c] *= C;
-                    FTransformed[p - 1 - r, c] *= C;
-                    FTransformed[r, q - 1 - c] *= C;
-                    FTransformed[p - 1 - r, q - 1 - c] *= C;
-                }
+            if (filterUsed.ValueOnDistance)
+            {
+                for (int r = 0; r <= p / 2; r++)
+                    for (int c = 0; c <= q / 2; c++)
+                    {
+                        double dis = Math.Sqrt((r - centerU) * (r - centerU) + (c - centerV) * (c - centerV));
+                        Complex C = filterUsed.GetValue(dis); // Filter function value
+                        FTransformed[r, c] *= C;
+                        FTransformed[p - 1 - r, c] *= C;
+                        FTransformed[r, q - 1 - c] *= C;
+                        FTransformed[p - 1 - r, q - 1 - c] *= C;
+                    }
+            }
+            else
+            {
+                for (int r = 0; r < p; r++)
+                    for (int c = 0; c < q; c++)
+                    {
+                       Complex C = filterUsed.GetValue(  r - centerU, c - centerV); // Filter function value
+                     //    Complex C = filterUsed.GetValue(r, c); // r-centerU, c - centerV); // Filter function value
+                        FTransformed[r, c] *= C;
+
+                    }
+            }
 
             // (4) Perform Inverse Fourier Transform
             Complex[,] Filtered = Fourier.Discrete2DInverseTransform(FTransformed);

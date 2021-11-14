@@ -59,13 +59,14 @@ namespace _2021HWK04
             this.btnHomorphicFiltering = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.nudBlurT = new System.Windows.Forms.NumericUpDown();
             this.btnAddNoiseAndRecover = new System.Windows.Forms.Button();
             this.btnBlurAndRecover = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.nudBlurA = new System.Windows.Forms.NumericUpDown();
+            this.nudBlurB = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -99,10 +100,10 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.nudHomomorphicOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBlurT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBlurA)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBlurB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -183,7 +184,7 @@ namespace _2021HWK04
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbOutput.Location = new System.Drawing.Point(8, 47);
             this.rtbOutput.Name = "rtbOutput";
-            this.rtbOutput.Size = new System.Drawing.Size(316, 237);
+            this.rtbOutput.Size = new System.Drawing.Size(316, 243);
             this.rtbOutput.TabIndex = 1;
             this.rtbOutput.Text = "";
             // 
@@ -212,11 +213,11 @@ namespace _2021HWK04
             this.tabPage2.Controls.Add(this.nudRadiusIdeal);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.btnIdealButterworthAndGaussianFiltering);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage2.Size = new System.Drawing.Size(330, 279);
+            this.tabPage2.Size = new System.Drawing.Size(330, 282);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "(2) Ideal, Butterworth, Gaussian Filters";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -460,13 +461,14 @@ namespace _2021HWK04
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.numericUpDown1);
+            this.tabPage4.Controls.Add(this.label1);
+            this.tabPage4.Controls.Add(this.nudBlurT);
             this.tabPage4.Controls.Add(this.btnAddNoiseAndRecover);
             this.tabPage4.Controls.Add(this.btnBlurAndRecover);
             this.tabPage4.Controls.Add(this.pictureBox2);
             this.tabPage4.Controls.Add(this.label3);
-            this.tabPage4.Controls.Add(this.numericUpDown3);
-            this.tabPage4.Controls.Add(this.numericUpDown2);
+            this.tabPage4.Controls.Add(this.nudBlurA);
+            this.tabPage4.Controls.Add(this.nudBlurB);
             this.tabPage4.Controls.Add(this.label8);
             this.tabPage4.Controls.Add(this.label4);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
@@ -476,19 +478,28 @@ namespace _2021HWK04
             this.tabPage4.Text = "(4) Inverse and Wiener Filtering";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // numericUpDown1
+            // label1
             // 
-            this.numericUpDown1.DecimalPlaces = 1;
-            this.numericUpDown1.Increment = new decimal(new int[] {
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 7);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(196, 16);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Motion Blur Degradation Eqation";
+            // 
+            // nudBlurT
+            // 
+            this.nudBlurT.DecimalPlaces = 1;
+            this.nudBlurT.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDown1.Location = new System.Drawing.Point(38, 120);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(102, 23);
-            this.numericUpDown1.TabIndex = 16;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.nudBlurT.Location = new System.Drawing.Point(214, 78);
+            this.nudBlurT.Name = "nudBlurT";
+            this.nudBlurT.Size = new System.Drawing.Size(58, 23);
+            this.nudBlurT.TabIndex = 16;
+            this.nudBlurT.Value = new decimal(new int[] {
             10,
             0,
             0,
@@ -499,7 +510,7 @@ namespace _2021HWK04
             this.btnAddNoiseAndRecover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddNoiseAndRecover.Enabled = false;
-            this.btnAddNoiseAndRecover.Location = new System.Drawing.Point(3, 193);
+            this.btnAddNoiseAndRecover.Location = new System.Drawing.Point(3, 240);
             this.btnAddNoiseAndRecover.Name = "btnAddNoiseAndRecover";
             this.btnAddNoiseAndRecover.Size = new System.Drawing.Size(319, 36);
             this.btnAddNoiseAndRecover.TabIndex = 4;
@@ -511,21 +522,20 @@ namespace _2021HWK04
             // 
             this.btnBlurAndRecover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBlurAndRecover.Location = new System.Drawing.Point(3, 149);
+            this.btnBlurAndRecover.Location = new System.Drawing.Point(8, 107);
             this.btnBlurAndRecover.Name = "btnBlurAndRecover";
             this.btnBlurAndRecover.Size = new System.Drawing.Size(319, 38);
             this.btnBlurAndRecover.TabIndex = 0;
-            this.btnBlurAndRecover.Text = "Blur Image and  Recover";
+            this.btnBlurAndRecover.Text = "Read and Blur Image Then  Recover";
             this.btnBlurAndRecover.UseVisualStyleBackColor = true;
             this.btnBlurAndRecover.Click += new System.EventHandler(this.btnBlurAndRecover_Click);
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox2.Location = new System.Drawing.Point(11, 26);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(330, 47);
+            this.pictureBox2.Size = new System.Drawing.Size(302, 46);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 3;
             this.pictureBox2.TabStop = false;
@@ -533,43 +543,43 @@ namespace _2021HWK04
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 122);
+            this.label3.Location = new System.Drawing.Point(193, 84);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(15, 16);
             this.label3.TabIndex = 15;
             this.label3.Text = "T";
             // 
-            // numericUpDown3
+            // nudBlurA
             // 
-            this.numericUpDown3.DecimalPlaces = 1;
-            this.numericUpDown3.Increment = new decimal(new int[] {
+            this.nudBlurA.DecimalPlaces = 1;
+            this.nudBlurA.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDown3.Location = new System.Drawing.Point(38, 62);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(102, 23);
-            this.numericUpDown3.TabIndex = 12;
-            this.numericUpDown3.Value = new decimal(new int[] {
+            this.nudBlurA.Location = new System.Drawing.Point(34, 78);
+            this.nudBlurA.Name = "nudBlurA";
+            this.nudBlurA.Size = new System.Drawing.Size(58, 23);
+            this.nudBlurA.TabIndex = 12;
+            this.nudBlurA.Value = new decimal(new int[] {
             1,
             0,
             0,
             65536});
             // 
-            // numericUpDown2
+            // nudBlurB
             // 
-            this.numericUpDown2.DecimalPlaces = 1;
-            this.numericUpDown2.Increment = new decimal(new int[] {
+            this.nudBlurB.DecimalPlaces = 1;
+            this.nudBlurB.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.numericUpDown2.Location = new System.Drawing.Point(38, 91);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(102, 23);
-            this.numericUpDown2.TabIndex = 14;
-            this.numericUpDown2.Value = new decimal(new int[] {
+            this.nudBlurB.Location = new System.Drawing.Point(124, 78);
+            this.nudBlurB.Name = "nudBlurB";
+            this.nudBlurB.Size = new System.Drawing.Size(58, 23);
+            this.nudBlurB.TabIndex = 14;
+            this.nudBlurB.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -578,7 +588,7 @@ namespace _2021HWK04
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 64);
+            this.label8.Location = new System.Drawing.Point(13, 80);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(15, 16);
             this.label8.TabIndex = 11;
@@ -587,7 +597,7 @@ namespace _2021HWK04
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 93);
+            this.label4.Location = new System.Drawing.Point(102, 82);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(16, 16);
             this.label4.TabIndex = 13;
@@ -840,10 +850,10 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBlurT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBlurA)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudBlurB)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
@@ -903,11 +913,11 @@ namespace _2021HWK04
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnAddNoiseAndRecover;
         private System.Windows.Forms.Button btnIdealButterworthAndGaussianFiltering;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown nudBlurT;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown nudBlurB;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown nudBlurA;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown nudRadiusIdeal;
         private System.Windows.Forms.Label label5;
@@ -925,6 +935,7 @@ namespace _2021HWK04
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.Label label1;
     }
 }
 
