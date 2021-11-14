@@ -14,8 +14,16 @@ namespace _2021HWK04
             InitializeComponent( );
             cbxPad.DataSource = Enum.GetValues(typeof(FCYangImageLibray.ImagePadding));
             cbxPad.SelectedIndex = 0;
+            initializeHomomorphicParameters();
         }
 
+        void  initializeHomomorphicParameters()
+        {
+            dgvParameters.Rows.Add(1.0, 1.0, 50);
+            dgvParameters.Rows.Add(1.5, 0.8, 40);
+            dgvParameters.Rows.Add(2.3, 0.6, 30);
+            dgvParameters.Rows.Add(3.0, 0.4, 20);
+        }
         MonoImage ReadInOriginalImage()
         {
             dlgOpen.FileName = "*.*";
@@ -78,7 +86,7 @@ namespace _2021HWK04
 
             DateTime start = DateTime.Now;
 
-            Filter[] filters = new Filter[3];
+            FourierTransformFilter[] filters = new FourierTransformFilter[3];
             // Ideal Filter
             filters[0] = new IdealLowPassFilter((double)nudRadiusIdeal.Value);
             // Butterworth Filter
@@ -122,7 +130,7 @@ namespace _2021HWK04
 
             DateTime start = DateTime.Now;
             // Ideal Filter
-            Filter Ifilter = new IdealLowPassFilter((double)nudRadiusIdeal.Value);
+            FourierTransformFilter Ifilter = new IdealLowPassFilter((double)nudRadiusIdeal.Value);
             //Ifilter = new IdentityFilter(); // ******** Debug
             MonoImage resultFromIdealFilter = MonoImage.FrequencyDomainFiltering(original, Ifilter, pad);
             pcbTwo.Image = resultFromIdealFilter.displayedBitmap;
@@ -133,7 +141,7 @@ namespace _2021HWK04
 
             start = DateTime.Now;
             // Butterworth Filter
-            Filter Bfilter = new ButterworthLowPassFilter((double)nudRadiusButterworth.Value, (int)nudOrderButterworth.Value);
+            FourierTransformFilter Bfilter = new ButterworthLowPassFilter((double)nudRadiusButterworth.Value, (int)nudOrderButterworth.Value);
             MonoImage resultFromButterworthFilter = MonoImage.FrequencyDomainFiltering(original, Bfilter, pad);
             pcbThree.Image = resultFromButterworthFilter.displayedBitmap;
             pcbThree.Refresh();
@@ -143,7 +151,7 @@ namespace _2021HWK04
 
             start = DateTime.Now;
             // Gaussian Filter
-            Filter Gfilter = new GaussianLowPassFilter((double)nudStdGaussian.Value);
+            FourierTransformFilter Gfilter = new GaussianLowPassFilter((double)nudStdGaussian.Value);
             MonoImage resultFromGaussianFIlter = MonoImage.FrequencyDomainFiltering(original, Gfilter, pad);
             pcbFour.Image = resultFromGaussianFIlter.displayedBitmap;
             pcbFour.Refresh();
@@ -182,6 +190,37 @@ namespace _2021HWK04
             pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
 
+            MonoImage original = ReadInOriginalImage();
+            if (original == null) return;
+
+            labMessage.Text = "";
+            pcbOne.Image = original.displayedBitmap;
+            pcbOne.Refresh();
+
+            DateTime start = DateTime.Now;
+            Cursor = Cursors.WaitCursor;
+
+            Label[] labels = { labTwo, labThree, labFour, labFive };
+            double power = (double)nudHomomorphicOrder.Value;
+            double high, low, radius;
+            FourierTransformFilter[] homomorphicFilters = new FourierTransformFilter[dgvParameters.RowCount];
+            for( int r = 0; r < dgvParameters.RowCount; r++)
+            {
+                high = (double)dgvParameters.Rows[r].Cells[0].Value;
+                low = (double)dgvParameters.Rows[r].Cells[1].Value;
+                radius = double.Parse(dgvParameters.Rows[r].Cells[2].Value.ToString());
+                homomorphicFilters[r] = new HomomorphicFilter(power, high, low, radius);
+                labels[r].Text = $"{ homomorphicFilters[r].ToString()} Transformed";
+                labels[r].Refresh();
+            }
+            MonoImage[] imgs = MonoImage.FrequencyDomainFiltering(original, homomorphicFilters, ImagePadding.None);
+            pcbTwo.Image = imgs[0].displayedBitmap;
+            pcbThree.Image = imgs[1].displayedBitmap;
+            pcbFour.Image = imgs[2].displayedBitmap;
+            pcbFive.Image = imgs[3].displayedBitmap;
+
+            Console.Beep();
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
         }
 
         private void label11_Click(object sender, EventArgs e)

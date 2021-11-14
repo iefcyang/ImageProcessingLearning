@@ -50,12 +50,12 @@ namespace _2021HWK04
             this.label5 = new System.Windows.Forms.Label();
             this.btnIdealButterworthAndGaussianFiltering = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.nudDsub0 = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.nudGamaL = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.nudGamaH = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
+            this.dgvParameters = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nudHomomorphicOrder = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
             this.btnHomorphicFiltering = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -95,9 +95,8 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.nudRadiusButterworth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudRadiusIdeal)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDsub0)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGamaL)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGamaH)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvParameters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHomomorphicOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -184,7 +183,7 @@ namespace _2021HWK04
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbOutput.Location = new System.Drawing.Point(8, 47);
             this.rtbOutput.Name = "rtbOutput";
-            this.rtbOutput.Size = new System.Drawing.Size(316, 231);
+            this.rtbOutput.Size = new System.Drawing.Size(316, 237);
             this.rtbOutput.TabIndex = 1;
             this.rtbOutput.Text = "";
             // 
@@ -357,111 +356,94 @@ namespace _2021HWK04
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.nudDsub0);
-            this.tabPage3.Controls.Add(this.label2);
-            this.tabPage3.Controls.Add(this.nudGamaL);
-            this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Controls.Add(this.nudGamaH);
-            this.tabPage3.Controls.Add(this.label7);
+            this.tabPage3.Controls.Add(this.dgvParameters);
+            this.tabPage3.Controls.Add(this.nudHomomorphicOrder);
+            this.tabPage3.Controls.Add(this.label12);
             this.tabPage3.Controls.Add(this.btnHomorphicFiltering);
             this.tabPage3.Controls.Add(this.pictureBox1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(330, 282);
+            this.tabPage3.Size = new System.Drawing.Size(330, 279);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "(3) Homomorphic Filtering";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // nudDsub0
+            // dgvParameters
             // 
-            this.nudDsub0.DecimalPlaces = 1;
-            this.nudDsub0.Increment = new decimal(new int[] {
+            this.dgvParameters.AllowUserToAddRows = false;
+            this.dgvParameters.AllowUserToDeleteRows = false;
+            this.dgvParameters.AllowUserToOrderColumns = true;
+            this.dgvParameters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvParameters.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3});
+            this.dgvParameters.Location = new System.Drawing.Point(3, 56);
+            this.dgvParameters.Name = "dgvParameters";
+            this.dgvParameters.RowHeadersVisible = false;
+            this.dgvParameters.RowTemplate.Height = 24;
+            this.dgvParameters.Size = new System.Drawing.Size(324, 172);
+            this.dgvParameters.TabIndex = 13;
+            // 
+            // Column1
+            // 
+            this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column1.HeaderText = "γH";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column2.HeaderText = "γL";
+            this.Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column3.HeaderText = "Do";
+            this.Column3.Name = "Column3";
+            // 
+            // nudHomomorphicOrder
+            // 
+            this.nudHomomorphicOrder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.nudHomomorphicOrder.DecimalPlaces = 1;
+            this.nudHomomorphicOrder.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.nudDsub0.Location = new System.Drawing.Point(44, 129);
-            this.nudDsub0.Name = "nudDsub0";
-            this.nudDsub0.Size = new System.Drawing.Size(68, 23);
-            this.nudDsub0.TabIndex = 10;
-            this.nudDsub0.Value = new decimal(new int[] {
-            10,
+            this.nudHomomorphicOrder.Location = new System.Drawing.Point(37, 245);
+            this.nudHomomorphicOrder.Name = "nudHomomorphicOrder";
+            this.nudHomomorphicOrder.Size = new System.Drawing.Size(68, 23);
+            this.nudHomomorphicOrder.TabIndex = 12;
+            this.nudHomomorphicOrder.Value = new decimal(new int[] {
+            5,
             0,
             0,
-            65536});
+            0});
             // 
-            // label2
+            // label12
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 131);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(25, 16);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "Do";
-            // 
-            // nudGamaL
-            // 
-            this.nudGamaL.DecimalPlaces = 1;
-            this.nudGamaL.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nudGamaL.Location = new System.Drawing.Point(44, 100);
-            this.nudGamaL.Name = "nudGamaL";
-            this.nudGamaL.Size = new System.Drawing.Size(68, 23);
-            this.nudGamaL.TabIndex = 8;
-            this.nudGamaL.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 102);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(21, 16);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "γL";
-            // 
-            // nudGamaH
-            // 
-            this.nudGamaH.DecimalPlaces = 1;
-            this.nudGamaH.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nudGamaH.Location = new System.Drawing.Point(44, 71);
-            this.nudGamaH.Name = "nudGamaH";
-            this.nudGamaH.Size = new System.Drawing.Size(68, 23);
-            this.nudGamaH.TabIndex = 6;
-            this.nudGamaH.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(14, 73);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(24, 16);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "γH";
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 247);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(14, 16);
+            this.label12.TabIndex = 11;
+            this.label12.Text = "c";
             // 
             // btnHomorphicFiltering
             // 
-            this.btnHomorphicFiltering.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnHomorphicFiltering.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHomorphicFiltering.Location = new System.Drawing.Point(3, 158);
+            this.btnHomorphicFiltering.Location = new System.Drawing.Point(116, 239);
             this.btnHomorphicFiltering.Name = "btnHomorphicFiltering";
-            this.btnHomorphicFiltering.Size = new System.Drawing.Size(319, 32);
+            this.btnHomorphicFiltering.Size = new System.Drawing.Size(211, 32);
             this.btnHomorphicFiltering.TabIndex = 3;
-            this.btnHomorphicFiltering.Text = "Blur Image and  Recover";
+            this.btnHomorphicFiltering.Text = "Run Homomorphic Filters";
             this.btnHomorphicFiltering.UseVisualStyleBackColor = true;
             this.btnHomorphicFiltering.Click += new System.EventHandler(this.btnHomorphicFiltering_Click);
             // 
@@ -853,9 +835,8 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.nudRadiusIdeal)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDsub0)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGamaL)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGamaH)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvParameters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHomomorphicOrder)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
@@ -918,16 +899,10 @@ namespace _2021HWK04
         private System.Windows.Forms.PictureBox pcbFive;
         private System.Windows.Forms.Label labFive;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnHomorphicFiltering;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnAddNoiseAndRecover;
         private System.Windows.Forms.Button btnIdealButterworthAndGaussianFiltering;
-        private System.Windows.Forms.NumericUpDown nudDsub0;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown nudGamaL;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown nudGamaH;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
@@ -944,6 +919,12 @@ namespace _2021HWK04
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cbxPad;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown nudHomomorphicOrder;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.DataGridView dgvParameters;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }
 

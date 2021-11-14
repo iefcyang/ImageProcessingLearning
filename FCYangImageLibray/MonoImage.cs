@@ -17,80 +17,10 @@ namespace FCYangImageLibray
     }
 
 
-    public class Filter
-    { 
-        public virtual Complex GetValue( double distanceToCenter) { return new Complex(0, 0); }
-    }
-
-    public class IdentityFilter : Filter
-    {
-        public override Complex GetValue(double distanceToCenter)
-        {
-            return new Complex(1, 0);
-        }
-    }
-    public class ZeroCenterLowPassFilter : Filter
-    {
-        public override Complex GetValue(double distanceToCenter)
-        {
-            if (distanceToCenter == 0) return new Complex(0,0);
-            else return new Complex(1,0);
-        }
-    }
-
-    public class IdealLowPassFilter : Filter
-    {
-        double radius = 10.0;
-        public IdealLowPassFilter( double dis )
-        {
-            radius = dis;
-        }
-        public override Complex GetValue(double distanceToCenter)
-        {
-            if (distanceToCenter <= radius) return new Complex(1, 0);
-            else return new Complex(0, 0);
-        }
-    }
-
-    public class ButterworthLowPassFilter : Filter
-    {
-        int order = 2;
-        double radius = 10.0;
-
-        public ButterworthLowPassFilter(double radius, int order )
-        {
-            this.radius = radius;
-            this.order = order;
-        }
-
-        public override Complex GetValue(double distanceToCenter)
-        {
-            double temp =1.0 + Math.Pow(distanceToCenter / radius, 2 * order);
-            return new Complex(1.0/temp, 0);
-        }
-    }
-
-
-
-    public class GaussianLowPassFilter : Filter
-    {
-        double std = 10.0;
-
-        public GaussianLowPassFilter(double value)
-        {
-        }
-
-        public override Complex GetValue(double distanceToCenter)
-        {
-            double temp = distanceToCenter / std;
-            double real = Math.Exp(-0.5 * temp * temp);
-            return new Complex(real, 0);
-        }
-    }
-
 
     public class MonoImage
     {
+        
  
         /// <summary>
         ///  (1) padding target image and set (-1)^(x+y) for centered Fourier Transform
@@ -103,7 +33,7 @@ namespace FCYangImageLibray
         /// <param name="filtersUsed"></param>
         /// <param name="pad"></param>
         /// <returns></returns>
-        public static MonoImage[] FrequencyDomainFiltering( MonoImage target, Filter[] filtersUsed, ImagePadding pad = ImagePadding.None )
+        public static MonoImage[] FrequencyDomainFiltering( MonoImage target, FourierTransformFilter[] filtersUsed, ImagePadding pad = ImagePadding.None )
         {
             MonoImage[] results = new MonoImage[filtersUsed.Length];
 
@@ -246,7 +176,7 @@ namespace FCYangImageLibray
             return results;
         }
 
-        public static MonoImage FrequencyDomainFiltering(MonoImage target, Filter filterUsed, ImagePadding pad = ImagePadding.None)
+        public static MonoImage FrequencyDomainFiltering(MonoImage target, FourierTransformFilter filterUsed, ImagePadding pad = ImagePadding.None)
         {
             int p, q;
             if (pad == ImagePadding.None)

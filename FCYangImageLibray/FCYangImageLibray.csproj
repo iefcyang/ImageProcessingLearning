@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="ColorImage.cs" />
     <Compile Include="Complex.cs" />
+    <Compile Include="FourierTransformFilter.cs" />
     <Compile Include="Fourier.cs" />
     <Compile Include="Mask.cs" />
     <Compile Include="MonoImage.cs" />
