@@ -10,12 +10,12 @@ namespace FCYangImageLibray
 
         public override string ToString( )
         {
-            return $"({real:0.00},{image:0.00})";
+            return $"({real:0.00},{imaginary:0.00})";
         }
         public override bool Equals( object obj )
         {
             Complex target = (Complex) obj;
-            if( real == target.real && image == target.image ) return true;
+            if( real == target.real && imaginary == target.imaginary ) return true;
             return false;
         }
 
@@ -25,7 +25,7 @@ namespace FCYangImageLibray
             StringBuilder sb = new StringBuilder( );
             foreach( Complex c in C )
             {
-                sb.Append( $"({c.real:0.00},{c.image:0.00}), " );
+                sb.Append( $"({c.real:0.00},{c.imaginary:0.00}), " );
             }
             sb.Append( $"Count = {C.Length}" );
             return sb.ToString( );
@@ -41,7 +41,7 @@ namespace FCYangImageLibray
             {
                 C[ i ] = new Complex( );
                 C[ i ].real = rnd.NextDouble( ) * upBound - half;
-                C[ i ].image = rnd.NextDouble( ) * upBound - half;
+                C[ i ].imaginary = rnd.NextDouble( ) * upBound - half;
             }
             return C;
         }
@@ -57,15 +57,15 @@ namespace FCYangImageLibray
             Complex[ ] ary = new Complex[ size ];
             for( int i = 0 ; i < size ; i++ )
             {
-                ary[ i ].real = ary[ i ].image = 0;
+                ary[ i ].real = ary[ i ].imaginary = 0;
                 for( int j = 0 ; j < size ; j++ )
                 {
                     Theta = ( Math.PI * 2 * i * j * DFTdir ) / size;
                     cosineA = Math.Cos( Theta );
                     sineA = Math.Sin( Theta );
 
-                    ary[ i ].real += inputs[ j ].real * cosineA - inputs[ j ].image * sineA;
-                    ary[ i ].image += inputs[ j ].real * sineA + inputs[ j ].image * cosineA;
+                    ary[ i ].real += inputs[ j ].real * cosineA - inputs[ j ].imaginary * sineA;
+                    ary[ i ].imaginary += inputs[ j ].real * sineA + inputs[ j ].imaginary * cosineA;
                 }
                 outputs.Add( ary[i] );
             }
@@ -73,44 +73,44 @@ namespace FCYangImageLibray
         }
 
 
-        public double real, image;
+        public double real, imaginary;
 
 
         public Complex( double r, double i )
         {
             real = r;
-            image = i;
+            imaginary = i;
         }
 
 
         public static Complex operator +( Complex a, Complex b )
         {
-            return new Complex( a.real + b.real, a.image + b.image );
+            return new Complex( a.real + b.real, a.imaginary + b.imaginary );
         }
 
 
         public Complex Add( Complex z )
         {
-            return new Complex( real + z.real, image + z.image );
+            return new Complex( real + z.real, imaginary + z.imaginary );
         }
 
 
         public static Complex operator -( Complex a, Complex b )
         {
-            return new Complex( a.real - b.real, a.image - b.image );
+            return new Complex( a.real - b.real, a.imaginary - b.imaginary );
         }
 
 
         public Complex Sub( Complex z )
         {
-            return new Complex( real - z.real, image - z.image );
+            return new Complex( real - z.real, imaginary - z.imaginary );
         }
 
 
         public static Complex operator *( Complex a, Complex b )
         {
-            double r = a.real * b.real - a.image * b.image;
-            double i = a.real * b.image + a.image * b.real;
+            double r = a.real * b.real - a.imaginary * b.imaginary;
+            double i = a.real * b.imaginary + a.imaginary * b.real;
             return new Complex( r, i );
         }
 
@@ -118,15 +118,15 @@ namespace FCYangImageLibray
         public static Complex operator *( double b, Complex a )
         {
             a.real *= b;
-            a.image *= b;
+            a.imaginary *= b;
             return a;
         }
 
 
         public Complex Mul( Complex z )
         {
-            double r = real * z.real - image * z.image;
-            double i = real * z.image + image * z.real;
+            double r = real * z.real - imaginary * z.imaginary;
+            double i = real * z.imaginary + imaginary * z.real;
 
             return new Complex( r, i );
         }
@@ -134,9 +134,9 @@ namespace FCYangImageLibray
 
         public static Complex operator /( Complex a, Complex b )
         {
-            double d = b.real * b.real + b.image * b.image;
-            double r = ( a.real * b.real + a.image * b.image ) / d;
-            double i = ( a.image * b.real - a.real * b.image ) / d;
+            double d = b.real * b.real + b.imaginary * b.imaginary;
+            double r = ( a.real * b.real + a.imaginary * b.imaginary ) / d;
+            double i = ( a.imaginary * b.real - a.real * b.imaginary ) / d;
             return new Complex( r, i );
         }
 
@@ -144,16 +144,16 @@ namespace FCYangImageLibray
         public static Complex operator /( Complex a, double b )
         {
             a.real /= b;
-            a.image /= b;
+            a.imaginary /= b;
             return a;
         }
 
 
         public Complex Div( Complex z )
         {
-            double d = z.real * z.real + z.image * z.image;
-            double r = ( real * z.real + image * z.image ) / d;
-            double i = ( image * z.real - real * z.image ) / d;
+            double d = z.real * z.real + z.imaginary * z.imaginary;
+            double r = ( real * z.real + imaginary * z.imaginary ) / d;
+            double i = ( imaginary * z.real - real * z.imaginary ) / d;
 
             return new Complex( r, i );
         }
@@ -161,15 +161,15 @@ namespace FCYangImageLibray
 
         public static double Abs( Complex z )
         {
-            return Math.Sqrt( z.real * z.real + z.image * z.image );
+            return Math.Sqrt( z.real * z.real + z.imaginary * z.imaginary );
         }
 
 
         public static Complex Exp( Complex z )
         {
             double e = Math.Exp( z.real );
-            double r = Math.Cos( z.image );
-            double i = Math.Sin( z.image );
+            double r = Math.Cos( z.imaginary );
+            double i = Math.Sin( z.imaginary );
 
             return new Complex( e * r, e * i );
         }
@@ -181,7 +181,7 @@ namespace FCYangImageLibray
             int cnt = 0;
             foreach( Complex c in C )
             {
-                sb.Append( $"({c.real:0.00},{c.image:0.00}), " );
+                sb.Append( $"({c.real:0.00},{c.imaginary:0.00}), " );
                 cnt++;
                 if( cnt >= cols)
                 {
@@ -193,15 +193,18 @@ namespace FCYangImageLibray
             return sb.ToString( );
         }
 
-        public static Complex[, ] Get2DMatrix( double upBound = 2000, int TwoPower = 8 )
+        public static Complex[, ] Get2DMatrix( double upBound = 2000, int TwoPower = 8, bool NoImaginary = false )
         {
             int n = 1;
             for( int i = 0 ; i < TwoPower ; i++ ) n *= 2;
             Complex[, ] C = new Complex[ n,n ];
             double half = upBound / 2;
-            for( int i = 0 ; i < n ; i++ )
-                for( int j = 0 ; j < n ; j++ )
-                    C[ i,j ] = new Complex( rnd.NextDouble( ) * upBound - half,rnd.NextDouble( ) * upBound - half );
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    if (NoImaginary)
+                        C[i, j] = new Complex(rnd.NextDouble() * upBound - half, 0);
+                    else
+                        C[i, j] = new Complex(rnd.NextDouble() * upBound - half, rnd.NextDouble() * upBound - half);
             return C;
         }
     }

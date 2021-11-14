@@ -12,8 +12,8 @@ namespace _2021HWK04
         public MainFrom( )
         {
             InitializeComponent( );
-            cbxPad.DataSource = Enum.GetValues(typeof(FCYangImageLibray.Padding));
-            cbxPad.SelectedIndex = 1;
+            cbxPad.DataSource = Enum.GetValues(typeof(FCYangImageLibray.ImagePadding));
+            cbxPad.SelectedIndex = 0;
         }
 
         MonoImage ReadInOriginalImage()
@@ -69,15 +69,61 @@ namespace _2021HWK04
 
             MonoImage original = ReadInOriginalImage();
             if (original == null) return;
+            labMessage.Text = "";
             Cursor = Cursors.WaitCursor;
 
             pcbOne.Image = original.displayedBitmap;
             pcbOne.Refresh();
+            FCYangImageLibray.ImagePadding pad = (FCYangImageLibray.ImagePadding)cbxPad.SelectedItem;
+
+            DateTime start = DateTime.Now;
+
+            Filter[] filters = new Filter[3];
+            // Ideal Filter
+            filters[0] = new IdealLowPassFilter((double)nudRadiusIdeal.Value);
+            // Butterworth Filter
+            filters[1] = new ButterworthLowPassFilter((double)nudRadiusButterworth.Value, (int)nudOrderButterworth.Value);
+            // Gaussian Filter
+            filters[2] = new GaussianLowPassFilter((double)nudStdGaussian.Value);
+
+            //Ifilter = new IdentityFilter(); // ******** Debug
+            MonoImage[] results = MonoImage.FrequencyDomainFiltering(original, filters, pad);
+
+            pcbTwo.Image = results[0].displayedBitmap;
+            pcbThree.Image = results[1].displayedBitmap;
+            pcbFour.Image = results[2].displayedBitmap;
+            Console.Beep();
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}   ";
+            statusStrip1.Refresh();
+
+            Cursor = Cursors.Default;
+
+        }
+
+
+        private void oribtnIdealButterworthAndGaussianFiltering_Click(object sender, EventArgs e)
+        {
+            labOne.Text = "Original Image";
+            labTwo.Text = "Ideal Filtering Result";
+            labThree.Text = "Butterworth Filtering Result";
+            labFour.Text = "Gaussian Filtering Result";
+            labFive.Text = "";
+            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
+            tlpMain.Refresh();
+
+            MonoImage original = ReadInOriginalImage();
+            if (original == null) return;
+            labMessage.Text = "";
+            Cursor = Cursors.WaitCursor;
+
+            pcbOne.Image = original.displayedBitmap;
+            pcbOne.Refresh();
+            FCYangImageLibray.ImagePadding pad = (FCYangImageLibray.ImagePadding)cbxPad.SelectedItem;
 
             DateTime start = DateTime.Now;
             // Ideal Filter
             Filter Ifilter = new IdealLowPassFilter((double)nudRadiusIdeal.Value);
-            FCYangImageLibray.Padding pad = (FCYangImageLibray.Padding)cbxPad.SelectedItem;
+            //Ifilter = new IdentityFilter(); // ******** Debug
             MonoImage resultFromIdealFilter = MonoImage.FrequencyDomainFiltering(original, Ifilter, pad);
             pcbTwo.Image = resultFromIdealFilter.displayedBitmap;
             pcbTwo.Refresh();
@@ -88,7 +134,7 @@ namespace _2021HWK04
             start = DateTime.Now;
             // Butterworth Filter
             Filter Bfilter = new ButterworthLowPassFilter((double)nudRadiusButterworth.Value, (int)nudOrderButterworth.Value);
-            MonoImage resultFromButterworthFilter = MonoImage.FrequencyDomainFiltering(original, Bfilter, FCYangImageLibray.Padding.Zero);
+            MonoImage resultFromButterworthFilter = MonoImage.FrequencyDomainFiltering(original, Bfilter, pad);
             pcbThree.Image = resultFromButterworthFilter.displayedBitmap;
             pcbThree.Refresh();
             Console.Beep();
@@ -98,7 +144,7 @@ namespace _2021HWK04
             start = DateTime.Now;
             // Gaussian Filter
             Filter Gfilter = new GaussianLowPassFilter((double)nudStdGaussian.Value);
-            MonoImage resultFromGaussianFIlter = MonoImage.FrequencyDomainFiltering(original, Gfilter, FCYangImageLibray.Padding.Zero);
+            MonoImage resultFromGaussianFIlter = MonoImage.FrequencyDomainFiltering(original, Gfilter, pad);
             pcbFour.Image = resultFromGaussianFIlter.displayedBitmap;
             pcbFour.Refresh();
             Console.Beep();

@@ -4,8 +4,9 @@ using System;
 namespace FCYangImageLibray
 {
 
-    public delegate Complex FilterFunctionComplex( double dis );
-    public delegate double FilterFunctionReal( double dis  );
+    //public delegate Complex FilterFunctionComplex( double dis );
+    //public delegate double FilterFunctionReal( double dis  );
+
     public class Fourier
     {
 
@@ -56,14 +57,14 @@ namespace FCYangImageLibray
             {
                 for( int c = 0 ; c < cols ; c++ ) xary[ c ] = x[ r, c ];
                 C = Discrete1DInverseTransfromToComplex( xary );
-                for( int c = 0 ; c < cols ; c++ ) output[ r, c ] = C[ c ] / cols;
+                for( int c = 0 ; c < cols ; c++ ) output[ r, c ] = C[ c ] ;
             }
             // Column-wise transform
             for( int c = 0 ; c < cols ; c++ )
             {
                 for( int r = 0 ; r < rows ; r++ ) yary[ r ] = output[ r, c ];
                 C = Discrete1DInverseTransfromToComplex( yary );
-                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = C[ r ] / rows;
+                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = C[ r ];
             }
             return output;
         }
@@ -95,6 +96,8 @@ namespace FCYangImageLibray
         }
 
 
+
+
         public static Complex[,] Discrete2DTransform(double[,] x, bool ToComplex = true)
         {
             int rows = x.GetLength(0);
@@ -107,7 +110,7 @@ namespace FCYangImageLibray
             // Row-wise transform
             for (int r = 0; r < rows; r++)
             {
-                for (int c = 0; c < cols; c++) xary[c] = new Complex(x[r, c], 0);
+                for (int c = 0; c < cols; c++) xary[c].real =  x[r, c];
                 C = Discrete1DTransform(xary);
                 for (int c = 0; c < cols; c++) output[r, c] = C[c];
             }
@@ -162,8 +165,8 @@ namespace FCYangImageLibray
                 {
                     double cs = Math.Cos( -twoPiOverN * k * n );
                     double ss = Math.Sin( -twoPiOverN * k * n );
-                    Z[ k ].real += x[ n ].real * cs - x[ n ].image * ss;
-                    Z[ k ].image += x[ n ].real * ss + x[ n ].image * cs;
+                    Z[ k ].real += x[ n ].real * cs - x[ n ].imaginary * ss;
+                    Z[ k ].imaginary += x[ n ].real * ss + x[ n ].imaginary * cs;
                 }
                // Z[ k ] = Z[ k ] / x.Length;
             }
@@ -185,7 +188,7 @@ namespace FCYangImageLibray
                 for( n = 0 ; n < x.Length ; n++ )
                 {
                     Z[ k ].real += x[ n ] * Math.Cos( -twoPiOverN * k * n );
-                    Z[ k ].image += x[ n ] * Math.Sin( -twoPiOverN * k * n );
+                    Z[ k ].imaginary += x[ n ] * Math.Sin( -twoPiOverN * k * n );
                 }
                 //Z[ k ] = Z[ k ] / x.Length;
             }
@@ -202,7 +205,7 @@ namespace FCYangImageLibray
             {
                 for( int k = 0 ; k < Z.Length ; k++ )
                 {
-                    x[ n ] += Z[ k ].real * Math.Cos( twoPiOverN * k * n ) - Z[ k ].image * Math.Sin( twoPiOverN * k * n );
+                    x[ n ] += Z[ k ].real * Math.Cos( twoPiOverN * k * n ) - Z[ k ].imaginary * Math.Sin( twoPiOverN * k * n );
                 }
                 x[ n ] = x[ n ] / Z.Length;
             }
@@ -216,13 +219,15 @@ namespace FCYangImageLibray
 
             for( int n = 0 ; n < Z.Length ; n++ )
             {
+                x[n].real = 0;
+                x[n].imaginary = 0;
                 for( int k = 0 ; k < Z.Length ; k++ )
                 {
                     double cs = Math.Cos( twoPiOverN * k * n );
                     double ss = Math.Sin( twoPiOverN * k * n );
 
-                    x[ n ].real += Z[ k ].real * cs - Z[ k ].image * ss;
-                    x[ n ].image += Z[ k ].real * ss + Z[ k ].image * cs;
+                    x[ n ].real += Z[ k ].real * cs - Z[ k ].imaginary * ss;
+                    x[ n ].imaginary += Z[ k ].real * ss + Z[ k ].imaginary * cs;
                 }
                 x[ n ] /= Z.Length;
             }
@@ -352,11 +357,11 @@ namespace FCYangImageLibray
                 {
                     // Swap elements i and j
                     tempR = C[ i ].real;
-                    tempI = C[ i ].image;
+                    tempI = C[ i ].imaginary;
                     C[ i ].real = C[ j ].real;
-                    C[ i ].image= C[ j ].image;
+                    C[ i ].imaginary= C[ j ].imaginary;
                     C[ j ].real = tempR;
-                    C[ j ].image = tempI;
+                    C[ j ].imaginary = tempI;
                 }
                 k = i2;
                 while( k <= j )
@@ -384,12 +389,12 @@ namespace FCYangImageLibray
                     for( i = j ; i < n ; i += l2 )
                     {
                         i1 = i + l1;
-                        t1 = u1 * C[ i1 ].real - u2 * C[ i1 ].image;
-                        t2 = u1 * C[ i1 ].image + u2 * C[ i1 ].real;
+                        t1 = u1 * C[ i1 ].real - u2 * C[ i1 ].imaginary;
+                        t2 = u1 * C[ i1 ].imaginary + u2 * C[ i1 ].real;
                         C[ i1 ].real = C[ i ].real - t1;
-                        C[ i1 ].image = C[ i ].image - t2;
+                        C[ i1 ].imaginary = C[ i ].imaginary - t2;
                         C[ i ].real += t1;
-                        C[ i ].image += t2;
+                        C[ i ].imaginary += t2;
                     }
                     z = u1 * c1 - u2 * c2;
                     u2 = u1 * c2 + u2 * c1;
@@ -406,7 +411,7 @@ namespace FCYangImageLibray
                 for( i = 0 ; i < n ; i++ )
                 {
                     C[ i ].real /= n;
-                    C[ i ].image /= n;
+                    C[ i ].imaginary /= n;
                 }
             }
         }
@@ -529,7 +534,7 @@ namespace FCYangImageLibray
                         {
                             theta = twoPi * ( (double) c * x / cols + temp );
                             target.real = Math.Cos( theta );
-                            target.image = Math.Sin( -theta );
+                            target.imaginary = Math.Sin( -theta );
                             Z[ r, c ] += X[ y, x ] * target;
                         }
                     }

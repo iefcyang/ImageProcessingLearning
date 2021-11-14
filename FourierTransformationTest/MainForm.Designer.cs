@@ -35,12 +35,14 @@
             this.btnConstant = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btn2DFFTTest = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.nudPower = new System.Windows.Forms.NumericUpDown();
             this.rtbOutput = new System.Windows.Forms.RichTextBox();
             this.btnFourierTest = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.btn2DFFTTest = new System.Windows.Forms.Button();
+            this.ckbNoImageary = new System.Windows.Forms.CheckBox();
+            this.ckbShiftCenter = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.chtMain)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -99,6 +101,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.ckbShiftCenter);
+            this.tabPage1.Controls.Add(this.ckbNoImageary);
             this.tabPage1.Controls.Add(this.btn2DFFTTest);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.nudPower);
@@ -112,6 +116,16 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btn2DFFTTest
+            // 
+            this.btn2DFFTTest.Location = new System.Drawing.Point(368, 24);
+            this.btn2DFFTTest.Name = "btn2DFFTTest";
+            this.btn2DFFTTest.Size = new System.Drawing.Size(98, 54);
+            this.btn2DFFTTest.TabIndex = 4;
+            this.btn2DFFTTest.Text = "2D FFT Test";
+            this.btn2DFFTTest.UseVisualStyleBackColor = true;
+            this.btn2DFFTTest.Click += new System.EventHandler(this.btn2DFFTTest_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -123,7 +137,7 @@
             // 
             // nudPower
             // 
-            this.nudPower.Location = new System.Drawing.Point(131, 55);
+            this.nudPower.Location = new System.Drawing.Point(273, 24);
             this.nudPower.Minimum = new decimal(new int[] {
             2,
             0,
@@ -133,7 +147,7 @@
             this.nudPower.Size = new System.Drawing.Size(63, 23);
             this.nudPower.TabIndex = 2;
             this.nudPower.Value = new decimal(new int[] {
-            12,
+            4,
             0,
             0,
             0});
@@ -173,15 +187,29 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // btn2DFFTTest
+            // ckbNoImageary
             // 
-            this.btn2DFFTTest.Location = new System.Drawing.Point(218, 24);
-            this.btn2DFFTTest.Name = "btn2DFFTTest";
-            this.btn2DFFTTest.Size = new System.Drawing.Size(98, 54);
-            this.btn2DFFTTest.TabIndex = 4;
-            this.btn2DFFTTest.Text = "2D FFT Test";
-            this.btn2DFFTTest.UseVisualStyleBackColor = true;
-            this.btn2DFFTTest.Click += new System.EventHandler(this.btn2DFFTTest_Click);
+            this.ckbNoImageary.AutoSize = true;
+            this.ckbNoImageary.Checked = true;
+            this.ckbNoImageary.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckbNoImageary.Location = new System.Drawing.Point(131, 58);
+            this.ckbNoImageary.Name = "ckbNoImageary";
+            this.ckbNoImageary.Size = new System.Drawing.Size(104, 20);
+            this.ckbNoImageary.TabIndex = 5;
+            this.ckbNoImageary.Text = "No Imaginary";
+            this.ckbNoImageary.UseVisualStyleBackColor = true;
+            // 
+            // ckbShiftCenter
+            // 
+            this.ckbShiftCenter.AutoSize = true;
+            this.ckbShiftCenter.Checked = true;
+            this.ckbShiftCenter.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.ckbShiftCenter.Location = new System.Drawing.Point(252, 58);
+            this.ckbShiftCenter.Name = "ckbShiftCenter";
+            this.ckbShiftCenter.Size = new System.Drawing.Size(110, 20);
+            this.ckbShiftCenter.TabIndex = 6;
+            this.ckbShiftCenter.Text = "Shift To Center";
+            this.ckbShiftCenter.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -189,7 +217,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1141, 685);
             this.Controls.Add(this.tabControl1);
-            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
             this.Text = "Form1";
@@ -216,6 +244,8 @@
         private System.Windows.Forms.NumericUpDown nudPower;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn2DFFTTest;
+        private System.Windows.Forms.CheckBox ckbNoImageary;
+        private System.Windows.Forms.CheckBox ckbShiftCenter;
     }
 }
 

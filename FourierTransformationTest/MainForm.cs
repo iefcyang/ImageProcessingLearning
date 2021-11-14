@@ -40,7 +40,7 @@ namespace FourierTransformationTest
                 for (int c = 0; c < 300; c++)
                 {
                     y[c].real = Math.Sin(c / 3.0);
-                    y[c].image = 0;
+                    y[c].imaginary = 0;
                     sine.Points.AddXY(c, y[c].real);
                 }
                 // z = Complex.DiscreteFourierTransform(y);
@@ -107,7 +107,7 @@ namespace FourierTransformationTest
             for( int i = 0 ; i < CP.Length ; i++ )
             {
                 CP[ i ].real = C[ i ].real;
-                CP[ i ].image = C[ i ].image;
+                CP[ i ].imaginary = C[ i ].imaginary;
             }
 
 
@@ -138,12 +138,32 @@ namespace FourierTransformationTest
 
             DateTime start;
             int power = (int) nudPower.Value; // 11;
-            Complex[, ] C = Complex.Get2DMatrix( 200, power );
+            Complex[, ] C = Complex.Get2DMatrix( 200, power, ckbNoImageary.Checked );
             rtbOutput.AppendText( "Original C: \n" );
-
             if( power <= 10 ) rtbOutput.AppendText( Complex.MatrixText( C ) );
 
-            rtbOutput.AppendText( "\n\nDiscrete FT : \n" );
+            int height = C.GetLength(0), width = C.GetLength(1);
+            bool positive = true;
+            if (ckbShiftCenter.Checked)
+            {
+                for (int r = 0; r < height; r++)
+                {
+                    positive = r % 2 == 0;
+                    for (int c = 0; c < width; c++)
+                    {
+                        if (!positive)
+                        {
+                            C[r, c].real = -C[r, c].real;
+                            C[r, c].imaginary = -C[r, c].imaginary;
+                        }
+                        positive = !positive;
+                    }
+                }
+                    rtbOutput.AppendText("\n\nAfter Shift to Center C: \n");
+                    if (power <= 10) rtbOutput.AppendText(Complex.MatrixText(C));
+            }
+
+            rtbOutput.AppendText( "\n\nDiscrete Forward FT : \n" );
             start = DateTime.Now;
             Complex[, ] X = Fourier.Discrete2DTransform( C );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
@@ -155,6 +175,24 @@ namespace FourierTransformationTest
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
             if( power <= 10 ) rtbOutput.AppendText( Complex.MatrixText( C ) );
 
+            if (ckbShiftCenter.Checked)
+            {
+                for (int r = 0; r < height; r++)
+                {
+                    positive = r % 2 == 0;
+                    for (int c = 0; c < width; c++)
+                    {
+                        if (!positive)
+                        {
+                            C[r, c].real = -C[r, c].real;
+                            C[r, c].imaginary = -C[r, c].imaginary;
+                        }
+                        positive = !positive;
+                    }
+                }
+                    rtbOutput.AppendText("\n\nAfter Shift back to Original C: \n");
+                    if (power <= 10) rtbOutput.AppendText(Complex.MatrixText(C));
+            }
 
             Cursor = Cursors.Default;
         }
