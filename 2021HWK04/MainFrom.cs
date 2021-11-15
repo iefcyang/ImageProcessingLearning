@@ -163,6 +163,8 @@ namespace _2021HWK04
 
         }
 
+        bool AddNoise = false;
+
         private void btnBlurAndRecover_Click(object sender, EventArgs e)
         {
             labOne.Text = "Original Image";
@@ -187,6 +189,20 @@ namespace _2021HWK04
             //filter = new ZeroCenterLowPassFilter();
             //filter = new IdealLowPassFilter(90);
             MonoImage motionBlurred = MonoImage.FrequencyDomainFiltering(original, filter);
+
+            if( AddNoise )
+            {
+                GaussianNoiseFunction gauss = new GaussianNoiseFunction( 0.0, (double) nudGaussianSTD.Value );
+                for( int r = 0 ; r < motionBlurred.height ; r++ )
+                    for( int c = 0 ; c < motionBlurred.width ; c++ )
+                    {
+                        motionBlurred.pixels[ r, c ]  = (int)( motionBlurred.pixels[ r, c ] + gauss.GetValue( ));
+                        if( motionBlurred.pixels[ r, c ] < 0 ) motionBlurred.pixels[ r, c ] = 0;
+                        else if( motionBlurred.pixels[ r, c ] > 255 ) motionBlurred.pixels[ r, c ] = 255;
+                    }
+                motionBlurred = new MonoImage( motionBlurred.pixels );
+            }
+
             pcbTwo.Image = motionBlurred.displayedBitmap;
             pcbTwo.Refresh();
 
@@ -204,13 +220,17 @@ namespace _2021HWK04
             labMessage.Text += $"Restore Completed! Time Spent: {DateTime.Now - start } ";
 
            Cursor =  Cursors.Default;
+ 
 
         }
             // Exact Inverse Filter
 
         private void btnAddNoiseAndRecover_Click(object sender, EventArgs e)
         {
-
+            AddNoise = true;
+            btnBlurAndRecover_Click( null, null );
+            AddNoise = false;
+ 
         }
 
 

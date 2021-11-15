@@ -87,6 +87,8 @@ namespace _2021HWK04
             this.pcbFour = new System.Windows.Forms.PictureBox();
             this.labFour = new System.Windows.Forms.Label();
             this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
+            this.nudGaussianSTD = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.pagProblem1.SuspendLayout();
@@ -122,6 +124,7 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pcbOne)).BeginInit();
             this.pnlFour.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbFour)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudGaussianSTD)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -184,7 +187,7 @@ namespace _2021HWK04
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbOutput.Location = new System.Drawing.Point(8, 47);
             this.rtbOutput.Name = "rtbOutput";
-            this.rtbOutput.Size = new System.Drawing.Size(316, 243);
+            this.rtbOutput.Size = new System.Drawing.Size(314, 225);
             this.rtbOutput.TabIndex = 1;
             this.rtbOutput.Text = "";
             // 
@@ -213,11 +216,11 @@ namespace _2021HWK04
             this.tabPage2.Controls.Add(this.nudRadiusIdeal);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.btnIdealButterworthAndGaussianFiltering);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage2.Size = new System.Drawing.Size(330, 282);
+            this.tabPage2.Size = new System.Drawing.Size(330, 279);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "(2) Ideal, Butterworth, Gaussian Filters";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -382,11 +385,11 @@ namespace _2021HWK04
             this.Column1,
             this.Column2,
             this.Column3});
-            this.dgvParameters.Location = new System.Drawing.Point(3, 56);
+            this.dgvParameters.Location = new System.Drawing.Point(3, 70);
             this.dgvParameters.Name = "dgvParameters";
             this.dgvParameters.RowHeadersVisible = false;
             this.dgvParameters.RowTemplate.Height = 24;
-            this.dgvParameters.Size = new System.Drawing.Size(324, 172);
+            this.dgvParameters.Size = new System.Drawing.Size(324, 158);
             this.dgvParameters.TabIndex = 13;
             // 
             // Column1
@@ -450,17 +453,20 @@ namespace _2021HWK04
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(6, 7);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(330, 50);
+            this.pictureBox1.Size = new System.Drawing.Size(316, 57);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.nudGaussianSTD);
+            this.tabPage4.Controls.Add(this.label2);
             this.tabPage4.Controls.Add(this.label1);
             this.tabPage4.Controls.Add(this.nudBlurT);
             this.tabPage4.Controls.Add(this.btnAddNoiseAndRecover);
@@ -471,9 +477,9 @@ namespace _2021HWK04
             this.tabPage4.Controls.Add(this.nudBlurB);
             this.tabPage4.Controls.Add(this.label8);
             this.tabPage4.Controls.Add(this.label4);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(330, 282);
+            this.tabPage4.Size = new System.Drawing.Size(330, 279);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "(4) Inverse and Wiener Filtering";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -489,7 +495,7 @@ namespace _2021HWK04
             // 
             // nudBlurT
             // 
-            this.nudBlurT.DecimalPlaces = 1;
+            this.nudBlurT.DecimalPlaces = 2;
             this.nudBlurT.Increment = new decimal(new int[] {
             1,
             0,
@@ -509,7 +515,6 @@ namespace _2021HWK04
             // 
             this.btnAddNoiseAndRecover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddNoiseAndRecover.Enabled = false;
             this.btnAddNoiseAndRecover.Location = new System.Drawing.Point(3, 240);
             this.btnAddNoiseAndRecover.Name = "btnAddNoiseAndRecover";
             this.btnAddNoiseAndRecover.Size = new System.Drawing.Size(319, 36);
@@ -532,10 +537,12 @@ namespace _2021HWK04
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(11, 26);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(302, 46);
+            this.pictureBox2.Size = new System.Drawing.Size(311, 46);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 3;
             this.pictureBox2.TabStop = false;
@@ -551,7 +558,7 @@ namespace _2021HWK04
             // 
             // nudBlurA
             // 
-            this.nudBlurA.DecimalPlaces = 1;
+            this.nudBlurA.DecimalPlaces = 2;
             this.nudBlurA.Increment = new decimal(new int[] {
             1,
             0,
@@ -569,7 +576,7 @@ namespace _2021HWK04
             // 
             // nudBlurB
             // 
-            this.nudBlurB.DecimalPlaces = 1;
+            this.nudBlurB.DecimalPlaces = 2;
             this.nudBlurB.Increment = new decimal(new int[] {
             1,
             0,
@@ -819,6 +826,38 @@ namespace _2021HWK04
             this.dlgOpen.FileName = "*.*";
             this.dlgOpen.Filter = "Image File|jpg|Image File|png";
             // 
+            // nudGaussianSTD
+            // 
+            this.nudGaussianSTD.DecimalPlaces = 2;
+            this.nudGaussianSTD.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nudGaussianSTD.Location = new System.Drawing.Point(50, 211);
+            this.nudGaussianSTD.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudGaussianSTD.Name = "nudGaussianSTD";
+            this.nudGaussianSTD.Size = new System.Drawing.Size(58, 23);
+            this.nudGaussianSTD.TabIndex = 19;
+            this.nudGaussianSTD.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 217);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(31, 16);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "STD";
+            // 
             // MainFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -827,7 +866,7 @@ namespace _2021HWK04
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainFrom";
@@ -872,6 +911,7 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pcbOne)).EndInit();
             this.pnlFour.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pcbFour)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudGaussianSTD)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -936,6 +976,8 @@ namespace _2021HWK04
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nudGaussianSTD;
+        private System.Windows.Forms.Label label2;
     }
 }
 
