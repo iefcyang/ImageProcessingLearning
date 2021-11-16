@@ -21,7 +21,20 @@ namespace FCYangImageLibray
     public class MonoImage
     {
         
- 
+        public static double IntensityAbsoluteDifferenceAverage( MonoImage img1, MonoImage img2 )
+        {
+            double sum = 0;
+            int diff;
+            int height = img1.height;
+            int width = img1.width;
+            for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c <width ; c++ )
+                {
+                    diff = img1.pixels[ r, c ] - img2.pixels[ r, c ];
+                    sum += diff > 0 ? diff : -diff;
+                }
+            return sum / height / width;
+        } 
         /// <summary>
         ///  (1) padding target image and set (-1)^(x+y) for centered Fourier Transform
         ///  (2) Perform forwad Fourier Transform
@@ -296,7 +309,7 @@ namespace FCYangImageLibray
             }
 
             // (2) Perform forwad Fourier Transform
-            Complex[,] FTransformed = Fourier.Discrete2DTransform(augmentedCenteredImage, true);
+            Complex[,] FTransformed = Fourier.Discrete2DTransform( augmentedCenteredImage, true);
 
             // (3) Element - wise multiplication of filter function and the Fourier
             if (filterUsed.ValueOnDistance)

@@ -108,16 +108,46 @@ namespace FCYangImageLibray
 
         public override bool ValueOnDistance => false;
 
+        public bool Inverse { get => inverse; set => inverse =  value ; }
+        public double InverseThreshold { get; set; } = 255;
+        public bool WienerInverted { get; set; } = false;
+        public double WienerConstant { get; set; } = 200;
+
         public override Complex GetValue(int u, int v)
         {
             double theta = Math.PI * (u * a + v * b);
             Complex C = new Complex(Math.Cos(-theta), Math.Sin(-theta));
             if (theta == 0) return C;
             double temp =  T * Math.Sin(theta) / theta;
-            if (!inverse)
-                return temp * C;
-            else
-                return 1.0 / (temp * C);
+            C = temp * C;
+            if( inverse )
+            {
+                if( WienerInverted )
+                {
+                    // Wiener Inverse
+                    temp = C.Power;
+                    return temp / ( temp + WienerConstant ) / C;
+
+                    //C = 1.0 / ( temp * C );
+                    //if( C.Norm > InverseThreshold )
+                    //{
+                    //    C.Scale( InverseThreshold );
+                    //}
+                    //temp = ( 1 / C ).Power;
+                    //return temp / ( temp + WienerConstant ) * C;
+                }
+                else
+                {
+                    // Direct Inverse
+                    C = 1.0 / C;
+                    if( C.Norm > InverseThreshold )
+                    {
+                        C.Scale( InverseThreshold );
+                    }
+                    return C;
+                }
+            }
+            else return C;
         }
         public  Complex oriGetValue(int u, int v)
         {

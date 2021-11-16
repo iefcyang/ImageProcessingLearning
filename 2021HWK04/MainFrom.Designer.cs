@@ -59,6 +59,8 @@ namespace _2021HWK04
             this.btnHomorphicFiltering = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.nudGaussianSTD = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.nudBlurT = new System.Windows.Forms.NumericUpDown();
             this.btnAddNoiseAndRecover = new System.Windows.Forms.Button();
@@ -87,8 +89,10 @@ namespace _2021HWK04
             this.pcbFour = new System.Windows.Forms.PictureBox();
             this.labFour = new System.Windows.Forms.Label();
             this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
-            this.nudGaussianSTD = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
+            this.nudInverseThreshold = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.nudWienerConstant = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.pagProblem1.SuspendLayout();
@@ -102,6 +106,7 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.nudHomomorphicOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudGaussianSTD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBlurT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBlurA)).BeginInit();
@@ -124,7 +129,8 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pcbOne)).BeginInit();
             this.pnlFour.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbFour)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGaussianSTD)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInverseThreshold)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWienerConstant)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -187,7 +193,7 @@ namespace _2021HWK04
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbOutput.Location = new System.Drawing.Point(8, 47);
             this.rtbOutput.Name = "rtbOutput";
-            this.rtbOutput.Size = new System.Drawing.Size(314, 225);
+            this.rtbOutput.Size = new System.Drawing.Size(314, 228);
             this.rtbOutput.TabIndex = 1;
             this.rtbOutput.Text = "";
             // 
@@ -216,11 +222,11 @@ namespace _2021HWK04
             this.tabPage2.Controls.Add(this.nudRadiusIdeal);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Controls.Add(this.btnIdealButterworthAndGaussianFiltering);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.tabPage2.Size = new System.Drawing.Size(330, 279);
+            this.tabPage2.Size = new System.Drawing.Size(330, 282);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "(2) Ideal, Butterworth, Gaussian Filters";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -465,6 +471,10 @@ namespace _2021HWK04
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.nudWienerConstant);
+            this.tabPage4.Controls.Add(this.label13);
+            this.tabPage4.Controls.Add(this.nudInverseThreshold);
+            this.tabPage4.Controls.Add(this.label7);
             this.tabPage4.Controls.Add(this.nudGaussianSTD);
             this.tabPage4.Controls.Add(this.label2);
             this.tabPage4.Controls.Add(this.label1);
@@ -483,6 +493,38 @@ namespace _2021HWK04
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "(4) Inverse and Wiener Filtering";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // nudGaussianSTD
+            // 
+            this.nudGaussianSTD.DecimalPlaces = 2;
+            this.nudGaussianSTD.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nudGaussianSTD.Location = new System.Drawing.Point(51, 251);
+            this.nudGaussianSTD.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nudGaussianSTD.Name = "nudGaussianSTD";
+            this.nudGaussianSTD.Size = new System.Drawing.Size(77, 23);
+            this.nudGaussianSTD.TabIndex = 19;
+            this.nudGaussianSTD.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 253);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(31, 16);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "STD";
             // 
             // label1
             // 
@@ -506,7 +548,7 @@ namespace _2021HWK04
             this.nudBlurT.Size = new System.Drawing.Size(58, 23);
             this.nudBlurT.TabIndex = 16;
             this.nudBlurT.Value = new decimal(new int[] {
-            10,
+            5,
             0,
             0,
             65536});
@@ -515,7 +557,7 @@ namespace _2021HWK04
             // 
             this.btnAddNoiseAndRecover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddNoiseAndRecover.Location = new System.Drawing.Point(3, 240);
+            this.btnAddNoiseAndRecover.Location = new System.Drawing.Point(8, 213);
             this.btnAddNoiseAndRecover.Name = "btnAddNoiseAndRecover";
             this.btnAddNoiseAndRecover.Size = new System.Drawing.Size(319, 36);
             this.btnAddNoiseAndRecover.TabIndex = 4;
@@ -569,10 +611,10 @@ namespace _2021HWK04
             this.nudBlurA.Size = new System.Drawing.Size(58, 23);
             this.nudBlurA.TabIndex = 12;
             this.nudBlurA.Value = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            65536});
+            131072});
             // 
             // nudBlurB
             // 
@@ -587,10 +629,10 @@ namespace _2021HWK04
             this.nudBlurB.Size = new System.Drawing.Size(58, 23);
             this.nudBlurB.TabIndex = 14;
             this.nudBlurB.Value = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
-            65536});
+            131072});
             // 
             // label8
             // 
@@ -826,37 +868,63 @@ namespace _2021HWK04
             this.dlgOpen.FileName = "*.*";
             this.dlgOpen.Filter = "Image File|jpg|Image File|png";
             // 
-            // nudGaussianSTD
+            // nudInverseThreshold
             // 
-            this.nudGaussianSTD.DecimalPlaces = 2;
-            this.nudGaussianSTD.Increment = new decimal(new int[] {
+            this.nudInverseThreshold.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            this.nudGaussianSTD.Location = new System.Drawing.Point(50, 211);
-            this.nudGaussianSTD.Maximum = new decimal(new int[] {
-            1000,
+            this.nudInverseThreshold.Location = new System.Drawing.Point(125, 151);
+            this.nudInverseThreshold.Maximum = new decimal(new int[] {
+            100000,
             0,
             0,
             0});
-            this.nudGaussianSTD.Name = "nudGaussianSTD";
-            this.nudGaussianSTD.Size = new System.Drawing.Size(58, 23);
-            this.nudGaussianSTD.TabIndex = 19;
-            this.nudGaussianSTD.Value = new decimal(new int[] {
-            20,
+            this.nudInverseThreshold.Name = "nudInverseThreshold";
+            this.nudInverseThreshold.Size = new System.Drawing.Size(84, 23);
+            this.nudInverseThreshold.TabIndex = 21;
+            this.nudInverseThreshold.Value = new decimal(new int[] {
+            255,
             0,
             0,
             0});
             // 
-            // label2
+            // label7
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 217);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 16);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "STD";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(13, 154);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(106, 16);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "Inverse Threshold";
+            // 
+            // nudWienerConstant
+            // 
+            this.nudWienerConstant.DecimalPlaces = 4;
+            this.nudWienerConstant.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nudWienerConstant.Location = new System.Drawing.Point(125, 180);
+            this.nudWienerConstant.Name = "nudWienerConstant";
+            this.nudWienerConstant.Size = new System.Drawing.Size(84, 23);
+            this.nudWienerConstant.TabIndex = 23;
+            this.nudWienerConstant.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            196608});
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(13, 183);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(101, 16);
+            this.label13.TabIndex = 22;
+            this.label13.Text = "Wiener Constant";
             // 
             // MainFrom
             // 
@@ -889,6 +957,7 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudGaussianSTD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBlurT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBlurA)).EndInit();
@@ -911,7 +980,8 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pcbOne)).EndInit();
             this.pnlFour.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pcbFour)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudGaussianSTD)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInverseThreshold)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWienerConstant)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -978,6 +1048,10 @@ namespace _2021HWK04
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown nudGaussianSTD;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown nudInverseThreshold;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown nudWienerConstant;
+        private System.Windows.Forms.Label label13;
     }
 }
 

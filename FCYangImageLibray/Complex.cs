@@ -75,6 +75,9 @@ namespace FCYangImageLibray
 
         public double real, imaginary;
 
+        public double Norm { get => Math.Sqrt( real * real + imaginary * imaginary ); }
+        public double Power { get =>  real * real + imaginary * imaginary; }
+
 
         public Complex( double r, double i )
         {
@@ -94,6 +97,12 @@ namespace FCYangImageLibray
             return new Complex( real + z.real, imaginary + z.imaginary );
         }
 
+        public void Scale( double newNorm )
+        {
+            double scale = newNorm/ Norm;
+            real *= scale;
+            imaginary *= scale;
+        }
 
         public static Complex operator -( Complex a, Complex b )
         {

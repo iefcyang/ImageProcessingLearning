@@ -243,7 +243,7 @@ namespace FCYangImageLibray
         // forwardNotReverse =  true gives forward transform 
         // forwardNotReverse = false gives reverse transform  
         // see http://astronomy.swin.edu.au/~pbourke/analysis/dft/ 
-        public static void FastFourierTransform(  double[ ] real, double[ ] image,  bool forwardNotReverse  )
+        public static void FastFourierTransform(  double[ ] real, double[ ] image,  bool isForward  )
         {
             int n, i, i1, j, k, i2, l, l1, l2;
             double c1, c2, tempR, rempI, t1, t2, u1, u2, z;
@@ -258,9 +258,7 @@ namespace FCYangImageLibray
                 i = i * 2;
                 powerOf2++;
             }
-            if( i != n ) throw new Exception( "Array length is not the power of 2!" );
- 
- 
+            if( i != n ) throw new Exception( "Array length is not the power of 2!" ); 
 
             // Do the bit reversal 
             i2 = n >> 1;
@@ -315,12 +313,12 @@ namespace FCYangImageLibray
                     u1 = z;
                 }
                 c2 = Math.Sqrt( ( 1.0 - c1 ) / 2.0 );
-                if( !forwardNotReverse ) c2 = -c2;
+                if( !isForward ) c2 = -c2;
                 c1 = Math.Sqrt( ( 1.0 + c1 ) / 2.0 );
             }
 
             // Scaling for forward transform 
-            if( !forwardNotReverse )
+            if( !isForward )
             {
                 for( i = 0 ; i < n ; i++ )
                 {
@@ -330,7 +328,7 @@ namespace FCYangImageLibray
             }
         }
 
-        public static void FastFourierTransform( Complex[ ] C, bool forwardNotReverse )
+        public static void FastFourierTransform( Complex[ ] C, bool isForward )
         {
             int n, i, i1, j, k, i2, l, l1, l2;
             double c1, c2, tempR, tempI, t1, t2, u1, u2, z;
@@ -401,12 +399,12 @@ namespace FCYangImageLibray
                     u1 = z;
                 }
                 c2 = Math.Sqrt( ( 1.0 - c1 ) / 2.0 );
-                if( !forwardNotReverse ) c2 = -c2;
+                if( !isForward ) c2 = -c2;
                 c1 = Math.Sqrt( ( 1.0 + c1 ) / 2.0 );
             }
 
             // Scaling for forward transform 
-            if( !forwardNotReverse )
+            if( !isForward )
             {
                 for( i = 0 ; i < n ; i++ )
                 {
@@ -416,6 +414,55 @@ namespace FCYangImageLibray
             }
         }
 
+        public static Complex[ , ] DiscreteFast2DTransform( Complex[ , ] x )
+        {
+            int rows = x.GetLength( 0 );
+            int cols = x.GetLength( 1 );
+            Complex[ ] xary = new Complex[ cols ];
+            Complex[ ] yary = new Complex[ rows ];
+            Complex[ , ] output = new Complex[ rows, cols ];
+
+            // Row-wise transform
+            for( int r = 0 ; r < rows ; r++ )
+            {
+                for( int c = 0 ; c < cols ; c++ ) xary[ c ] = x[ r, c ];
+                FastFourierTransform( xary, true );
+                for( int c = 0 ; c < cols ; c++ ) output[ r, c ] = xary[ c ];
+            }
+            // Column-wise transform
+            for( int c = 0 ; c < cols ; c++ )
+            {
+                for( int r = 0 ; r < rows ; r++ ) yary[ r ] = output[ r, c ];
+                FastFourierTransform( yary, true );
+                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = yary[ r ];
+            }
+            return output;
+        }
+
+        public static Complex[ , ] DiscreteFastInverse2DTransform( Complex[ , ] x )
+        {
+            int rows = x.GetLength( 0 );
+            int cols = x.GetLength( 1 );
+            Complex[ ] xary = new Complex[ cols ];
+            Complex[ ] yary = new Complex[ rows ];
+            Complex[ , ] output = new Complex[ rows, cols ];
+
+            // Row-wise transform
+            for( int r = 0 ; r < rows ; r++ )
+            {
+                for( int c = 0 ; c < cols ; c++ ) xary[ c ] = x[ r, c ];
+                FastFourierTransform( xary, false );
+                for( int c = 0 ; c < cols ; c++ ) output[ r, c ] = xary[ c ];
+            }
+            // Column-wise transform
+            for( int c = 0 ; c < cols ; c++ )
+            {
+                for( int r = 0 ; r < rows ; r++ ) yary[ r ] = output[ r, c ];
+                FastFourierTransform( yary, false );
+                for( int r = 0 ; r < rows ; r++ ) output[ r, c ] = yary[ r ];
+            }
+            return output;
+        }
 
         public static Complex[ ] RecursiveFFT( Complex[ ] C )
         {

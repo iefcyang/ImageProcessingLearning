@@ -167,8 +167,10 @@ namespace _2021HWK04
 
         private void btnBlurAndRecover_Click(object sender, EventArgs e)
         {
+            labMessage.Text = "";
+            Cursor = Cursors.WaitCursor;
             labOne.Text = "Original Image";
-            labTwo.Text = "Blurred Image";
+            labTwo.Text = "Motion Blurred Image";
             labThree.Text = "Inverse Filter Recovered";
             labFour.Text = "Wiener Filter Recovered";
             labFive.Text = "";
@@ -178,20 +180,20 @@ namespace _2021HWK04
             MonoImage original = ReadInOriginalImage();
             if (original == null) return;
 
-            Cursor = Cursors.WaitCursor;
 
             pcbOne.Image = original.displayedBitmap;
             pcbOne.Refresh();
 
             DateTime start = DateTime.Now;
 
-            FourierTransformFilter filter = new MotionBlurFilter((double)nudBlurA.Value, (double)nudBlurB.Value, (double)nudBlurT.Value);
+            MotionBlurFilter filter = new MotionBlurFilter((double)nudBlurA.Value, (double)nudBlurB.Value, (double)nudBlurT.Value);
             //filter = new ZeroCenterLowPassFilter();
             //filter = new IdealLowPassFilter(90);
             MonoImage motionBlurred = MonoImage.FrequencyDomainFiltering(original, filter);
 
             if( AddNoise )
             {
+                labTwo.Text = "Motion Blurred + Noise Image";
                 GaussianNoiseFunction gauss = new GaussianNoiseFunction( 0.0, (double) nudGaussianSTD.Value );
                 for( int r = 0 ; r < motionBlurred.height ; r++ )
                     for( int c = 0 ; c < motionBlurred.width ; c++ )
@@ -207,17 +209,36 @@ namespace _2021HWK04
             pcbTwo.Refresh();
 
             Console.Beep();
-            labMessage.Text = $"Blur Completed! Time Spent: {DateTime.Now - start } ";
+            labMessage.Text = $"Blur Completed! Time: {DateTime.Now - start } ";
             statusStrip1.Refresh();
 
             start = DateTime.Now;
-            FourierTransformFilter inverseBlurFilter = new MotionBlurFilter((double)nudBlurA.Value, (double)nudBlurB.Value, (double)nudBlurT.Value, true );
 
-            MonoImage InverseRestored = MonoImage.FrequencyDomainFiltering(motionBlurred, inverseBlurFilter);
+            // (1) Direct Inverse Restoration (must set threshold; or all black)
+            filter.Inverse = true;
+            filter.WienerInverted = false;
+            filter.InverseThreshold = (double) nudInverseThreshold.Value;
+            MonoImage InverseRestored = MonoImage.FrequencyDomainFiltering( motionBlurred, filter);
+
             pcbThree.Image = InverseRestored.displayedBitmap;
+            pcbThree.Refresh( );
+            labThree.Text += $" Avg Diff={ MonoImage.IntensityAbsoluteDifferenceAverage( original, InverseRestored ):0.00}";
+            Console.Beep( );
+            labMessage.Text += $"  Direct Inverse Restored! Time: {DateTime.Now - start } ";
+            statusStrip1.Refresh( );
 
+            start = DateTime.Now;
+            // (2) Wiener Inverse Restoration )
+            filter.Inverse = true;
+            filter.WienerInverted = true;
+            filter.WienerConstant = (double) nudWienerConstant.Value;
+            MonoImage WienerRestored = MonoImage.FrequencyDomainFiltering( motionBlurred, filter );
+
+            pcbFour.Image = WienerRestored.displayedBitmap;
+            pcbFour.Refresh( );
+            labFour.Text += $" Avg Diff={ MonoImage.IntensityAbsoluteDifferenceAverage( original, WienerRestored ):0.00}";
             Console.Beep();
-            labMessage.Text += $"Restore Completed! Time Spent: {DateTime.Now - start } ";
+            labMessage.Text += $"  Wiener Restored! Time: {DateTime.Now - start } ";
 
            Cursor =  Cursors.Default;
  

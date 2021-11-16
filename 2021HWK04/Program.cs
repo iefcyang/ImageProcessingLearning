@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FCYangImageLibray;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,11 @@ namespace _2021HWK04
         [STAThread]
         static void Main( )
         {
+            Complex a = new Complex( -11, 22 );
+            Complex b = new Complex( 33, 44 );
+            Complex c = a * b;
+            Complex d = c / b;
+
             Application.EnableVisualStyles( );
             Application.SetCompatibleTextRenderingDefault( false );
             Application.Run( new MainFrom( ) );

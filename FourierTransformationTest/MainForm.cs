@@ -88,19 +88,19 @@ namespace FourierTransformationTest
             Complex[ ] C = Complex.GetArray(200, power );
             rtbOutput.AppendText( "Original C: \n" );
 
-            if( power <= 10) rtbOutput.AppendText( Complex.ArrayText( C ) );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.ArrayText( C ) );
 
             rtbOutput.AppendText( "\n\nDiscrete FT : \n" );
             start = DateTime.Now;
             Complex[ ] X = Fourier.Discrete1DTransform( C );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
-            if( power <= 10 ) rtbOutput.AppendText(Complex.ArrayText(X) );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText(Complex.ArrayText(X) );
 
             rtbOutput.AppendText( "\n\nRecursive FFT : \n" );
             start = DateTime.Now;
             X = Fourier.RecursiveFFT( C );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
-            if( power <= 10 ) rtbOutput.AppendText( Complex.ArrayText( X ) );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.ArrayText( X ) );
 
 
             Complex[ ] CP = new Complex[ C.Length ];
@@ -115,14 +115,14 @@ namespace FourierTransformationTest
             start = DateTime.Now;
             Fourier.FastFourierTransform(  C, true );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
-            if( power <= 10 ) rtbOutput.AppendText( Complex.ArrayText( C ) );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.ArrayText( C ) );
 
 
             rtbOutput.AppendText( "\n\nIn-Place Recursive FFT : \n" );
             start = DateTime.Now;
             Fourier.InPlaceRecursiveFFT( CP );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
-            if( power <= 10 ) rtbOutput.AppendText( Complex.ArrayText( CP ) );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.ArrayText( CP ) );
             Cursor = Cursors.Default;
         }
 
@@ -131,6 +131,7 @@ namespace FourierTransformationTest
             label1.Text = $"n = 2 Power of {nudPower.Value} = {(int) Math.Pow( 2, (int) nudPower.Value )}";
         }
 
+        int displayPowerLimit = 6;
         private void btn2DFFTTest_Click( object sender, EventArgs e )
         {
             Cursor = Cursors.WaitCursor;
@@ -140,7 +141,7 @@ namespace FourierTransformationTest
             int power = (int) nudPower.Value; // 11;
             Complex[, ] C = Complex.Get2DMatrix( 200, power, ckbNoImageary.Checked );
             rtbOutput.AppendText( "Original C: \n" );
-            if( power <= 10 ) rtbOutput.AppendText( Complex.MatrixText( C ) );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.MatrixText( C ) );
 
             int height = C.GetLength(0), width = C.GetLength(1);
             bool positive = true;
@@ -160,20 +161,39 @@ namespace FourierTransformationTest
                     }
                 }
                     rtbOutput.AppendText("\n\nAfter Shift to Center C: \n");
-                    if (power <= 10) rtbOutput.AppendText(Complex.MatrixText(C));
+                    if (power <= displayPowerLimit ) rtbOutput.AppendText(Complex.MatrixText(C));
             }
 
             rtbOutput.AppendText( "\n\nDiscrete Forward FT : \n" );
             start = DateTime.Now;
             Complex[, ] X = Fourier.Discrete2DTransform( C );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
-            if( power <= 10 ) rtbOutput.AppendText( Complex.MatrixText( X ) );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.MatrixText( X ) );
+
+
+            rtbOutput.AppendText( "\n\nDiscrete FAST Forward FT : \n" );
+            start = DateTime.Now;
+            Complex[ , ] XX = Fourier.Discrete2DTransform( C );
+            rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.MatrixText( XX ) );
+
+
 
             rtbOutput.AppendText( "\n\n+ Inverse FFT : \n" );
             start = DateTime.Now;
             C = Fourier.Discrete2DInverseTransform( X );
             rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
-            if( power <= 10 ) rtbOutput.AppendText( Complex.MatrixText( C ) );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.MatrixText( C ) );
+
+
+            rtbOutput.AppendText( "\n\n+ FAST Inverse FFT : \n" );
+            start = DateTime.Now;
+            Complex[,]  CC = Fourier.Discrete2DInverseTransform( XX );
+            rtbOutput.AppendText( $"\nTime Used: {DateTime.Now - start}\n" );
+            if( power <= displayPowerLimit ) rtbOutput.AppendText( Complex.MatrixText( CC ) );
+
+
+
 
             if (ckbShiftCenter.Checked)
             {
@@ -191,7 +211,7 @@ namespace FourierTransformationTest
                     }
                 }
                     rtbOutput.AppendText("\n\nAfter Shift back to Original C: \n");
-                    if (power <= 10) rtbOutput.AppendText(Complex.MatrixText(C));
+                    if (power <= displayPowerLimit ) rtbOutput.AppendText(Complex.MatrixText(C));
             }
 
             Cursor = Cursors.Default;
