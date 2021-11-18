@@ -174,43 +174,60 @@ namespace _2021HWK04
             labThree.Text = "Inverse Filter Recovered";
             labFour.Text = "Wiener Filter Recovered";
             labFive.Text = "";
-            pcbOne.Image = pcbTwo.Image = pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
+
+            bool showOpenDialog = true;
+            if (pcbOne.Image == null || ckbReread.Checked)
+            {
+                showOpenDialog = true;
+            }
+            else showOpenDialog = false;
+
+            pcbThree.Image = pcbFour.Image = pcbFive.Image = null;
             tlpMain.Refresh();
 
-            MonoImage original = ReadInOriginalImage();
+            MonoImage original;
+            if (showOpenDialog) 
+                original = ReadInOriginalImage();
+            else
+                original = new MonoImage( new Bitmap(pcbOne.Image) );
+
             if (original == null) return;
-
-
             pcbOne.Image = original.displayedBitmap;
             pcbOne.Refresh();
 
+
             DateTime start = DateTime.Now;
-
-            MotionBlurFilter filter = new MotionBlurFilter((double)nudBlurA.Value, (double)nudBlurB.Value, (double)nudBlurT.Value);
-            //filter = new ZeroCenterLowPassFilter();
-            //filter = new IdealLowPassFilter(90);
-            MonoImage motionBlurred = MonoImage.FrequencyDomainFiltering(original, filter);
-
-            if( AddNoise )
+            MonoImage motionBlurred;
+            MotionBlurFilter  filter = new MotionBlurFilter((double)nudBlurA.Value, (double)nudBlurB.Value, (double)nudBlurT.Value);
+            if ( AddNoise = true && (pcbTwo.Image == null || ckbReread.Checked) )
             {
-                labTwo.Text = "Motion Blurred + Noise Image";
-                GaussianNoiseFunction gauss = new GaussianNoiseFunction( 0.0, (double) nudGaussianSTD.Value );
-                for( int r = 0 ; r < motionBlurred.height ; r++ )
-                    for( int c = 0 ; c < motionBlurred.width ; c++ )
-                    {
-                        motionBlurred.pixels[ r, c ]  = (int)( motionBlurred.pixels[ r, c ] + gauss.GetValue( ));
-                        if( motionBlurred.pixels[ r, c ] < 0 ) motionBlurred.pixels[ r, c ] = 0;
-                        else if( motionBlurred.pixels[ r, c ] > 255 ) motionBlurred.pixels[ r, c ] = 255;
-                    }
-                motionBlurred = new MonoImage( motionBlurred.pixels );
+                //filter = new ZeroCenterLowPassFilter();
+                //filter = new IdealLowPassFilter(90);
+                motionBlurred = MonoImage.FrequencyDomainFiltering(original, filter);
+
+                if (AddNoise)
+                {
+                    labTwo.Text = "Motion Blurred + Noise Image";
+                    GaussianNoiseFunction gauss = new GaussianNoiseFunction(0.0, (double)nudGaussianSTD.Value);
+                    for (int r = 0; r < motionBlurred.height; r++)
+                        for (int c = 0; c < motionBlurred.width; c++)
+                        {
+                            motionBlurred.pixels[r, c] = (int)(motionBlurred.pixels[r, c] + gauss.GetValue());
+                            if (motionBlurred.pixels[r, c] < 0) motionBlurred.pixels[r, c] = 0;
+                            else if (motionBlurred.pixels[r, c] > 255) motionBlurred.pixels[r, c] = 255;
+                        }
+                    motionBlurred = new MonoImage(motionBlurred.pixels);
+                }
+
+                pcbTwo.Image = motionBlurred.displayedBitmap;
+                pcbTwo.Refresh();
+                Console.Beep();
+                labMessage.Text = $"Blur Completed! Time: {DateTime.Now - start } ";
+                statusStrip1.Refresh();
             }
+            else motionBlurred = new MonoImage( new Bitmap(pcbTwo.Image) );
 
-            pcbTwo.Image = motionBlurred.displayedBitmap;
-            pcbTwo.Refresh();
 
-            Console.Beep();
-            labMessage.Text = $"Blur Completed! Time: {DateTime.Now - start } ";
-            statusStrip1.Refresh();
 
             start = DateTime.Now;
 

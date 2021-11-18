@@ -149,6 +149,8 @@ namespace FCYangImageLibray
             }
             else return C;
         }
+
+
         public  Complex oriGetValue(int u, int v)
         {
             double temp = Math.PI *(  u * a + v * b );

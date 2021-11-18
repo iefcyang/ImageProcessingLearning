@@ -59,6 +59,10 @@ namespace _2021HWK04
             this.btnHomorphicFiltering = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.nudWienerConstant = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.nudInverseThreshold = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
             this.nudGaussianSTD = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -89,10 +93,7 @@ namespace _2021HWK04
             this.pcbFour = new System.Windows.Forms.PictureBox();
             this.labFour = new System.Windows.Forms.Label();
             this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
-            this.nudInverseThreshold = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.nudWienerConstant = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
+            this.ckbReread = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.pagProblem1.SuspendLayout();
@@ -106,6 +107,8 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.nudHomomorphicOrder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWienerConstant)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInverseThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudGaussianSTD)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBlurT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -129,8 +132,6 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pcbOne)).BeginInit();
             this.pnlFour.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbFour)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudInverseThreshold)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWienerConstant)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -138,7 +139,7 @@ namespace _2021HWK04
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(7, 3, 0, 3);
-            this.menuStrip1.Size = new System.Drawing.Size(1108, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1111, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -146,17 +147,17 @@ namespace _2021HWK04
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.labMessage});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 648);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 732);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1108, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1111, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // labMessage
             // 
             this.labMessage.Name = "labMessage";
-            this.labMessage.Size = new System.Drawing.Size(1091, 17);
+            this.labMessage.Size = new System.Drawing.Size(1094, 17);
             this.labMessage.Spring = true;
             // 
             // tabMain
@@ -170,7 +171,7 @@ namespace _2021HWK04
             this.tabMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(338, 308);
+            this.tabMain.Size = new System.Drawing.Size(339, 349);
             this.tabMain.TabIndex = 2;
             // 
             // pagProblem1
@@ -193,7 +194,7 @@ namespace _2021HWK04
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbOutput.Location = new System.Drawing.Point(8, 47);
             this.rtbOutput.Name = "rtbOutput";
-            this.rtbOutput.Size = new System.Drawing.Size(314, 228);
+            this.rtbOutput.Size = new System.Drawing.Size(314, 231);
             this.rtbOutput.TabIndex = 1;
             this.rtbOutput.Text = "";
             // 
@@ -371,9 +372,9 @@ namespace _2021HWK04
             this.tabPage3.Controls.Add(this.label12);
             this.tabPage3.Controls.Add(this.btnHomorphicFiltering);
             this.tabPage3.Controls.Add(this.pictureBox1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(330, 279);
+            this.tabPage3.Size = new System.Drawing.Size(330, 282);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "(3) Homomorphic Filtering";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -395,7 +396,7 @@ namespace _2021HWK04
             this.dgvParameters.Name = "dgvParameters";
             this.dgvParameters.RowHeadersVisible = false;
             this.dgvParameters.RowTemplate.Height = 24;
-            this.dgvParameters.Size = new System.Drawing.Size(324, 158);
+            this.dgvParameters.Size = new System.Drawing.Size(324, 161);
             this.dgvParameters.TabIndex = 13;
             // 
             // Column1
@@ -425,7 +426,7 @@ namespace _2021HWK04
             0,
             0,
             65536});
-            this.nudHomomorphicOrder.Location = new System.Drawing.Point(37, 245);
+            this.nudHomomorphicOrder.Location = new System.Drawing.Point(37, 248);
             this.nudHomomorphicOrder.Name = "nudHomomorphicOrder";
             this.nudHomomorphicOrder.Size = new System.Drawing.Size(68, 23);
             this.nudHomomorphicOrder.TabIndex = 12;
@@ -439,7 +440,7 @@ namespace _2021HWK04
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 247);
+            this.label12.Location = new System.Drawing.Point(3, 250);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(14, 16);
             this.label12.TabIndex = 11;
@@ -449,7 +450,7 @@ namespace _2021HWK04
             // 
             this.btnHomorphicFiltering.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHomorphicFiltering.Location = new System.Drawing.Point(116, 239);
+            this.btnHomorphicFiltering.Location = new System.Drawing.Point(116, 242);
             this.btnHomorphicFiltering.Name = "btnHomorphicFiltering";
             this.btnHomorphicFiltering.Size = new System.Drawing.Size(211, 32);
             this.btnHomorphicFiltering.TabIndex = 3;
@@ -471,6 +472,7 @@ namespace _2021HWK04
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.ckbReread);
             this.tabPage4.Controls.Add(this.nudWienerConstant);
             this.tabPage4.Controls.Add(this.label13);
             this.tabPage4.Controls.Add(this.nudInverseThreshold);
@@ -489,10 +491,68 @@ namespace _2021HWK04
             this.tabPage4.Controls.Add(this.label4);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(330, 279);
+            this.tabPage4.Size = new System.Drawing.Size(331, 320);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "(4) Inverse and Wiener Filtering";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // nudWienerConstant
+            // 
+            this.nudWienerConstant.DecimalPlaces = 4;
+            this.nudWienerConstant.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nudWienerConstant.Location = new System.Drawing.Point(120, 213);
+            this.nudWienerConstant.Name = "nudWienerConstant";
+            this.nudWienerConstant.Size = new System.Drawing.Size(84, 23);
+            this.nudWienerConstant.TabIndex = 23;
+            this.nudWienerConstant.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            196608});
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(8, 216);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(101, 16);
+            this.label13.TabIndex = 22;
+            this.label13.Text = "Wiener Constant";
+            // 
+            // nudInverseThreshold
+            // 
+            this.nudInverseThreshold.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.nudInverseThreshold.Location = new System.Drawing.Point(120, 184);
+            this.nudInverseThreshold.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.nudInverseThreshold.Name = "nudInverseThreshold";
+            this.nudInverseThreshold.Size = new System.Drawing.Size(84, 23);
+            this.nudInverseThreshold.TabIndex = 21;
+            this.nudInverseThreshold.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(8, 187);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(106, 16);
+            this.label7.TabIndex = 20;
+            this.label7.Text = "Inverse Threshold";
             // 
             // nudGaussianSTD
             // 
@@ -502,7 +562,7 @@ namespace _2021HWK04
             0,
             0,
             65536});
-            this.nudGaussianSTD.Location = new System.Drawing.Point(51, 251);
+            this.nudGaussianSTD.Location = new System.Drawing.Point(46, 284);
             this.nudGaussianSTD.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -520,7 +580,7 @@ namespace _2021HWK04
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 253);
+            this.label2.Location = new System.Drawing.Point(9, 286);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 16);
             this.label2.TabIndex = 18;
@@ -557,9 +617,9 @@ namespace _2021HWK04
             // 
             this.btnAddNoiseAndRecover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddNoiseAndRecover.Location = new System.Drawing.Point(8, 213);
+            this.btnAddNoiseAndRecover.Location = new System.Drawing.Point(12, 242);
             this.btnAddNoiseAndRecover.Name = "btnAddNoiseAndRecover";
-            this.btnAddNoiseAndRecover.Size = new System.Drawing.Size(319, 36);
+            this.btnAddNoiseAndRecover.Size = new System.Drawing.Size(311, 36);
             this.btnAddNoiseAndRecover.TabIndex = 4;
             this.btnAddNoiseAndRecover.Text = "Add Guassian Noise and Recover";
             this.btnAddNoiseAndRecover.UseVisualStyleBackColor = true;
@@ -569,9 +629,9 @@ namespace _2021HWK04
             // 
             this.btnBlurAndRecover.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBlurAndRecover.Location = new System.Drawing.Point(8, 107);
+            this.btnBlurAndRecover.Location = new System.Drawing.Point(12, 140);
             this.btnBlurAndRecover.Name = "btnBlurAndRecover";
-            this.btnBlurAndRecover.Size = new System.Drawing.Size(319, 38);
+            this.btnBlurAndRecover.Size = new System.Drawing.Size(311, 38);
             this.btnBlurAndRecover.TabIndex = 0;
             this.btnBlurAndRecover.Text = "Read and Blur Image Then  Recover";
             this.btnBlurAndRecover.UseVisualStyleBackColor = true;
@@ -584,7 +644,7 @@ namespace _2021HWK04
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(11, 26);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(311, 46);
+            this.pictureBox2.Size = new System.Drawing.Size(312, 46);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 3;
             this.pictureBox2.TabStop = false;
@@ -667,8 +727,8 @@ namespace _2021HWK04
             // 
             this.splitContainer2.Panel2.Controls.Add(this.pcbFive);
             this.splitContainer2.Panel2.Controls.Add(this.labFive);
-            this.splitContainer2.Size = new System.Drawing.Size(338, 624);
-            this.splitContainer2.SplitterDistance = 308;
+            this.splitContainer2.Size = new System.Drawing.Size(339, 708);
+            this.splitContainer2.SplitterDistance = 349;
             this.splitContainer2.TabIndex = 3;
             // 
             // pcbFive
@@ -677,7 +737,7 @@ namespace _2021HWK04
             this.pcbFive.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbFive.Location = new System.Drawing.Point(0, 37);
             this.pcbFive.Name = "pcbFive";
-            this.pcbFive.Size = new System.Drawing.Size(338, 275);
+            this.pcbFive.Size = new System.Drawing.Size(339, 318);
             this.pcbFive.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbFive.TabIndex = 4;
             this.pcbFive.TabStop = false;
@@ -689,7 +749,7 @@ namespace _2021HWK04
             this.labFive.ForeColor = System.Drawing.Color.White;
             this.labFive.Location = new System.Drawing.Point(0, 0);
             this.labFive.Name = "labFive";
-            this.labFive.Size = new System.Drawing.Size(338, 37);
+            this.labFive.Size = new System.Drawing.Size(339, 37);
             this.labFive.TabIndex = 3;
             this.labFive.Text = "Blurred Image";
             this.labFive.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -709,8 +769,8 @@ namespace _2021HWK04
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1108, 624);
-            this.splitContainer1.SplitterDistance = 766;
+            this.splitContainer1.Size = new System.Drawing.Size(1111, 708);
+            this.splitContainer1.SplitterDistance = 768;
             this.splitContainer1.TabIndex = 3;
             // 
             // tlpMain
@@ -728,7 +788,7 @@ namespace _2021HWK04
             this.tlpMain.RowCount = 2;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpMain.Size = new System.Drawing.Size(766, 624);
+            this.tlpMain.Size = new System.Drawing.Size(768, 708);
             this.tlpMain.TabIndex = 0;
             // 
             // pnlThree
@@ -736,9 +796,9 @@ namespace _2021HWK04
             this.pnlThree.Controls.Add(this.pcbThree);
             this.pnlThree.Controls.Add(this.labThree);
             this.pnlThree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlThree.Location = new System.Drawing.Point(3, 315);
+            this.pnlThree.Location = new System.Drawing.Point(3, 357);
             this.pnlThree.Name = "pnlThree";
-            this.pnlThree.Size = new System.Drawing.Size(377, 306);
+            this.pnlThree.Size = new System.Drawing.Size(378, 348);
             this.pnlThree.TabIndex = 0;
             // 
             // pcbThree
@@ -747,7 +807,7 @@ namespace _2021HWK04
             this.pcbThree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbThree.Location = new System.Drawing.Point(0, 29);
             this.pcbThree.Name = "pcbThree";
-            this.pcbThree.Size = new System.Drawing.Size(377, 277);
+            this.pcbThree.Size = new System.Drawing.Size(378, 319);
             this.pcbThree.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbThree.TabIndex = 3;
             this.pcbThree.TabStop = false;
@@ -759,7 +819,7 @@ namespace _2021HWK04
             this.labThree.ForeColor = System.Drawing.Color.White;
             this.labThree.Location = new System.Drawing.Point(0, 0);
             this.labThree.Name = "labThree";
-            this.labThree.Size = new System.Drawing.Size(377, 29);
+            this.labThree.Size = new System.Drawing.Size(378, 29);
             this.labThree.TabIndex = 2;
             this.labThree.Text = "Fourier Transformed Phase Angle";
             this.labThree.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -769,9 +829,9 @@ namespace _2021HWK04
             this.pnlTwo.Controls.Add(this.pcbTwo);
             this.pnlTwo.Controls.Add(this.labTwo);
             this.pnlTwo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTwo.Location = new System.Drawing.Point(386, 3);
+            this.pnlTwo.Location = new System.Drawing.Point(387, 3);
             this.pnlTwo.Name = "pnlTwo";
-            this.pnlTwo.Size = new System.Drawing.Size(377, 306);
+            this.pnlTwo.Size = new System.Drawing.Size(378, 348);
             this.pnlTwo.TabIndex = 1;
             // 
             // pcbTwo
@@ -780,7 +840,7 @@ namespace _2021HWK04
             this.pcbTwo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbTwo.Location = new System.Drawing.Point(0, 29);
             this.pcbTwo.Name = "pcbTwo";
-            this.pcbTwo.Size = new System.Drawing.Size(377, 277);
+            this.pcbTwo.Size = new System.Drawing.Size(378, 319);
             this.pcbTwo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbTwo.TabIndex = 3;
             this.pcbTwo.TabStop = false;
@@ -792,7 +852,7 @@ namespace _2021HWK04
             this.labTwo.ForeColor = System.Drawing.Color.White;
             this.labTwo.Location = new System.Drawing.Point(0, 0);
             this.labTwo.Name = "labTwo";
-            this.labTwo.Size = new System.Drawing.Size(377, 29);
+            this.labTwo.Size = new System.Drawing.Size(378, 29);
             this.labTwo.TabIndex = 2;
             this.labTwo.Text = "Fourier Transformed Spectrum (Mapped)";
             this.labTwo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -804,7 +864,7 @@ namespace _2021HWK04
             this.pnlOne.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlOne.Location = new System.Drawing.Point(3, 3);
             this.pnlOne.Name = "pnlOne";
-            this.pnlOne.Size = new System.Drawing.Size(377, 306);
+            this.pnlOne.Size = new System.Drawing.Size(378, 348);
             this.pnlOne.TabIndex = 1;
             // 
             // pcbOne
@@ -813,7 +873,7 @@ namespace _2021HWK04
             this.pcbOne.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbOne.Location = new System.Drawing.Point(0, 29);
             this.pcbOne.Name = "pcbOne";
-            this.pcbOne.Size = new System.Drawing.Size(377, 277);
+            this.pcbOne.Size = new System.Drawing.Size(378, 319);
             this.pcbOne.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbOne.TabIndex = 3;
             this.pcbOne.TabStop = false;
@@ -825,7 +885,7 @@ namespace _2021HWK04
             this.labOne.ForeColor = System.Drawing.Color.White;
             this.labOne.Location = new System.Drawing.Point(0, 0);
             this.labOne.Name = "labOne";
-            this.labOne.Size = new System.Drawing.Size(377, 29);
+            this.labOne.Size = new System.Drawing.Size(378, 29);
             this.labOne.TabIndex = 2;
             this.labOne.Text = "Original Image";
             this.labOne.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -835,9 +895,9 @@ namespace _2021HWK04
             this.pnlFour.Controls.Add(this.pcbFour);
             this.pnlFour.Controls.Add(this.labFour);
             this.pnlFour.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlFour.Location = new System.Drawing.Point(386, 315);
+            this.pnlFour.Location = new System.Drawing.Point(387, 357);
             this.pnlFour.Name = "pnlFour";
-            this.pnlFour.Size = new System.Drawing.Size(377, 306);
+            this.pnlFour.Size = new System.Drawing.Size(378, 348);
             this.pnlFour.TabIndex = 2;
             // 
             // pcbFour
@@ -846,7 +906,7 @@ namespace _2021HWK04
             this.pcbFour.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbFour.Location = new System.Drawing.Point(0, 29);
             this.pcbFour.Name = "pcbFour";
-            this.pcbFour.Size = new System.Drawing.Size(377, 277);
+            this.pcbFour.Size = new System.Drawing.Size(378, 319);
             this.pcbFour.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbFour.TabIndex = 0;
             this.pcbFour.TabStop = false;
@@ -858,7 +918,7 @@ namespace _2021HWK04
             this.labFour.ForeColor = System.Drawing.Color.White;
             this.labFour.Location = new System.Drawing.Point(0, 0);
             this.labFour.Name = "labFour";
-            this.labFour.Size = new System.Drawing.Size(377, 29);
+            this.labFour.Size = new System.Drawing.Size(378, 29);
             this.labFour.TabIndex = 1;
             this.labFour.Text = "Forward then Inversed Fourier Transformed";
             this.labFour.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -868,73 +928,25 @@ namespace _2021HWK04
             this.dlgOpen.FileName = "*.*";
             this.dlgOpen.Filter = "Image File|jpg|Image File|png";
             // 
-            // nudInverseThreshold
+            // ckbReread
             // 
-            this.nudInverseThreshold.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nudInverseThreshold.Location = new System.Drawing.Point(125, 151);
-            this.nudInverseThreshold.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.nudInverseThreshold.Name = "nudInverseThreshold";
-            this.nudInverseThreshold.Size = new System.Drawing.Size(84, 23);
-            this.nudInverseThreshold.TabIndex = 21;
-            this.nudInverseThreshold.Value = new decimal(new int[] {
-            255,
-            0,
-            0,
-            0});
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 154);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(106, 16);
-            this.label7.TabIndex = 20;
-            this.label7.Text = "Inverse Threshold";
-            // 
-            // nudWienerConstant
-            // 
-            this.nudWienerConstant.DecimalPlaces = 4;
-            this.nudWienerConstant.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nudWienerConstant.Location = new System.Drawing.Point(125, 180);
-            this.nudWienerConstant.Name = "nudWienerConstant";
-            this.nudWienerConstant.Size = new System.Drawing.Size(84, 23);
-            this.nudWienerConstant.TabIndex = 23;
-            this.nudWienerConstant.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            196608});
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(13, 183);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(101, 16);
-            this.label13.TabIndex = 22;
-            this.label13.Text = "Wiener Constant";
+            this.ckbReread.AutoSize = true;
+            this.ckbReread.Location = new System.Drawing.Point(16, 114);
+            this.ckbReread.Name = "ckbReread";
+            this.ckbReread.Size = new System.Drawing.Size(127, 20);
+            this.ckbReread.TabIndex = 24;
+            this.ckbReread.Text = "Open New Image";
+            this.ckbReread.UseVisualStyleBackColor = true;
             // 
             // MainFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1108, 670);
+            this.ClientSize = new System.Drawing.Size(1111, 754);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainFrom";
@@ -957,6 +969,8 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWienerConstant)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudInverseThreshold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudGaussianSTD)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBlurT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -980,8 +994,6 @@ namespace _2021HWK04
             ((System.ComponentModel.ISupportInitialize)(this.pcbOne)).EndInit();
             this.pnlFour.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pcbFour)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudInverseThreshold)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWienerConstant)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1052,6 +1064,7 @@ namespace _2021HWK04
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown nudWienerConstant;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.CheckBox ckbReread;
     }
 }
 
