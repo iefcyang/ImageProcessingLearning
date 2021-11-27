@@ -160,6 +160,8 @@ namespace FCYangImageLibray
             colorPaletteBitmap = new Bitmap(512, 512);
             CustomColorMap = new Color[256];
             UpdateColorMap();
+            chtGamut.Images.Add( new NamedImage( "ColorGamut", pcbImage.Image ) );
+            chtGamut.ChartAreas[ 0 ].BackImage = "ColorGamut";
             //PopulateColorPoints( 255 );
             //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ColorGamut));
             //chtGamut.ChartAreas[0].BackImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));

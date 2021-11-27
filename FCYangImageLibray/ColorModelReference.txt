@@ -1,0 +1,183 @@
+﻿Color Conversion Algorithms
+
+Contents
+
+RGB to HSV & HSV to RGB
+RGB to YIQ & YIQ to RGB
+RGB to XYZ & XYZ to RGB
+XYZ to CIE L*a*b* (CIELAB) & CIELAB to XYZ
+XYZ to CIELUV & CIELUV to XYZ
+RGB to HSV & HSV to RGB
+
+The Hue/Saturation/Value model was created by A. R. Smith in 1978. It is based on such intuitive color characteristics as tint, shade and tone (or family, purety and intensity). The coordinate system is cylindrical, and the colors are defined inside a hexcone. The hue value H runs from 0 to 360º. The saturation S is the degree of strength or purity and is from 0 to 1. Purity is how much white is added to the color, so S=1 makes the purest color (no white). Brightness V also ranges from 0 to 1, where 0 is the black.
+
+There is no transformation matrix for RGB/HSV conversion, but the algorithm follows:
+
+// r,g,b values are from 0 to 1
+// h = [0,360], s = [0,1], v = [0,1]
+//		if s == 0, then h = -1 (undefined)
+void RGBtoHSV( float r, float g, float b, float *h, float *s, float *v )
+{
+	float min, max, delta;
+	min = MIN( r, g, b );
+	max = MAX( r, g, b );
+	*v = max;				// v
+	delta = max - min;
+	if( max != 0 )
+		*s = delta / max;		// s
+	else {
+		// r = g = b = 0		// s = 0, v is undefined
+		*s = 0;
+		*h = -1;
+		return;
+	}
+	if( r == max )
+		*h = ( g - b ) / delta;		// between yellow & magenta
+	else if( g == max )
+		*h = 2 + ( b - r ) / delta;	// between cyan & yellow
+	else
+		*h = 4 + ( r - g ) / delta;	// between magenta & cyan
+	*h *= 60;				// degrees
+	if( *h < 0 )
+		*h += 360;
+}
+void HSVtoRGB( float *r, float *g, float *b, float h, float s, float v )
+{
+	int i;
+	float f, p, q, t;
+	if( s == 0 ) {
+		// achromatic (grey)
+		*r = *g = *b = v;
+		return;
+	}
+	h /= 60;			// sector 0 to 5
+	i = floor( h );
+	f = h - i;			// factorial part of h
+	p = v * ( 1 - s );
+	q = v * ( 1 - s * f );
+	t = v * ( 1 - s * ( 1 - f ) );
+	switch( i ) {
+		case 0:
+			*r = v;
+			*g = t;
+			*b = p;
+			break;
+		case 1:
+			*r = q;
+			*g = v;
+			*b = p;
+			break;
+		case 2:
+			*r = p;
+			*g = v;
+			*b = t;
+			break;
+		case 3:
+			*r = p;
+			*g = q;
+			*b = v;
+			break;
+		case 4:
+			*r = t;
+			*g = p;
+			*b = v;
+			break;
+		default:		// case 5:
+			*r = v;
+			*g = p;
+			*b = q;
+			break;
+	}
+}
+When programming in Java, use the RGBtoHSB and HSBtoRGB  functions from the java.awt.Color class.
+
+RGB to YIQ & YIQ to RGB
+
+The YIQ system is the color primary system adopted by National Television System Committee (NTSC) for color TV broadcasting. The YIQ color solid is made by a linear transformation of the RGB cube. Its purpose is to exploit certain characteristics of the human eye to maximize the utilization of a fixed bandwidth. The human visual system is more sensitive to changes in luminance than to changes in hue or saturation, and thus a wider bandwidth should be dedicated to luminance than to color information. Y is similar to perceived luminance, I and Q carry color information and some luminance information. The Y signal usually has 4.2 MHz bandwidth in a 525 line system. Originally, the I and Q had different bandwidths (1.5 and 0.6 MHz), but now they commonly have the same bandwidth of 1 MHz.
+
+Here is the RGB -> YIQ conversion:
+
+    [ Y ]     [ 0.299   0.587   0.114 ] [ R ]
+    [ I ]  =  [ 0.596  -0.275  -0.321 ] [ G ]
+    [ Q ]     [ 0.212  -0.523   0.311 ] [ B ]
+
+Here is the YIQ -> RGB conversion:
+
+    [ R ]     [ 1   0.956   0.621 ] [ Y ]
+    [ G ]  =  [ 1  -0.272  -0.647 ] [ I ]
+    [ B ]     [ 1  -1.105   1.702 ] [ Q ]
+
+RGB to XYZ & XYZ to RGB
+
+RGB values in a particular set of primaries can be transformed to and from CIE XYZ via a 3x3 matrix transform. These transforms involve tristimulus values, that is a set of three linear-light components that conform to the CIE color-matching functions. CIE XYZ is a special set of tristimulus values. In XYZ, any color is represented as a set of positive values.
+
+To transform from XYZ to RGB (with D65 white point), the matrix transform used is [3]:
+
+   [ R ]   [  3.240479 -1.537150 -0.498535 ]   [ X ]
+   [ G ] = [ -0.969256  1.875992  0.041556 ] * [ Y ]
+   [ B ]   [  0.055648 -0.204043  1.057311 ]   [ Z ].
+
+The range for valid R, G, B values is [0,1]. Note, this matrix has negative coefficients. Some XYZ color may be transformed to RGB values that are negative or greater than one. This means that not all visible colors can be produced using the RGB system.
+
+The inverse transformation matrix is as follows:
+
+   [ X ]   [  0.412453  0.357580  0.180423 ]   [ R ] **
+   [ Y ] = [  0.212671  0.715160  0.072169 ] * [ G ]
+   [ Z ]   [  0.019334  0.119193  0.950227 ]   [ B ].
+
+** February 20, 2000 - typo in this line of the matrix was corrected (0.189423 to 0.180423), thanks to Michal Karczmarek, University of Toronto
+XYZ to CIE L*a*b* (CIELAB) & CIELAB to XYZ
+
+CIE 1976 L*a*b* is based directly on CIE XYZ and is an attampt to linearize the perceptibility of color differences. The non-linear relations for L*, a*, and b* are intended to mimic the logarithmic response of the eye. Coloring information is referred to the color of the white point of the system, subscript n.
+
+L* = 116 * (Y/Yn)1/3 - 16    for Y/Yn > 0.008856
+L* = 903.3 * Y/Yn             otherwise
+
+a* = 500 * ( f(X/Xn) - f(Y/Yn) )
+b* = 200 * ( f(Y/Yn) - f(Z/Zn) )
+    where f(t) = t1/3      for t > 0.008856
+              f(t) = 7.787 * t + 16/116    otherwise
+
+Here Xn, Yn and Zn are the tristimulus values of the reference white.
+The reverse transformation (for Y/Yn > 0.008856) is
+
+X = Xn * ( P + a* / 500 ) 3
+Y = Yn * P 3
+Z = Zn * ( P - b* / 200 ) 3
+    where P = (L* + 16) / 116
+
+XYZ to CIELUV & CIELUV to XYZ
+
+CIE 1976 L*u*u* (CIELUV) is based directly on CIE XYZ and is another attampt to linearize the perceptibility of color differences. The non-linear relations for L*, u*, and v* are given below:
+
+L* =  116 * (Y/Yn)1/3 - 16
+u* =  13L* * ( u' - un' )
+v* =  13L* * ( v' - vn' )
+
+The quantities un' and vn'  refer to the reference white or the light source; for the 2° observer and illuminant C,  un' = 0.2009, vn' = 0.4610 [ 1 ]. Equations for u' and v' are given below:
+
+        u' = 4X / (X + 15Y + 3Z) = 4x / ( -2x + 12y + 3 )
+        v' = 9Y / (X + 15Y + 3Z) = 9y / ( -2x + 12y + 3 ).
+
+The transformation from (u',v') to (x,y) is:
+
+        x = 27u' / ( 18u' - 48v' + 36 )
+        y = 12v' / ( 18u' - 48v' + 36 ).
+
+The transformation from CIELUV to XYZ is performed as following:
+
+u' = u / ( 13L*) + un
+v' = v / ( 13L* ) + vn
+Y = (( L* + 16 ) / 116 )3
+X = - 9Yu' / (( u' - 4 ) v' - u'v' )
+Z = ( 9Y - 15v'Y - v'X ) / 3v'
+
+Disclaimer: I (N. Schaller) received e-mail from Alexandre Campo (acampo@laas.fr) stating that he felt the last three lines above should be
+
+Y = (( L* + 16 ) / 116 )^3 * Yn
+
+and then simplify by noticing u'v' - u'v' -4v' = -4v'
+
+X = 9Yu' / 4v'
+
+I have not verified this, but have added it for your purusal.

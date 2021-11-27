@@ -24,7 +24,7 @@ namespace _2021HWK05
             UpdateGamutColorPallete( cols );
             //UpdateGradientColorPallete( btnStartColor.BackColor, btnEndColor.BackColor );
             //pcbPallete.Image = colorPalette;
-
+          //  XYZ, L* a*b *, YUV
         }
 
         private void UpdateGamutColorPallete( Color[ ] cols )
@@ -90,10 +90,68 @@ namespace _2021HWK05
         PointF[ ] corners = { new PointF(0, 0), new PointF(255, 0), new PointF(0, 255), new PointF(255, 255) };
         double[] dis = new double[4];
 
-        private void splitContainer2_Panel2_Paint(object sender, PaintEventArgs e)
+
+        ColorImage originalImage;
+
+        private void btnOpen_Click( object sender, EventArgs e )
+        {
+            OpenFileDialog dlg = new OpenFileDialog( );
+            if( dlg.ShowDialog( ) != DialogResult.OK ) return;
+            originalImage = new ColorImage( dlg.FileName );
+            labOne.Text = "Original Image";
+            pcbOne.Image = originalImage.displayedBitmap;
+
+            pcbThree.Image = pcbTwo.Image = pcbFour.Image = null;
+            labTwo.Text = labThree.Text = labFour.Text = "";
+        }
+
+        private void btnGetRGBPlanes_Click( object sender, EventArgs e )
+        {
+            MonoImage[] rgb =  originalImage.GetRGBPlaneImages( );
+            labTwo.Text = "Red Plane";
+            pcbTwo.Image = rgb[ 0 ].displayedBitmap;
+            labThree.Text = "Green Plane";
+            pcbThree.Image = rgb[ 1 ].displayedBitmap;
+            labFour.Text = "Blue Plane";
+            pcbFour.Image = rgb[ 2 ].displayedBitmap;
+
+        }
+
+        private void btnGetCMYPlaneImages_Click( object sender, EventArgs e )
+        {
+            MonoImage[ ] cmy = originalImage.GetCMYPlaneImages( );
+            labTwo.Text = "Cyan Plane";
+            pcbTwo.Image = cmy[ 0 ].displayedBitmap;
+            labThree.Text = "Magenta Plane";
+            pcbThree.Image = cmy[ 1 ].displayedBitmap;
+            labFour.Text = "Yellow Plane";
+            pcbFour.Image = cmy[ 2 ].displayedBitmap;
+        }
+
+        private void btnGetHSIImage_Click( object sender, EventArgs e )
+        {
+            MonoImage[ ] hsi = originalImage.GetHSIPlaneImages( );
+            labTwo.Text = "Heu Plane";
+            pcbTwo.Image = hsi[ 0 ].displayedBitmap;
+            labThree.Text = "Saturation Plane";
+            pcbThree.Image = hsi[ 1 ].displayedBitmap;
+            labFour.Text = "Intensity Plane";
+            pcbFour.Image = hsi[ 2 ].displayedBitmap;
+        }
+
+        private void btnGetXYZ_Click( object sender, EventArgs e )
         {
 
         }
 
-     }
+        private void btnGetLABImages_Click( object sender, EventArgs e )
+        {
+
+        }
+
+        private void btnGetYUVImages_Click( object sender, EventArgs e )
+        {
+
+        }
+    }
 }

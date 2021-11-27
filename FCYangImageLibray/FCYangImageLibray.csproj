@@ -75,6 +75,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ColorModelReference.txt" />
     <Content Include="NakedColorGamut.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

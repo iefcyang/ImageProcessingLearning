@@ -1,10 +1,15 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
 
 namespace FCYangImageLibray
 {
     public class ColorImage
     {
+
+
+        #region Overloaded Operators
+
         public static double[,,] operator +(double[,] mask, ColorImage img)
         {
             double[,,] pixels = new double[3,img.height, img.width];
@@ -61,7 +66,6 @@ namespace FCYangImageLibray
             return new ColorImage(pixels);
         }
 
-
         public static ColorImage operator +(Mask msk, ColorImage img)
         {
             int[,,] pixels = new int[3, img.height, img.width];
@@ -90,8 +94,6 @@ namespace FCYangImageLibray
             }
             return new ColorImage(pixels);
         }
-
-
 
         public static ColorImage operator +(ColorImage img1, ColorImage img2)
         {
@@ -127,29 +129,163 @@ namespace FCYangImageLibray
             return new ColorImage(pixels);
         }
 
-        //public static ColorImage operator -(ColorImage img1, ColorImage img2)
+        #endregion
+
+        #region Public Utility Functions
+
+        public MonoImage[] GetRGBPlaneImages()
+        {
+            MonoImage[ ] rgbPlanes = new MonoImage[ 3 ];
+            int[ ][ , ] planes = new int[ 3 ][ , ];
+            for( int i = 0 ; i < 3 ; i++ )
+            {
+                planes[ i ] = new int[ height, width ];
+                for( int r = 0 ; r < height ; r++ )
+                    for( int c = 0 ; c < width ; c++ )
+                        planes[ i ][ r, c ] = pixels[ i, r, c ];
+                rgbPlanes[ i ] = new MonoImage( planes[ i ] );
+            }
+            return rgbPlanes;
+        }
+
+        public MonoImage[ ] GetCMYPlaneImages( )
+        {
+            MonoImage[ ] cmyPlanes = new MonoImage[ 3 ];
+            int[ ][ , ] planes = new int[ 3 ][ , ];
+            for( int i = 0 ; i < 3 ; i++ )
+            {
+                planes[ i ] = new int[ height, width ];
+                for( int r = 0 ; r < height ; r++ )
+                    for( int c = 0 ; c < width ; c++ )
+                    {
+                        planes[ i ][ r, c ] = 255 - pixels[ i, r, c ];
+                    }
+                cmyPlanes[ i ] = new MonoImage( planes[ i ] );
+            }
+            return cmyPlanes;
+        }
+
+        double[ ] rgb = new double[ 3 ];
+        double[ ] hsi = new double[ 3 ];
+        public MonoImage[ ] GetHSIPlaneImages( )
+        {
+            MonoImage[ ] hsiPlanes = new MonoImage[ 3 ];
+            int[ ][ , ] planes = new int[ 3 ][ , ];
+            for( int i = 0 ; i < 3 ; i++ )
+            {
+                planes[ i ] = new int[ height, width ];
+            }
+
+            for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c < width ; c++ )
+                {
+                    //pixels[ 0, r, c ] = 255;
+                    //pixels[ 1, r, c ] = pixels[ 2, r, c ] = 0;
+                    double total = pixels[ 0, r, c ] + pixels[ 1, r, c ] + pixels[ 2, r, c ];
+                    if( total == 0 )
+                    {
+                        planes[ 0 ][ r, c ] = 256 / 4; // 90 degree;
+                        planes[ 1 ][ r, c ] = 
+                        planes[ 2 ][ r, c ] = 0;
+                    }
+                    else
+                    {
+                        // Intensity
+                        planes[ 2 ][ r, c ] = (int) (  total / 3.0 );
+
+                        //  Saturation 
+                        double temp;
+                        if( pixels[ 0, r, c ] < pixels[ 1, r, c ] ) 
+                            temp = pixels[ 0, r, c ];
+                        else 
+                            temp = pixels[ 1, r, c ];
+                        if( pixels[ 2, r, c ] < temp ) temp = pixels[ 2, r, c ];
+                        planes[ 1 ][ r, c ] = 255 * (int) ( 1.0 - 3 * temp / total );
+                        // Hue
+                        double rmb = pixels[ 0, r, c ] - pixels[ 2, r, c ];
+                        double rmg = pixels[ 0, r, c ] - pixels[ 1, r, c ];
+                        if( rmb == 0 && rmg == 0 ) planes[ 0 ][ r, c ] = 256 / 4;
+                        else
+                        {
+                            temp = 0.5 * ( rmg + rmb ) / Math.Sqrt( rmg * rmg + rmb * ( pixels[ 1, r, c ] - pixels[ 2, r, c ] ) );
+                            temp = Math.Acos( temp ) * 180.0 / Math.PI;
+                            if( temp < 0 )
+                                temp = 360.0 + temp;
+                            if( pixels[ 2, r, c ] > pixels[ 1, r, c ] )
+                                planes[ 0 ][ r, c ] = (int) ( 255 * ( 360.0 - temp ) / 360.0 );
+                            else
+                                planes[ 0 ][ r, c ] = (int) ( 255 * ( temp ) / 360.0 );
+                        }
+                    }
+                }
+            for( int i = 0 ; i < 3 ; i++ )
+            {
+                hsiPlanes[ i ] = new MonoImage( planes[ i ] );
+            }
+            return hsiPlanes;
+        }
+
+        //public static double[ ] SetRGBToHSI( int r, int g, int b )
         //{
-        //    int[,,] pixels = new int[3, img1.height, img1.width];
-        //    for (int d = 0; d < 3; d++)
-        //        for (int r = 0; r < img1.height; r++)
-        //            for (int c = 0; c < img1.width; c++)
-        //            {
-        //                pixels[d, r, c] = (int)(img1.pixels[d, r, c] - img2.pixels[d, r, c]));
-        //             }
 
-        //    if (pixels[d, r, c] > 255) pixels[d, r, c] = 255;
-        //    else if (pixels[d, r, c] < 0) pixels[d, r, c] = 0;
+      //  HSI, XYZ, L* a*b*, YUV
+        //    Red = r; Green = g; Blue = b;
+        //    int min = Red;
+        //    if( Green < min ) min = Green;
+        //    if( Blue < min ) min = Blue;
+        //    Saturation = 1.0 - 3.0 * min / ( Red + Green + Blue );
+        //    int RmG = Red - Green;
+        //    int RmB = Red - Blue;
+        //    int GmB = Green - Blue;
+        //    Hue = Math.Acos( 0.5 * ( RmG + RmB ) / Math.Sqrt( RmG * RmG + RmB * GmB ) ) * 180.0 / Math.PI;
+        //    if( Hue < 0 ) Hue += 360;
+        //    if( Blue > Green ) Hue = 360 - Hue;
 
-        //    return new ColorImage(pixels);
+        //    Intensity = ( Red + Green + Blue ) / 3.0;
+        //    HSI[ 0 ] = Hue;
+        //    HSI[ 1 ] = Saturation;
+        //    HSI[ 2 ] = Intensity;
+        //    return HSI;
         //}
 
-
+        #endregion
 
         public Bitmap displayedBitmap;
         public int height; 
         public int width; 
         public  int[,,] pixels;
         double[,] histograms;
+
+        #region CONSTRUCTORS
+
+        public ColorImage( string imageFilePath )
+        {
+            displayedBitmap = new Bitmap( imageFilePath );
+            SetPixelsFromImage( );
+        }
+        /// <summary>
+        ///  Create a color image form a given bitmap.
+        /// </summary>
+        /// <param name="originalImage"></param>
+        public ColorImage( Bitmap originalImage )
+        {
+            displayedBitmap = originalImage;
+            SetPixelsFromImage();
+        }
+
+        /// <summary>
+        ///  Create a color image from given pixel data
+        /// </summary>
+        /// <param name="data"></param>
+        public ColorImage(int[,,] data )
+        {
+            pixels = data;
+            SetImageFromPixels();
+        }
+
+        #endregion 
+
+
 
         #region HELPING FUNCTIONS
 
@@ -179,6 +315,7 @@ namespace FCYangImageLibray
                 for (int i = 0; i < 256; i++) histograms[d, i] /= total;
         }
 
+
         void SetImageFromPixels( )
         {
             if (pixels == null ) return;
@@ -202,33 +339,11 @@ namespace FCYangImageLibray
                 }
         }
 
+
+
         #endregion
 
 
-        #region CONSTRUCTORS
 
-
-        /// <summary>
-        ///  Create a color image form a given bitmap.
-        /// </summary>
-        /// <param name="originalImage"></param>
-        public ColorImage( Bitmap originalImage )
-        {
-            displayedBitmap = originalImage;
-            SetPixelsFromImage();
-        }
-
-
-        /// <summary>
-        ///  Create a color image from given pixel data
-        /// </summary>
-        /// <param name="data"></param>
-        public ColorImage(int[,,] data )
-        {
-            pixels = data;
-            SetImageFromPixels();
-        }
-
-        #endregion
     }
 }
