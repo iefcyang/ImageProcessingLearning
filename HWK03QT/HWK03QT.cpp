@@ -1,5 +1,6 @@
 #include "HWK03QT.h"
 #include <QStandardItem>
+#include <QPainter>
 
 #include "Filter.h"
 #include <iostream>
@@ -96,7 +97,13 @@ void HWK03QT::on_btn1_clicked()
 }
 void HWK03QT::on_btn2_clicked()
 {
-
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setPen(QPen(QColor("#3cf"), 4));
+    const int distance = 20;
+    painter.drawRoundedRect(QRect(distance, distance,
+        width() - 2 * distance, height() - 2 * distance),
+        10, 10);
 }
 void HWK03QT::on_btnGetMask_clicked()
 {
