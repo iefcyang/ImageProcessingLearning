@@ -523,12 +523,6 @@ namespace FCYangImageLibray
                         R = (int)(256 * red);
                         G = (int)(256 * green);
                         B = (int)(256 * blue);
-                        if (R > 255) 
-                            R = 255;
-                        if (G > 255) 
-                            G = 255;
-                        if (B > 255) 
-                            B = 255;
                         break;
                     case ColorModel.LAB:
                         double L=  centers[j, 0] * 100;
@@ -566,14 +560,12 @@ namespace FCYangImageLibray
                         G = (int)(-0.969256 * X + 1.875992 * Y + 0.041556 * Z + 0.5);
                         B = (int)(0.055648 * X - 0.204043 * Y + 1.057311 * Z + 0.5);
 
-                        R =  R < 0 ? 0 : R > 255 ? 255 : R;
-                        G =  G < 0 ? 0 : G > 255 ? 255 : G;
-                        B = B < 0 ? 0 :B > 255 ? 255 : B;
-
-
                         break;
                 }
 
+                R = R < 0 ? 0 : R > 255 ? 255 : R;
+                G = G < 0 ? 0 : G > 255 ? 255 : G;
+                B = B < 0 ? 0 : B > 255 ? 255 : B;
 
                 centerColors[j] = Color.FromArgb(R, G, B);
             }
