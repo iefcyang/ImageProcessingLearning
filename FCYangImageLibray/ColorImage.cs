@@ -391,6 +391,7 @@ namespace FCYangImageLibray
             for( int j = 0; j < k; j ++)
             {
                 int R=0, G=0, B=0;
+                double red, green, blue;
 
                 switch (mode)
                 {
@@ -400,11 +401,40 @@ namespace FCYangImageLibray
                         B = (int)(256 * centers[j, 2]);
                         break;
                     case ColorModel.HSI:
-                        double temp = 120.0 * Math.PI / 180.0;
+                        double Sixty =  Math.PI / 3.0;
                         double hue = centers[j, 0];
-                        R = (int)(256 * centers[j, 0]);
-                        G = (int)(256 * centers[j, 1]);
-                        B = (int)(256 * centers[j, 2]);
+                        if (hue < 2 * Sixty)
+                        {
+                            blue =  centers[j, 2] * (1.0 - centers[j, 1]);
+                            red = centers[j, 2] * (1.0 + centers[j, 1] * Math.Cos(hue) / Math.Cos(Sixty - hue));
+                            green = 3 * centers[j, 2] - red - blue;
+                        }
+                        else
+                        {
+                            if(hue < 4 * Sixty)
+                            {
+                                hue -= 2 * Sixty;
+                                red = centers[j, 2] * (1.0 - centers[j, 1]);
+                                green = centers[j, 2] * (1.0 + centers[j, 1] * Math.Cos(hue) / Math.Cos(Sixty - hue));
+                                blue = 3 * centers[j, 2] - red - green;
+                            }
+                            else
+                            {
+                                hue -= 4 * Sixty;
+                                green = centers[j, 2] * (1.0 - centers[j, 1]);
+                                blue = centers[j, 2] * (1.0 + centers[j, 1] * Math.Cos(hue) / Math.Cos(Sixty - hue));
+                                red = 3 * centers[j, 2] - blue - green;
+                            }
+                        }
+                        R = (int)(256 * red);
+                        G = (int)(256 * green);
+                        B = (int)(256 * blue);
+                        if (R > 255) 
+                            R = 255;
+                        if (G > 255) 
+                            G = 255;
+                        if (B > 255) 
+                            B = 255;
                         break;
                     case ColorModel.LAB:
                         break;

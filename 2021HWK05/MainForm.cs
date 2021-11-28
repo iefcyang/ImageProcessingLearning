@@ -245,10 +245,15 @@ namespace _2021HWK05
             labTwo.Text = $"2-RGB-Segmentation Image";
             ColorImage img1 = originalImage.CreateRGBSegmentationImage(2);
             pcbTwo.Image = img1.displayedBitmap;
+
+            labThree.Text = $"2-HSI-Segmentation Image";
             ColorImage img2 = originalImage.CreateHSISegmentationImage(2);
             pcbThree.Image = img2.displayedBitmap;
+
+            //labFour.Text = $"2-L*a*b*-Segmentation Image";
             //ColorImage img3 = originalImage.CreateLABSegmentationImage(2);
             //pcbFour.Image = img3.displayedBitmap;
+
             Cursor = Cursors.Default;
         }
     }
