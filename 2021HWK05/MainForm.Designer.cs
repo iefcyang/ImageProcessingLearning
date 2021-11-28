@@ -66,7 +66,6 @@ namespace _2021HWK05
             this.btnLeftTop = new System.Windows.Forms.Button();
             this.pcbPallete = new System.Windows.Forms.PictureBox();
             this.btnApplyGamutColorMap = new System.Windows.Forms.Button();
-            this.gamutMap = new FCYangImageLibray.ColorGamut();
             this.pagGroupColor = new System.Windows.Forms.TabPage();
             this.btnTwoOnDifferentData = new System.Windows.Forms.Button();
             this.btnGetThreeSegmentations = new System.Windows.Forms.Button();
@@ -80,6 +79,9 @@ namespace _2021HWK05
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnOpen = new System.Windows.Forms.ToolStripButton();
+            this.label4 = new System.Windows.Forms.Label();
+            this.nudLevels = new System.Windows.Forms.NumericUpDown();
+            this.gamutMap = new FCYangImageLibray.ColorGamut();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -108,6 +110,7 @@ namespace _2021HWK05
             ((System.ComponentModel.ISupportInitialize)(this.nudK2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudK1)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLevels)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -158,7 +161,7 @@ namespace _2021HWK05
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 56);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 64);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -169,7 +172,7 @@ namespace _2021HWK05
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabMain);
-            this.splitContainer1.Size = new System.Drawing.Size(1203, 685);
+            this.splitContainer1.Size = new System.Drawing.Size(1203, 677);
             this.splitContainer1.SplitterDistance = 884;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 2;
@@ -189,7 +192,7 @@ namespace _2021HWK05
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(884, 685);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(884, 677);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // pnlFour
@@ -197,9 +200,9 @@ namespace _2021HWK05
             this.pnlFour.Controls.Add(this.pcbFour);
             this.pnlFour.Controls.Add(this.labFour);
             this.pnlFour.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlFour.Location = new System.Drawing.Point(445, 345);
+            this.pnlFour.Location = new System.Drawing.Point(445, 341);
             this.pnlFour.Name = "pnlFour";
-            this.pnlFour.Size = new System.Drawing.Size(436, 337);
+            this.pnlFour.Size = new System.Drawing.Size(436, 333);
             this.pnlFour.TabIndex = 4;
             // 
             // pcbFour
@@ -208,7 +211,7 @@ namespace _2021HWK05
             this.pcbFour.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbFour.Location = new System.Drawing.Point(0, 28);
             this.pcbFour.Name = "pcbFour";
-            this.pcbFour.Size = new System.Drawing.Size(436, 309);
+            this.pcbFour.Size = new System.Drawing.Size(436, 305);
             this.pcbFour.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbFour.TabIndex = 1;
             this.pcbFour.TabStop = false;
@@ -229,9 +232,9 @@ namespace _2021HWK05
             this.pnlThree.Controls.Add(this.pcbThree);
             this.pnlThree.Controls.Add(this.labThree);
             this.pnlThree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlThree.Location = new System.Drawing.Point(3, 345);
+            this.pnlThree.Location = new System.Drawing.Point(3, 341);
             this.pnlThree.Name = "pnlThree";
-            this.pnlThree.Size = new System.Drawing.Size(436, 337);
+            this.pnlThree.Size = new System.Drawing.Size(436, 333);
             this.pnlThree.TabIndex = 3;
             // 
             // pcbThree
@@ -240,7 +243,7 @@ namespace _2021HWK05
             this.pcbThree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbThree.Location = new System.Drawing.Point(0, 28);
             this.pcbThree.Name = "pcbThree";
-            this.pcbThree.Size = new System.Drawing.Size(436, 309);
+            this.pcbThree.Size = new System.Drawing.Size(436, 305);
             this.pcbThree.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbThree.TabIndex = 1;
             this.pcbThree.TabStop = false;
@@ -263,7 +266,7 @@ namespace _2021HWK05
             this.pnlOne.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlOne.Location = new System.Drawing.Point(3, 3);
             this.pnlOne.Name = "pnlOne";
-            this.pnlOne.Size = new System.Drawing.Size(436, 336);
+            this.pnlOne.Size = new System.Drawing.Size(436, 332);
             this.pnlOne.TabIndex = 2;
             // 
             // pcbOne
@@ -272,7 +275,7 @@ namespace _2021HWK05
             this.pcbOne.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbOne.Location = new System.Drawing.Point(0, 28);
             this.pcbOne.Name = "pcbOne";
-            this.pcbOne.Size = new System.Drawing.Size(436, 308);
+            this.pcbOne.Size = new System.Drawing.Size(436, 304);
             this.pcbOne.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbOne.TabIndex = 1;
             this.pcbOne.TabStop = false;
@@ -295,7 +298,7 @@ namespace _2021HWK05
             this.pnlTwo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTwo.Location = new System.Drawing.Point(445, 3);
             this.pnlTwo.Name = "pnlTwo";
-            this.pnlTwo.Size = new System.Drawing.Size(436, 336);
+            this.pnlTwo.Size = new System.Drawing.Size(436, 332);
             this.pnlTwo.TabIndex = 1;
             // 
             // pcbTwo
@@ -304,7 +307,7 @@ namespace _2021HWK05
             this.pcbTwo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pcbTwo.Location = new System.Drawing.Point(0, 28);
             this.pcbTwo.Name = "pcbTwo";
-            this.pcbTwo.Size = new System.Drawing.Size(436, 308);
+            this.pcbTwo.Size = new System.Drawing.Size(436, 304);
             this.pcbTwo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pcbTwo.TabIndex = 1;
             this.pcbTwo.TabStop = false;
@@ -331,7 +334,7 @@ namespace _2021HWK05
             this.tabMain.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
-            this.tabMain.Size = new System.Drawing.Size(314, 685);
+            this.tabMain.Size = new System.Drawing.Size(314, 677);
             this.tabMain.TabIndex = 0;
             // 
             // pagFormatTransform
@@ -346,7 +349,7 @@ namespace _2021HWK05
             this.pagFormatTransform.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pagFormatTransform.Name = "pagFormatTransform";
             this.pagFormatTransform.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pagFormatTransform.Size = new System.Drawing.Size(306, 656);
+            this.pagFormatTransform.Size = new System.Drawing.Size(306, 648);
             this.pagFormatTransform.TabIndex = 1;
             this.pagFormatTransform.Text = "(1) Color Model Transform";
             this.pagFormatTransform.UseVisualStyleBackColor = true;
@@ -379,7 +382,7 @@ namespace _2021HWK05
             this.btnGetXYZ.TabIndex = 3;
             this.btnGetXYZ.Text = "Get XYZ Plane Images";
             this.btnGetXYZ.UseVisualStyleBackColor = true;
-            this.btnGetXYZ.Click += new System.EventHandler(this.btnGetXYZ_Click);
+            this.btnGetXYZ.Click += new System.EventHandler(this.btnGetXYZImages_Click);
             // 
             // btnGetHSIImage
             // 
@@ -418,7 +421,7 @@ namespace _2021HWK05
             this.pagColorImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pagColorImage.Name = "pagColorImage";
             this.pagColorImage.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pagColorImage.Size = new System.Drawing.Size(306, 656);
+            this.pagColorImage.Size = new System.Drawing.Size(306, 648);
             this.pagColorImage.TabIndex = 0;
             this.pagColorImage.Text = "(2) Pseudo Coloring";
             this.pagColorImage.UseVisualStyleBackColor = true;
@@ -444,15 +447,15 @@ namespace _2021HWK05
             this.splitContainer2.Panel2.Controls.Add(this.btnApplyGamutColorMap);
             this.splitContainer2.Panel2.Controls.Add(this.gamutMap);
             this.splitContainer2.Panel2.Click += new System.EventHandler(this.EditColorSwatch);
-            this.splitContainer2.Size = new System.Drawing.Size(300, 648);
-            this.splitContainer2.SplitterDistance = 235;
+            this.splitContainer2.Size = new System.Drawing.Size(300, 640);
+            this.splitContainer2.SplitterDistance = 232;
             this.splitContainer2.TabIndex = 0;
             // 
             // btnLeftBottom
             // 
             this.btnLeftBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnLeftBottom.BackColor = System.Drawing.Color.Lime;
-            this.btnLeftBottom.Location = new System.Drawing.Point(3, 174);
+            this.btnLeftBottom.Location = new System.Drawing.Point(3, 171);
             this.btnLeftBottom.Name = "btnLeftBottom";
             this.btnLeftBottom.Size = new System.Drawing.Size(22, 23);
             this.btnLeftBottom.TabIndex = 6;
@@ -473,7 +476,7 @@ namespace _2021HWK05
             // btnApplyQuadMap
             // 
             this.btnApplyQuadMap.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnApplyQuadMap.Location = new System.Drawing.Point(0, 203);
+            this.btnApplyQuadMap.Location = new System.Drawing.Point(0, 200);
             this.btnApplyQuadMap.Name = "btnApplyQuadMap";
             this.btnApplyQuadMap.Size = new System.Drawing.Size(300, 32);
             this.btnApplyQuadMap.TabIndex = 4;
@@ -485,7 +488,7 @@ namespace _2021HWK05
             // 
             this.btnRightBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRightBottom.BackColor = System.Drawing.Color.Blue;
-            this.btnRightBottom.Location = new System.Drawing.Point(273, 174);
+            this.btnRightBottom.Location = new System.Drawing.Point(273, 171);
             this.btnRightBottom.Name = "btnRightBottom";
             this.btnRightBottom.Size = new System.Drawing.Size(22, 23);
             this.btnRightBottom.TabIndex = 2;
@@ -510,7 +513,7 @@ namespace _2021HWK05
             this.pcbPallete.BackColor = System.Drawing.Color.Black;
             this.pcbPallete.Location = new System.Drawing.Point(19, 14);
             this.pcbPallete.Name = "pcbPallete";
-            this.pcbPallete.Size = new System.Drawing.Size(263, 172);
+            this.pcbPallete.Size = new System.Drawing.Size(263, 169);
             this.pcbPallete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pcbPallete.TabIndex = 0;
             this.pcbPallete.TabStop = false;
@@ -518,7 +521,7 @@ namespace _2021HWK05
             // btnApplyGamutColorMap
             // 
             this.btnApplyGamutColorMap.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnApplyGamutColorMap.Location = new System.Drawing.Point(0, 375);
+            this.btnApplyGamutColorMap.Location = new System.Drawing.Point(0, 370);
             this.btnApplyGamutColorMap.Name = "btnApplyGamutColorMap";
             this.btnApplyGamutColorMap.Size = new System.Drawing.Size(300, 34);
             this.btnApplyGamutColorMap.TabIndex = 7;
@@ -526,18 +529,10 @@ namespace _2021HWK05
             this.btnApplyGamutColorMap.UseVisualStyleBackColor = true;
             this.btnApplyGamutColorMap.Click += new System.EventHandler(this.btnApplyPseudoColorButton_Click);
             // 
-            // gamutMap
-            // 
-            this.gamutMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.gamutMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gamutMap.Location = new System.Drawing.Point(0, 0);
-            this.gamutMap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.gamutMap.Name = "gamutMap";
-            this.gamutMap.Size = new System.Drawing.Size(300, 409);
-            this.gamutMap.TabIndex = 0;
-            // 
             // pagGroupColor
             // 
+            this.pagGroupColor.Controls.Add(this.label4);
+            this.pagGroupColor.Controls.Add(this.nudLevels);
             this.pagGroupColor.Controls.Add(this.btnTwoOnDifferentData);
             this.pagGroupColor.Controls.Add(this.btnGetThreeSegmentations);
             this.pagGroupColor.Controls.Add(this.label3);
@@ -548,16 +543,16 @@ namespace _2021HWK05
             this.pagGroupColor.Controls.Add(this.nudK1);
             this.pagGroupColor.Location = new System.Drawing.Point(4, 25);
             this.pagGroupColor.Name = "pagGroupColor";
-            this.pagGroupColor.Size = new System.Drawing.Size(306, 656);
+            this.pagGroupColor.Size = new System.Drawing.Size(306, 648);
             this.pagGroupColor.TabIndex = 2;
-            this.pagGroupColor.Text = "(3) Color Clustering";
+            this.pagGroupColor.Text = "(3) Image Segmentation";
             this.pagGroupColor.UseVisualStyleBackColor = true;
             // 
             // btnTwoOnDifferentData
             // 
             this.btnTwoOnDifferentData.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTwoOnDifferentData.Location = new System.Drawing.Point(12, 595);
+            this.btnTwoOnDifferentData.Location = new System.Drawing.Point(12, 584);
             this.btnTwoOnDifferentData.Name = "btnTwoOnDifferentData";
             this.btnTwoOnDifferentData.Size = new System.Drawing.Size(276, 42);
             this.btnTwoOnDifferentData.TabIndex = 7;
@@ -598,7 +593,7 @@ namespace _2021HWK05
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 31);
+            this.label1.Location = new System.Drawing.Point(22, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 16);
             this.label1.TabIndex = 3;
@@ -606,7 +601,7 @@ namespace _2021HWK05
             // 
             // nudK3
             // 
-            this.nudK3.Location = new System.Drawing.Point(162, 82);
+            this.nudK3.Location = new System.Drawing.Point(162, 81);
             this.nudK3.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -628,7 +623,7 @@ namespace _2021HWK05
             // 
             // nudK2
             // 
-            this.nudK2.Location = new System.Drawing.Point(162, 53);
+            this.nudK2.Location = new System.Drawing.Point(162, 52);
             this.nudK2.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -672,12 +667,12 @@ namespace _2021HWK05
             // 
             // toolStrip1
             // 
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnOpen});
             this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1203, 31);
+            this.toolStrip1.Size = new System.Drawing.Size(1203, 39);
             this.toolStrip1.TabIndex = 3;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -686,9 +681,47 @@ namespace _2021HWK05
             this.btnOpen.Image = ((System.Drawing.Image)(resources.GetObject("btnOpen.Image")));
             this.btnOpen.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(79, 28);
+            this.btnOpen.Size = new System.Drawing.Size(87, 36);
             this.btnOpen.Text = "Open ...";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(22, 557);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 16);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Segments";
+            // 
+            // nudLevels
+            // 
+            this.nudLevels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.nudLevels.Location = new System.Drawing.Point(92, 555);
+            this.nudLevels.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudLevels.Name = "nudLevels";
+            this.nudLevels.Size = new System.Drawing.Size(73, 23);
+            this.nudLevels.TabIndex = 8;
+            this.nudLevels.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // gamutMap
+            // 
+            this.gamutMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.gamutMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gamutMap.Location = new System.Drawing.Point(0, 0);
+            this.gamutMap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gamutMap.Name = "gamutMap";
+            this.gamutMap.Size = new System.Drawing.Size(300, 404);
+            this.gamutMap.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -705,6 +738,7 @@ namespace _2021HWK05
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "HWK 05";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -737,6 +771,7 @@ namespace _2021HWK05
             ((System.ComponentModel.ISupportInitialize)(this.nudK1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLevels)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -795,6 +830,8 @@ namespace _2021HWK05
         private System.Windows.Forms.NumericUpDown nudK2;
         private System.Windows.Forms.NumericUpDown nudK1;
         private System.Windows.Forms.Button btnTwoOnDifferentData;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown nudLevels;
     }
 }
 

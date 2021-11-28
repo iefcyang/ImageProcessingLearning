@@ -6,11 +6,14 @@ namespace FCYangImageLibray
 {
     public enum ColorModel
     {
-        RGB, HSI, LAB
+        RGB, HSI, LAB, XYZ, CMY, YUV
     }
 
     public class ColorImage
     {
+
+        #region static data, functions, overloaded operators
+
         static Random[] randomizers = new Random[3];
 
         static ColorImage()
@@ -19,7 +22,6 @@ namespace FCYangImageLibray
                 randomizers[i] = new Random(Guid.NewGuid().GetHashCode());
         }
 
-        #region Overloaded Operators
 
         public static double[,,] operator +(double[,] mask, ColorImage img)
         {
@@ -107,7 +109,6 @@ namespace FCYangImageLibray
         }
 
 
-
         public static ColorImage operator +(ColorImage img1, ColorImage img2)
         {
             int[,,] pixels = new int[3, img1.height, img1.width];
@@ -144,6 +145,8 @@ namespace FCYangImageLibray
 
         #endregion
 
+
+
         #region Public Utility Functions
 
         public MonoImage CreateAverageMonoImage()
@@ -155,104 +158,78 @@ namespace FCYangImageLibray
             return new MonoImage(mono);
         }
 
-        public MonoImage[] GetRGBPlaneImages()
+        public MonoImage[] GetPlaneImages( ColorModel mode )
         {
-            MonoImage[] rgbPlanes = new MonoImage[3];
-            int[][,] planes = new int[3][,];
-            for (int i = 0; i < 3; i++)
+            double[,,] data = null;
+            switch( mode )
             {
-                planes[i] = new int[height, width];
-                for (int r = 0; r < height; r++)
-                    for (int c = 0; c < width; c++)
-                        planes[i][r, c] = pixels[i, r, c];
-                rgbPlanes[i] = new MonoImage(planes[i]);
+                case ColorModel.XYZ:
+                    data = GetXYZData();
+                    break;
+                case ColorModel.RGB:
+                    data = GetRGBData();
+                    break;
+                case ColorModel.HSI:
+                    data = GetHSIData();
+                    break;
+                case ColorModel.LAB:
+                    data = GetLABData();
+                    break;
+                case ColorModel.CMY:
+                    data = GetCMYData();
+                    break;
+                case ColorModel.YUV:
+                    data = GetYUVData();
+                    break;                    
             }
-            return rgbPlanes;
-        }
-
-        public MonoImage[] GetCMYPlaneImages()
-        {
-            MonoImage[] cmyPlanes = new MonoImage[3];
-            int[][,] planes = new int[3][,];
-            for (int i = 0; i < 3; i++)
+            MonoImage[] planeImages = new MonoImage[3];
+            double[] ranges = new double[3];
+            double[] mins = new double[3];
+            for (int d = 0; d < 3; d++)
             {
-                planes[i] = new int[height, width];
+                ranges[d] = double.MinValue;
+                mins[d] = double.MaxValue;
                 for (int r = 0; r < height; r++)
                     for (int c = 0; c < width; c++)
                     {
-                        planes[i][r, c] = 255 - pixels[i, r, c];
+                        if (data[d, r, c] < mins[d]) mins[d] = data[d, r, c];
+                        else if (data[d, r, c] > ranges[d]) ranges[d] = data[d, r, c];
                     }
-                cmyPlanes[i] = new MonoImage(planes[i]);
             }
-            return cmyPlanes;
-        }
 
-        double[] rgb = new double[3];
-        double[] hsi = new double[3];
-        public MonoImage[] GetHSIPlaneImages()
-        {
-            MonoImage[] hsiPlanes = new MonoImage[3];
             int[][,] planes = new int[3][,];
             for (int i = 0; i < 3; i++)
             {
                 planes[i] = new int[height, width];
+                ranges[i] = ranges[i] - mins[i];
             }
 
             for (int r = 0; r < height; r++)
                 for (int c = 0; c < width; c++)
                 {
-                    //pixels[ 0, r, c ] = 255;
-                    //pixels[ 1, r, c ] = pixels[ 2, r, c ] = 0;
-                    double total = pixels[0, r, c] + pixels[1, r, c] + pixels[2, r, c];
-                    if (total == 0)
-                    {
-                        planes[0][r, c] = 256 / 4; // 90 degree;
-                        planes[1][r, c] =
-                        planes[2][r, c] = 0;
-                    }
-                    else
-                    {
-                        // Intensity
-                        planes[2][r, c] = (int)(total / 3.0);
-
-                        //  Saturation 
-                        double temp;
-                        if (pixels[0, r, c] < pixels[1, r, c])
-                            temp = pixels[0, r, c];
-                        else
-                            temp = pixels[1, r, c];
-                        if (pixels[2, r, c] < temp) temp = pixels[2, r, c];
-                        planes[1][r, c] = 255 * (int)(1.0 - 3 * temp / total);
-                        // Hue
-                        double rmb = pixels[0, r, c] - pixels[2, r, c];
-                        double rmg = pixels[0, r, c] - pixels[1, r, c];
-                        if (rmb == 0 && rmg == 0) planes[0][r, c] = 256 / 4;
-                        else
-                        {
-                            temp = 0.5 * (rmg + rmb) / Math.Sqrt(rmg * rmg + rmb * (pixels[1, r, c] - pixels[2, r, c]));
-                            temp = Math.Acos(temp) * 180.0 / Math.PI;
-                            if (temp < 0)
-                                temp = 360.0 + temp;
-                            if (pixels[2, r, c] > pixels[1, r, c])
-                                planes[0][r, c] = (int)(255 * (360.0 - temp) / 360.0);
-                            else
-                                planes[0][r, c] = (int)(255 * (temp) / 360.0);
-                        }
-                    }
+                    planes[0][r, c] = (int)(255 * (data[0, r, c] - mins[0]) / ranges[0]);
+                    planes[1][r, c] = (int)(255 * (data[1, r, c] - mins[1]) / ranges[1]);
+                    planes[2][r, c] = (int)(255 * (data[2, r, c] - mins[2]) / ranges[2]);
                 }
             for (int i = 0; i < 3; i++)
             {
-                hsiPlanes[i] = new MonoImage(planes[i]);
+                planeImages[i] = new MonoImage(planes[i]);
             }
-            return hsiPlanes;
+            return planeImages;
         }
 
-
+        #endregion
 
 
         int[,] segmentationIDs;
+        public Bitmap displayedBitmap;
+        public int height;
+        public int width;
+        public int[,,] pixels;
+        double[,] histograms;
 
 
+        #region Convert Pixels to Different Color Model 
 
         private double[,,] GetRGBData()
         {
@@ -302,11 +279,118 @@ namespace FCYangImageLibray
             return data;
         }
 
+        private double[,,] GetXYZData()
+        {
+            double[,,] data = GetRGBData();
+            // Transform RGB to XYZ
+            // D65/2°
+            // --------- RGB to XYZ ---------//
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
+                {
+                    double red = data[0, r, c];
+                    double green = data[1, r, c];
+                    double blue = data[2, r, c];
+
+                    if (red > 0.04045)
+                        red = Math.Pow((red + 0.055) / 1.055, 2.4);
+                    else
+                        red = red / 12.92;
+
+                    if (green > 0.04045)
+                        green = Math.Pow((green + 0.055) / 1.055, 2.4);
+                    else
+                        green = green / 12.92;
+
+                    if (blue > 0.04045)
+                        blue = Math.Pow((blue + 0.055) / 1.055, 2.4);
+                    else
+                        blue = blue / 12.92;
+
+                    red *= 100;
+                    green *= 100;
+                    blue *= 100;
+                    data[0,r,c] = 0.4124 * red + 0.3576 * green + 0.1805 * blue;
+                    data[1, r, c] = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+                    data[2, r, c] = 0.0193 * red + 0.1192 * green + 0.9505 * blue;
+
+                }
+
+            return data;
+        }
 
         private double[,,] GetLABData()
         {
-            throw new NotImplementedException();
+            // Transform RGB to XYZ
+            // D65/2°
+            double Xr = 95.047;
+            double Yr = 100.0;
+            double Zr = 108.883;
+
+            double[,,] data = GetXYZData();
+
+            // --------- XYZ to Lab --------- //
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
+                {
+                    double red = data[0,r,c] / Xr;
+                    double green = data[1, r, c] / Yr;
+                    double blue = data[2, r, c] / Zr;
+
+                    if (red > 0.008856)
+                        red = (float)Math.Pow(red, 1 / 3.0);
+                    else
+                        red = (float)((7.787 * red) + 16 / 116.0);
+
+                    if (green > 0.008856)
+                        green = (float)Math.Pow(green, 1 / 3.0);
+                    else
+                        green = (float)((7.787 * green) + 16 / 116.0);
+
+                    if (blue > 0.008856)
+                        blue = (float)Math.Pow(blue, 1 / 3.0);
+                    else
+                        blue = (float)((7.787 * blue) + 16 / 116.0);
+
+                    data[0,r,c] =  ( (116 * green) - 16 ) /100.0;
+                    data[1, r, c] = ( 500 * (red - green) ) / 100.0;
+                    data[2, r, c] = ( 200 * (green - blue) ) / 100.0;
+                }
+
+            return data;
         }
+
+        private double[,,] GetCMYData()
+        {
+            double[,,] data = new double[3, height, width];
+            for (int d = 0; d < 3; d++)
+                for (int r = 0; r < height; r++)
+                    for (int c = 0; c < width; c++)
+                        data[d, r, c] =  1.0 - pixels[d, r, c] / 255.0;
+            return data;
+        }
+
+        private double[,,] GetYUVData()
+        {
+            double[,,] data = new double[3, height, width];
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
+                {
+                    double red = pixels[0, r, c] / 255.0;
+                        double green = pixels[1, r, c] / 255.0;
+                    double blue = pixels[2, r, c] / 255.0;
+                    data[0, r, c] = 0.299 * red + 0.587 * green + 0.114 * blue;
+                    data[1, r, c] = -0.169 * red - 0.331 * green + 0.5 * blue + 0.5;
+                    data[2, r, c] = 0.5 * red - 0.419 * green - 0.081 * blue + 0.5;
+                }
+            return data;
+        }
+
+        #endregion
+
+
+
+        #region Create Segmentation Images
 
         public ColorImage CreateRGBSegmentationImage(int k)
         {
@@ -317,31 +401,41 @@ namespace FCYangImageLibray
         {
          
             double[,,] data = GetHSIData();
-            double[] maxs = new double[3];
-            double[] mins = new double[3];
-            for (int d = 0; d < 3; d++)
-            {
-                maxs[d] = double.MinValue;
-                mins[d] = double.MaxValue;
-                for (int r = 0; r < height; r++)
-                    for (int c = 0; c < width; c++)
-                    {
-                        if (data[d, r, c] > maxs[d]) maxs[d] = data[d, r, c];
-                        else if (data[d, r, c] < mins[d]) mins[d] = data[d, r, c];
-                    }
-            }
+            //double[] maxs = new double[3];
+            //double[] mins = new double[3];
+            //for (int d = 0; d < 3; d++)
+            //{
+            //    maxs[d] = double.MinValue;
+            //    mins[d] = double.MaxValue;
+            //    for (int r = 0; r < height; r++)
+            //        for (int c = 0; c < width; c++)
+            //        {
+            //            if (data[d, r, c] > maxs[d]) maxs[d] = data[d, r, c];
+            //            else if (data[d, r, c] < mins[d]) mins[d] = data[d, r, c];
+            //        }
+            //}
             return CreateSegmentationImage(k, data, new double[] { Math.PI * 2, 1.0, 1.0 }, ColorModel.HSI);
-            //double[,,] HSIData = CreateSegmentationImage(k, data, new double[] { Math.PI * 2, 1.0, 1.0 });
-            //return new ColorImage(HSIData, ColorModel.HSI);
 
         }
 
         public ColorImage CreateLABSegmentationImage(int k)
         {
-            return CreateSegmentationImage(k, GetLABData(), new double[] { 1.0, 1.0, 1.0 }, ColorModel.LAB);
+            double[,,] data = GetLABData();
+            double[] limits = new double[3];
+            for (int d = 0; d < 3; d++)
+            {
+                limits[d] = double.MinValue;
+                for (int r = 0; r < height; r++)
+
+                    for (int c = 0; c < width; c++)
+                    {
+                        if (data[d, r, c] > limits[d]) limits[d] = data[d, r, c];
+                    }
+            }
+            limits[0] = limits[2] = limits[1] = 1.0;
+            return CreateSegmentationImage(k, data, limits, ColorModel.LAB);
         }
 
- 
          ColorImage CreateSegmentationImage(int k, double[,,] array, double[] limits, ColorModel mode)
         {
             double[,] centers = new double[k, 3];
@@ -437,6 +531,46 @@ namespace FCYangImageLibray
                             B = 255;
                         break;
                     case ColorModel.LAB:
+                        double L=  centers[j, 0] * 100;
+                        double a = centers[j,  1] * 100;
+                        double b = centers[j, 2] * 100;
+                        double X, Y, Z, fX, fY, fZ;
+
+                        fY = Math.Pow((L + 16.0) / 116.0, 3.0);
+                        if (fY < 0.008856)
+                            fY = L / 903.3;
+                        Y = fY;
+
+                        if (fY > 0.008856)
+                            fY = Math.Pow(fY, 1.0 / 3.0);
+                        else
+                            fY = 7.787 * fY + 16.0 / 116.0;
+
+                        fX = a / 500.0 + fY;
+                        if (fX > 0.206893)
+                            X = Math.Pow(fX, 3.0);
+                        else
+                            X = (fX - 16.0 / 116.0) / 7.787;
+
+                        fZ = fY - b / 200.0;
+                        if (fZ > 0.206893)
+                            Z = Math.Pow(fZ, 3.0);
+                        else
+                            Z = (fZ - 16.0 / 116.0) / 7.787;
+
+                        X *= (0.950456 * 255);
+                        Y *= 255;
+                        Z *= (1.088754 * 255);
+
+                        R = (int)(3.240479 * X - 1.537150 * Y - 0.498535 * Z + 0.5);
+                        G = (int)(-0.969256 * X + 1.875992 * Y + 0.041556 * Z + 0.5);
+                        B = (int)(0.055648 * X - 0.204043 * Y + 1.057311 * Z + 0.5);
+
+                        R =  R < 0 ? 0 : R > 255 ? 255 : R;
+                        G =  G < 0 ? 0 : G > 255 ? 255 : G;
+                        B = B < 0 ? 0 :B > 255 ? 255 : B;
+
+
                         break;
                 }
 
@@ -455,52 +589,12 @@ namespace FCYangImageLibray
                     segmentatedData[2, r, c] = centerColors[tid].B;
                 }
 
-            //// Create a new color image
-            //int[,,] segmentatedPixels = new int[3, height, width];
-            //for( int r = 0; r < height; r++)
-            //    for( int c = 0; c < width; c++)
-            //    {
-            //        int tid = segmentationIDs[r, c];
-            //        for(int j = 0; j < 3; j++) segmentatedPixels[j, r, c] = (int)centers[tid, j];
-            //    }
             return new ColorImage( segmentatedData );
-        }
-
-
-
-
-
-        //public static double[ ] SetRGBToHSI( int r, int g, int b )
-        //{
-
-        //  HSI, XYZ, L* a*b*, YUV
-        //    Red = r; Green = g; Blue = b;
-        //    int min = Red;
-        //    if( Green < min ) min = Green;
-        //    if( Blue < min ) min = Blue;
-        //    Saturation = 1.0 - 3.0 * min / ( Red + Green + Blue );
-        //    int RmG = Red - Green;
-        //    int RmB = Red - Blue;
-        //    int GmB = Green - Blue;
-        //    Hue = Math.Acos( 0.5 * ( RmG + RmB ) / Math.Sqrt( RmG * RmG + RmB * GmB ) ) * 180.0 / Math.PI;
-        //    if( Hue < 0 ) Hue += 360;
-        //    if( Blue > Green ) Hue = 360 - Hue;
-
-        //    Intensity = ( Red + Green + Blue ) / 3.0;
-        //    HSI[ 0 ] = Hue;
-        //    HSI[ 1 ] = Saturation;
-        //    HSI[ 2 ] = Intensity;
-        //    return HSI;
-        //}
+        } 
 
         #endregion
 
-        public Bitmap displayedBitmap;
-        public int height; 
-        public int width; 
-        public  int[,,] pixels;
-        double[,] histograms;
- 
+
 
         #region CONSTRUCTORS
 
@@ -509,6 +603,7 @@ namespace FCYangImageLibray
             displayedBitmap = new Bitmap( imageFilePath );
             SetPixelsFromImage( );
         }
+
         /// <summary>
         ///  Create a color image form a given bitmap.
         /// </summary>
@@ -562,8 +657,10 @@ namespace FCYangImageLibray
                     }
                     break;
                 case ColorModel.LAB:
+                    // to be continued
                     break;
             }
+
             SetImageFromPixels();
         }
 
@@ -599,7 +696,6 @@ namespace FCYangImageLibray
                 for (int i = 0; i < 256; i++) histograms[d, i] /= total;
         }
 
-
         void SetImageFromPixels( )
         {
             if (pixels == null ) return;
@@ -622,7 +718,6 @@ namespace FCYangImageLibray
                     histograms[2, clr.B] += 1;
                 }
         }
-
 
 
         #endregion

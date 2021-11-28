@@ -25,6 +25,9 @@ namespace _2021HWK05
           //  XYZ, L* a*b *, YUV
         }
 
+
+        #region Functions for (2)
+
         private void UpdateQuadColorPaletteBitmap( )
         {
             // Prepare bitmap
@@ -55,32 +58,32 @@ namespace _2021HWK05
             //btnRightBottom.BackColor = cols[255];
         }
 
-        void UpdateLinearGradientColorPallete( Color Start, Color End )
-        {
-            double w = paletteBitmap.Width / 16.0;
-            double h = paletteBitmap.Height / 16.0;
-            Graphics g = Graphics.FromImage( paletteBitmap );
+        //void UpdateLinearGradientColorPallete( Color Start, Color End )
+        //{
+        //    double w = paletteBitmap.Width / 16.0;
+        //    double h = paletteBitmap.Height / 16.0;
+        //    Graphics g = Graphics.FromImage( paletteBitmap );
 
-            RectangleF rect = new RectangleF( 0, 0, (float) w, (float) h );
-            double minR, rangeR, minG, rangeG, minB, rangeB;
-            minR = Start.R; minG = Start.G; minB = Start.B;
-            rangeR = End.R - Start.R; rangeG = End.G - Start.G; rangeB = End.B - Start.B;
-            int cnt = 0;
-            SolidBrush b = new SolidBrush( Color.Red );
-            for( int r = 0 ; r < 16 ; r++ )
-            {
-                rect.Y = (float) ( r * h );
-                for( int c = 0 ; c < 16 ; c++ )
-                {
-                    rect.X = (float) ( c * w );
-                    b.Color = Color.FromArgb( (int) ( minR + cnt * rangeR / 255.0 ), (int) ( minG + cnt * rangeG / 255.0 ), (int) ( minB + cnt * rangeB / 255.0 ) );
-                    g.FillRectangle( b, rect );
-                    g.DrawRectangle( Pens.DarkGray, Rectangle.Round( rect ) );
-                    cnt++;
-                }
-            }
-            pcbPallete.Image = paletteBitmap;
-        }
+        //    RectangleF rect = new RectangleF( 0, 0, (float) w, (float) h );
+        //    double minR, rangeR, minG, rangeG, minB, rangeB;
+        //    minR = Start.R; minG = Start.G; minB = Start.B;
+        //    rangeR = End.R - Start.R; rangeG = End.G - Start.G; rangeB = End.B - Start.B;
+        //    int cnt = 0;
+        //    SolidBrush b = new SolidBrush( Color.Red );
+        //    for( int r = 0 ; r < 16 ; r++ )
+        //    {
+        //        rect.Y = (float) ( r * h );
+        //        for( int c = 0 ; c < 16 ; c++ )
+        //        {
+        //            rect.X = (float) ( c * w );
+        //            b.Color = Color.FromArgb( (int) ( minR + cnt * rangeR / 255.0 ), (int) ( minG + cnt * rangeG / 255.0 ), (int) ( minB + cnt * rangeB / 255.0 ) );
+        //            g.FillRectangle( b, rect );
+        //            g.DrawRectangle( Pens.DarkGray, Rectangle.Round( rect ) );
+        //            cnt++;
+        //        }
+        //    }
+        //    pcbPallete.Image = paletteBitmap;
+        //}
 
         private void EditColorSwatch(object sender, EventArgs e)
         {
@@ -129,6 +132,9 @@ namespace _2021HWK05
 
         private void btnApplyPseudoColorButton_Click(object sender, EventArgs e)
         {
+            Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
+
             // Get MonoImage
             targetImage = originalImage.CreateAverageMonoImage();
             labTwo.Text = "Gray-scale Target Image";
@@ -140,16 +146,24 @@ namespace _2021HWK05
             ColorImage pseudoImage2 = targetImage.CreatePseudoColorImage(gamutMap.MapColors);
             labFour.Text = "Pseudo Image with Gumat Linear ColorMap";
             pcbFour.Image = pseudoImage2.displayedBitmap;
+
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
+            Console.Beep();
         }
+
+        #endregion
 
         MonoImage targetImage; 
-        private void btnApplyGamutColorMap_Click(object sender, EventArgs e)
-        {
-            
-        }
-
-
         ColorImage originalImage;
+
+        //private void btnApplyGamutColorMap_Click(object sender, EventArgs e)
+        //{
+            
+        //}
+
+
+
 
         private void btnOpen_Click( object sender, EventArgs e )
         {
@@ -169,7 +183,10 @@ namespace _2021HWK05
 
         private void btnGetRGBPlanes_Click( object sender, EventArgs e )
         {
-            MonoImage[] rgb =  originalImage.GetRGBPlaneImages( );
+            Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
+
+            MonoImage[] rgb = originalImage.GetPlaneImages(ColorModel.RGB);
             labTwo.Text = "Red Plane";
             pcbTwo.Image = rgb[ 0 ].displayedBitmap;
             labThree.Text = "Green Plane";
@@ -177,52 +194,115 @@ namespace _2021HWK05
             labFour.Text = "Blue Plane";
             pcbFour.Image = rgb[ 2 ].displayedBitmap;
 
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
+            Console.Beep();
+
         }
 
         private void btnGetCMYPlaneImages_Click( object sender, EventArgs e )
         {
-            MonoImage[ ] cmy = originalImage.GetCMYPlaneImages( );
+            Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
+
+            MonoImage[ ] cmy = originalImage.GetPlaneImages(ColorModel.CMY);
             labTwo.Text = "Cyan Plane";
             pcbTwo.Image = cmy[ 0 ].displayedBitmap;
             labThree.Text = "Magenta Plane";
             pcbThree.Image = cmy[ 1 ].displayedBitmap;
             labFour.Text = "Yellow Plane";
             pcbFour.Image = cmy[ 2 ].displayedBitmap;
+
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
+            Console.Beep();
         }
 
         private void btnGetHSIImage_Click( object sender, EventArgs e )
         {
-            MonoImage[ ] hsi = originalImage.GetHSIPlaneImages( );
-            labTwo.Text = "Heu Plane";
+            Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
+
+            MonoImage[ ] hsi = originalImage.GetPlaneImages(ColorModel.HSI);
+            labTwo.Text = "Hue Plane";
             pcbTwo.Image = hsi[ 0 ].displayedBitmap;
             labThree.Text = "Saturation Plane";
             pcbThree.Image = hsi[ 1 ].displayedBitmap;
             labFour.Text = "Intensity Plane";
             pcbFour.Image = hsi[ 2 ].displayedBitmap;
+
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
+            Console.Beep();
         }
 
-        private void btnGetXYZ_Click( object sender, EventArgs e )
+        private void btnGetXYZImages_Click( object sender, EventArgs e )
         {
+            Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
 
+            //MonoImage[] xyz = originalImage.GetXYZPlaneImages();
+            MonoImage[] xyz = originalImage.GetPlaneImages(ColorModel.XYZ);
+            labTwo.Text = "X Plane";
+            pcbTwo.Image = xyz[0].displayedBitmap;
+            labThree.Text = "Y Plane";
+            pcbThree.Image = xyz[1].displayedBitmap;
+            labFour.Text = "Z Plane";
+            pcbFour.Image = xyz[2].displayedBitmap;
+
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
+            Console.Beep();
         }
 
         private void btnGetLABImages_Click( object sender, EventArgs e )
         {
+            Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
 
+            // MonoImage[] lab = originalImage.GetLstartAstartBstartPlaneImages();
+            MonoImage[] lab = originalImage.GetPlaneImages(ColorModel.LAB);
+
+            labTwo.Text = "L* Plane";
+            pcbTwo.Image = lab[0].displayedBitmap;
+            labThree.Text = "a* Plane";
+            pcbThree.Image = lab[1].displayedBitmap;
+            labFour.Text = "b* Plane";
+            pcbFour.Image = lab[2].displayedBitmap;
+
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
+            Console.Beep();
         }
 
         private void btnGetYUVImages_Click( object sender, EventArgs e )
         {
+            Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
 
+            MonoImage[] planes = originalImage.GetPlaneImages(ColorModel.YUV);
+            labTwo.Text = "Y Plane";
+            pcbTwo.Image = planes[0].displayedBitmap;
+            labThree.Text = "U Plane";
+            pcbThree.Image = planes[1].displayedBitmap;
+            labFour.Text = "V Plane";
+            pcbFour.Image = planes[2].displayedBitmap;
+
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
+            Console.Beep();
         }
 
 
 
         #endregion
 
+        #region Functions for (3)
+
         private void btnGetThreeSegmentations_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
 
             int k1 = (int)nudK1.Value;
             int k2 = (int)nudK2.Value;
@@ -237,24 +317,37 @@ namespace _2021HWK05
             ColorImage img3 = originalImage.CreateRGBSegmentationImage(k3);
             pcbFour.Image = img3.displayedBitmap;
             Cursor = Cursors.Default;
+
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
+            Cursor = Cursors.Default;
+            Console.Beep();
         }
 
         private void btnTwoOnDifferentData_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
+            DateTime start = DateTime.Now;
+
+            int level = (int)nudLevels.Value;
+
             labTwo.Text = $"2-RGB-Segmentation Image";
-            ColorImage img1 = originalImage.CreateRGBSegmentationImage(2);
+            ColorImage img1 = originalImage.CreateRGBSegmentationImage(level);
             pcbTwo.Image = img1.displayedBitmap;
 
             labThree.Text = $"2-HSI-Segmentation Image";
-            ColorImage img2 = originalImage.CreateHSISegmentationImage(2);
+            ColorImage img2 = originalImage.CreateHSISegmentationImage(level);
             pcbThree.Image = img2.displayedBitmap;
 
-            //labFour.Text = $"2-L*a*b*-Segmentation Image";
-            //ColorImage img3 = originalImage.CreateLABSegmentationImage(2);
-            //pcbFour.Image = img3.displayedBitmap;
+            labFour.Text = $"2-L*a*b*-Segmentation Image";
+            ColorImage img3 = originalImage.CreateLABSegmentationImage(level);
+            pcbFour.Image = img3.displayedBitmap;
 
+            labMessage.Text = $"Time Spent: {DateTime.Now - start}";
             Cursor = Cursors.Default;
+            Console.Beep();
         }
+
+        #endregion
+
     }
 }
