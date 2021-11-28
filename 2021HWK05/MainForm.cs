@@ -161,6 +161,8 @@ namespace _2021HWK05
 
             pcbThree.Image = pcbTwo.Image = pcbFour.Image = null;
             labTwo.Text = labThree.Text = labFour.Text = "";
+
+            tabMain.Enabled = true;
         }
 
         #region Buttons for (1)
@@ -220,6 +222,8 @@ namespace _2021HWK05
 
         private void btnGetThreeSegmentations_Click(object sender, EventArgs e)
         {
+            Cursor = Cursors.WaitCursor;
+
             int k1 = (int)nudK1.Value;
             int k2 = (int)nudK2.Value;
             int k3 = (int)nudK3.Value;
@@ -232,6 +236,20 @@ namespace _2021HWK05
             pcbThree.Image = img2.displayedBitmap;
             ColorImage img3 = originalImage.CreateRGBSegmentationImage(k3);
             pcbFour.Image = img3.displayedBitmap;
+            Cursor = Cursors.Default;
+        }
+
+        private void btnTwoOnDifferentData_Click(object sender, EventArgs e)
+        {
+            Cursor = Cursors.WaitCursor;
+            labTwo.Text = $"2-RGB-Segmentation Image";
+            ColorImage img1 = originalImage.CreateRGBSegmentationImage(2);
+            pcbTwo.Image = img1.displayedBitmap;
+            ColorImage img2 = originalImage.CreateHSISegmentationImage(2);
+            pcbThree.Image = img2.displayedBitmap;
+            //ColorImage img3 = originalImage.CreateLABSegmentationImage(2);
+            //pcbFour.Image = img3.displayedBitmap;
+            Cursor = Cursors.Default;
         }
     }
 }

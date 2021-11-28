@@ -4,9 +4,20 @@ using System.Threading.Tasks;
 
 namespace FCYangImageLibray
 {
+    public enum ColorModel
+    {
+        RGB, HSI, LAB
+    }
+
     public class ColorImage
     {
+        static Random[] randomizers = new Random[3];
 
+        static ColorImage()
+        {
+            for (int i = 0; i < randomizers.Length; i++)
+                randomizers[i] = new Random(Guid.NewGuid().GetHashCode());
+        }
 
         #region Overloaded Operators
 
@@ -236,44 +247,198 @@ namespace FCYangImageLibray
             return hsiPlanes;
         }
 
-        static Random[] randomizers = new Random[3];
 
-        static ColorImage()
-        {
-            for (int i = 0; i < randomizers.Length; i++)
-                randomizers[i] = new Random(Guid.NewGuid().GetHashCode());
-        }
 
 
         int[,] segmentationIDs;
+
+
+
+        private double[,,] GetRGBData()
+        {
+            double[,,] data = new double[3, height, width];
+            for (int d = 0; d < 3; d++)
+                for (int r = 0; r < height; r++)
+                    for (int c = 0; c < width; c++)
+                        data[d, r, c] = pixels[d, r, c] / 255.0;
+            return data;
+        }
+        
+        private double[,,] GetHSIData()
+        {
+            double[,,] data = GetRGBData();
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
+                {
+                    double total = data[ 0, r, c] + data[1, r, c] + data[2, r, c];
+                    double min = data[0, r, c] > data[1, r, c] ? data[1, r, c] : data[0, r, c];
+                    if (data[2, r, c] < min) min = data[2, r, c];
+                    double rmb = data[0, r, c] - data[2, r, c];
+                    double rmg = data[0, r, c] - data[1, r, c];
+                    double gmb = data[1, r, c] - data[2, r, c];
+                    if ( total == 0 )
+                    {
+                        data[0, r, c] = 0.0;
+                        data[1, r, c] = 1.0;
+                        data[2, r, c] = 0.0;
+                    }
+                    else
+                    {
+                        if( rmg == 0 && ( rmb ==0 || gmb == 0)) data[0, r, c] = 0.0;
+                        else
+                        {
+                            double temp = 0.5 * (rmg + rmb) / Math.Sqrt(rmg * rmg + rmb * gmb);
+                            temp = Math.Acos(temp);
+                            if (temp < 0) temp = 2 * Math.PI - temp;
+                            if (gmb < 0) temp = 2 * Math.PI - temp;
+                            data[0, r, c] = temp; 
+                        }
+                        data[1, r, c] = 3.0 * min / total;
+                        data[2, r, c] = total / 3.0;
+                    }
+
+                    data[2, r, c] = total / 3.0;
+                }
+            return data;
+        }
+
+
+        private double[,,] GetLABData()
+        {
+            throw new NotImplementedException();
+        }
+
         public ColorImage CreateRGBSegmentationImage(int k)
         {
-            int[,] centers = new int[k, 3];
+            return CreateSegmentationImage(k, GetRGBData(), new double[] { 1.0, 1.0, 1.0 }, ColorModel.RGB);
+        }
+
+        public ColorImage CreateHSISegmentationImage(int k)
+        {
+         
+            double[,,] data = GetHSIData();
+            double[] maxs = new double[3];
+            double[] mins = new double[3];
+            for (int d = 0; d < 3; d++)
+            {
+                maxs[d] = double.MinValue;
+                mins[d] = double.MaxValue;
+                for (int r = 0; r < height; r++)
+                    for (int c = 0; c < width; c++)
+                    {
+                        if (data[d, r, c] > maxs[d]) maxs[d] = data[d, r, c];
+                        else if (data[d, r, c] < mins[d]) mins[d] = data[d, r, c];
+                    }
+            }
+            return CreateSegmentationImage(k, data, new double[] { Math.PI * 2, 1.0, 1.0 }, ColorModel.HSI);
+            //double[,,] HSIData = CreateSegmentationImage(k, data, new double[] { Math.PI * 2, 1.0, 1.0 });
+            //return new ColorImage(HSIData, ColorModel.HSI);
+
+        }
+
+        public ColorImage CreateLABSegmentationImage(int k)
+        {
+            return CreateSegmentationImage(k, GetLABData(), new double[] { 1.0, 1.0, 1.0 }, ColorModel.LAB);
+        }
+
+ 
+         ColorImage CreateSegmentationImage(int k, double[,,] array, double[] limits, ColorModel mode)
+        {
+            double[,] centers = new double[k, 3];
+            Color[] centerColors = new Color[k];
+            int[] cnts = new int[k];
+
             for (int r = 0; r < k; r++)
             {
+                cnts[r] = 0;
                 for (int c = 0; c < 3; c++)
-                    centers[r, c] = randomizers[c].Next(256);
+                    centers[r, c] = randomizers[c].NextDouble()*limits[c];
             }
-            if (segmentationIDs == null || segmentationIDs.GetLength(0) != height 
-                || segmentationIDs.GetLength(1) != width )
+
+            if (segmentationIDs == null || segmentationIDs.GetLength(0) != height || segmentationIDs.GetLength(1) != width )
             {
                 // allocate memeory
                 segmentationIDs = new int[height, width];
             }
 
             // Clustering 
-            for( int r = 0; r < height; r++)
+            for (int r = 0; r < height; r++)
             {
-                for( int c = 0; c < width; c++)
+                for (int c = 0; c < width; c++)
                 {
                     double min = double.MaxValue;
                     int minID = -1;
-                    // loop throught each cluster
-                   // for( int k = 0; )
+                    //        // loop throught each cluster
+                    for (int i = 0; i < k; i++)
+                    {
+                        double dx = array[0, r, c] - centers[i, 0], dy = array[1, r, c] - centers[i, 1], dz = array[2, r, c] - centers[i, 2];
+                        double dis = dx * dx + dy * dy + dz * dz;
+                        if (dis < min)
+                        {
+                            minID = i;
+                            min = dis;
+                        }
+                    }
+                    segmentationIDs[r, c] = minID;
+                    // cluster to cluster minID then adjust the center
+                    for (int j = 0; j < 3; j++)
+                        centers[minID, j] = (centers[minID, j] * cnts[minID] + array[j, r, c]) / (cnts[minID] + 1);
+                    cnts[minID]++;
                 }
             }
-            return null;
+
+            // Transfrom centers back to RGB colors
+            for( int j = 0; j < k; j ++)
+            {
+                int R=0, G=0, B=0;
+
+                switch (mode)
+                {
+                    case ColorModel.RGB:
+                        R = (int)(256 * centers[j, 0]);
+                        G = (int)(256 * centers[j, 1]);
+                        B = (int)(256 * centers[j, 2]);
+                        break;
+                    case ColorModel.HSI:
+                        double temp = 120.0 * Math.PI / 180.0;
+                        double hue = centers[j, 0];
+                        R = (int)(256 * centers[j, 0]);
+                        G = (int)(256 * centers[j, 1]);
+                        B = (int)(256 * centers[j, 2]);
+                        break;
+                    case ColorModel.LAB:
+                        break;
+                }
+
+
+                centerColors[j] = Color.FromArgb(R, G, B);
+            }
+
+            int[,,] segmentatedData = new int[3, height, width];
+            // Create a new color image
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
+                {
+                    int tid = segmentationIDs[r, c];
+                    segmentatedData[0, r, c] = centerColors[tid].R;
+                    segmentatedData[1, r, c] = centerColors[tid].G;
+                    segmentatedData[2, r, c] = centerColors[tid].B;
+                }
+
+            //// Create a new color image
+            //int[,,] segmentatedPixels = new int[3, height, width];
+            //for( int r = 0; r < height; r++)
+            //    for( int c = 0; c < width; c++)
+            //    {
+            //        int tid = segmentationIDs[r, c];
+            //        for(int j = 0; j < 3; j++) segmentatedPixels[j, r, c] = (int)centers[tid, j];
+            //    }
+            return new ColorImage( segmentatedData );
         }
+
+
+
+
 
         //public static double[ ] SetRGBToHSI( int r, int g, int b )
         //{
@@ -305,6 +470,7 @@ namespace FCYangImageLibray
         public int width; 
         public  int[,,] pixels;
         double[,] histograms;
+ 
 
         #region CONSTRUCTORS
 
@@ -333,7 +499,45 @@ namespace FCYangImageLibray
             SetImageFromPixels();
         }
 
-        #endregion 
+        public ColorImage(double[,,] data, ColorModel model)
+        {
+            height = data.GetLength(1);
+            width = data.GetLength(2);
+            pixels = new int[3, height, width];
+            switch (model)
+            {
+                case ColorModel.RGB:
+                    for (int d = 0; d < 3; d++)
+                        for (int r = 0; r < height; r++)
+                            for (int c = 0; c < width; c++)
+                                pixels[d, r, c] = (int)(256 * data[d, r, c]);
+                    break;
+                case ColorModel.HSI:
+                    double sixtyDegree = Math.PI / 3.0;
+                    for (int d = 0; d < 3; d++)
+                    {
+                        for (int r = 0; r < height; r++)
+                        {
+                            for (int c = 0; c < width; c++)
+                            {
+                                double red, green, blue;
+                                blue = data[2, r, c] * (1.0 - data[1, r, c]);
+                                red = data[2, r, c] * (1.0 + data[1, r, c] * Math.Cos(data[0, r, c]) / Math.Cos(sixtyDegree - data[0, r, c]));
+                                green = 3.0 * data[2, r, c] - red - blue;
+                                pixels[0, r, c] = red == 1.0 ? 255 : (int)(256 * red);
+                                pixels[1, r, c] = green == 1.0 ? 255 : (int)(256 * green);
+                                pixels[2, r, c] = blue == 1.0 ? 255 : (int)(256 * blue);
+                            }
+                        }
+                    }
+                    break;
+                case ColorModel.LAB:
+                    break;
+            }
+            SetImageFromPixels();
+        }
+
+        #endregion
 
 
 
