@@ -51,23 +51,34 @@ namespace _2021HWK05
             this.labTwo = new System.Windows.Forms.Label();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.pagFormatTransform = new System.Windows.Forms.TabPage();
+            this.btnGetYUVImages = new System.Windows.Forms.Button();
+            this.btnGetLABImages = new System.Windows.Forms.Button();
+            this.btnGetXYZ = new System.Windows.Forms.Button();
+            this.btnGetHSIImage = new System.Windows.Forms.Button();
+            this.btnGetCMYPlaneImages = new System.Windows.Forms.Button();
             this.btnGetRGBPlanes = new System.Windows.Forms.Button();
             this.pagColorImage = new System.Windows.Forms.TabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.btnEndColor = new System.Windows.Forms.Button();
-            this.btnStartColor = new System.Windows.Forms.Button();
+            this.btnLeftBottom = new System.Windows.Forms.Button();
+            this.btnRightTop = new System.Windows.Forms.Button();
+            this.btnApplyQuadMap = new System.Windows.Forms.Button();
+            this.btnRightBottom = new System.Windows.Forms.Button();
+            this.btnLeftTop = new System.Windows.Forms.Button();
             this.pcbPallete = new System.Windows.Forms.PictureBox();
+            this.btnApplyGamutColorMap = new System.Windows.Forms.Button();
+            this.gamutMap = new FCYangImageLibray.ColorGamut();
             this.pagGroupColor = new System.Windows.Forms.TabPage();
             this.dlgColor = new System.Windows.Forms.ColorDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnOpen = new System.Windows.Forms.ToolStripButton();
-            this.btnGetCMYPlaneImages = new System.Windows.Forms.Button();
-            this.btnGetXYZ = new System.Windows.Forms.Button();
-            this.btnGetHSIImage = new System.Windows.Forms.Button();
-            this.btnGetYUVImages = new System.Windows.Forms.Button();
-            this.btnGetLABImages = new System.Windows.Forms.Button();
-            this.colorGamut1 = new FCYangImageLibray.ColorGamut();
+            this.nudK1 = new System.Windows.Forms.NumericUpDown();
+            this.nudK2 = new System.Windows.Forms.NumericUpDown();
+            this.nudK3 = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnGetThreeSegmentations = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -91,7 +102,11 @@ namespace _2021HWK05
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbPallete)).BeginInit();
+            this.pagGroupColor.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudK1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudK2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudK3)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -332,6 +347,56 @@ namespace _2021HWK05
             this.pagFormatTransform.Text = "(1) Color Model Transform";
             this.pagFormatTransform.UseVisualStyleBackColor = true;
             // 
+            // btnGetYUVImages
+            // 
+            this.btnGetYUVImages.Location = new System.Drawing.Point(6, 202);
+            this.btnGetYUVImages.Name = "btnGetYUVImages";
+            this.btnGetYUVImages.Size = new System.Drawing.Size(249, 33);
+            this.btnGetYUVImages.TabIndex = 5;
+            this.btnGetYUVImages.Text = "Get YUV  Plane Images";
+            this.btnGetYUVImages.UseVisualStyleBackColor = true;
+            this.btnGetYUVImages.Click += new System.EventHandler(this.btnGetYUVImages_Click);
+            // 
+            // btnGetLABImages
+            // 
+            this.btnGetLABImages.Location = new System.Drawing.Point(6, 163);
+            this.btnGetLABImages.Name = "btnGetLABImages";
+            this.btnGetLABImages.Size = new System.Drawing.Size(249, 33);
+            this.btnGetLABImages.TabIndex = 4;
+            this.btnGetLABImages.Text = "Get L*a*b* Plane Images";
+            this.btnGetLABImages.UseVisualStyleBackColor = true;
+            this.btnGetLABImages.Click += new System.EventHandler(this.btnGetLABImages_Click);
+            // 
+            // btnGetXYZ
+            // 
+            this.btnGetXYZ.Location = new System.Drawing.Point(6, 124);
+            this.btnGetXYZ.Name = "btnGetXYZ";
+            this.btnGetXYZ.Size = new System.Drawing.Size(249, 33);
+            this.btnGetXYZ.TabIndex = 3;
+            this.btnGetXYZ.Text = "Get XYZ Plane Images";
+            this.btnGetXYZ.UseVisualStyleBackColor = true;
+            this.btnGetXYZ.Click += new System.EventHandler(this.btnGetXYZ_Click);
+            // 
+            // btnGetHSIImage
+            // 
+            this.btnGetHSIImage.Location = new System.Drawing.Point(6, 85);
+            this.btnGetHSIImage.Name = "btnGetHSIImage";
+            this.btnGetHSIImage.Size = new System.Drawing.Size(249, 33);
+            this.btnGetHSIImage.TabIndex = 2;
+            this.btnGetHSIImage.Text = "Get HSI  Plane Images";
+            this.btnGetHSIImage.UseVisualStyleBackColor = true;
+            this.btnGetHSIImage.Click += new System.EventHandler(this.btnGetHSIImage_Click);
+            // 
+            // btnGetCMYPlaneImages
+            // 
+            this.btnGetCMYPlaneImages.Location = new System.Drawing.Point(6, 46);
+            this.btnGetCMYPlaneImages.Name = "btnGetCMYPlaneImages";
+            this.btnGetCMYPlaneImages.Size = new System.Drawing.Size(249, 33);
+            this.btnGetCMYPlaneImages.TabIndex = 1;
+            this.btnGetCMYPlaneImages.Text = "Get CMY Plane Images";
+            this.btnGetCMYPlaneImages.UseVisualStyleBackColor = true;
+            this.btnGetCMYPlaneImages.Click += new System.EventHandler(this.btnGetCMYPlaneImages_Click);
+            // 
             // btnGetRGBPlanes
             // 
             this.btnGetRGBPlanes.Location = new System.Drawing.Point(6, 7);
@@ -349,9 +414,9 @@ namespace _2021HWK05
             this.pagColorImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pagColorImage.Name = "pagColorImage";
             this.pagColorImage.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pagColorImage.Size = new System.Drawing.Size(428, 662);
+            this.pagColorImage.Size = new System.Drawing.Size(306, 662);
             this.pagColorImage.TabIndex = 0;
-            this.pagColorImage.Text = "(2) Color Image";
+            this.pagColorImage.Text = "(2) Pseudo Coloring";
             this.pagColorImage.UseVisualStyleBackColor = true;
             // 
             // splitContainer2
@@ -363,38 +428,75 @@ namespace _2021HWK05
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.btnEndColor);
-            this.splitContainer2.Panel1.Controls.Add(this.btnStartColor);
+            this.splitContainer2.Panel1.Controls.Add(this.btnLeftBottom);
+            this.splitContainer2.Panel1.Controls.Add(this.btnRightTop);
+            this.splitContainer2.Panel1.Controls.Add(this.btnApplyQuadMap);
+            this.splitContainer2.Panel1.Controls.Add(this.btnRightBottom);
+            this.splitContainer2.Panel1.Controls.Add(this.btnLeftTop);
             this.splitContainer2.Panel1.Controls.Add(this.pcbPallete);
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.colorGamut1);
-            this.splitContainer2.Panel2.Click += new System.EventHandler(this.EditColorWatch);
-            this.splitContainer2.Size = new System.Drawing.Size(422, 657);
-            this.splitContainer2.SplitterDistance = 86;
+            this.splitContainer2.Panel2.Controls.Add(this.btnApplyGamutColorMap);
+            this.splitContainer2.Panel2.Controls.Add(this.gamutMap);
+            this.splitContainer2.Panel2.Click += new System.EventHandler(this.EditColorSwatch);
+            this.splitContainer2.Size = new System.Drawing.Size(300, 654);
+            this.splitContainer2.SplitterDistance = 238;
             this.splitContainer2.TabIndex = 0;
             // 
-            // btnEndColor
+            // btnLeftBottom
             // 
-            this.btnEndColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnEndColor.BackColor = System.Drawing.Color.Blue;
-            this.btnEndColor.Location = new System.Drawing.Point(399, 61);
-            this.btnEndColor.Name = "btnEndColor";
-            this.btnEndColor.Size = new System.Drawing.Size(22, 23);
-            this.btnEndColor.TabIndex = 2;
-            this.btnEndColor.UseVisualStyleBackColor = false;
-            this.btnEndColor.Click += new System.EventHandler(this.EditColorWatch);
+            this.btnLeftBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnLeftBottom.BackColor = System.Drawing.Color.Lime;
+            this.btnLeftBottom.Location = new System.Drawing.Point(3, 177);
+            this.btnLeftBottom.Name = "btnLeftBottom";
+            this.btnLeftBottom.Size = new System.Drawing.Size(22, 23);
+            this.btnLeftBottom.TabIndex = 6;
+            this.btnLeftBottom.UseVisualStyleBackColor = false;
+            this.btnLeftBottom.Click += new System.EventHandler(this.EditColorSwatch);
             // 
-            // btnStartColor
+            // btnRightTop
             // 
-            this.btnStartColor.BackColor = System.Drawing.Color.Red;
-            this.btnStartColor.Location = new System.Drawing.Point(0, 0);
-            this.btnStartColor.Name = "btnStartColor";
-            this.btnStartColor.Size = new System.Drawing.Size(22, 23);
-            this.btnStartColor.TabIndex = 3;
-            this.btnStartColor.UseVisualStyleBackColor = false;
-            this.btnStartColor.Click += new System.EventHandler(this.EditColorWatch);
+            this.btnRightTop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRightTop.BackColor = System.Drawing.Color.Yellow;
+            this.btnRightTop.Location = new System.Drawing.Point(273, 3);
+            this.btnRightTop.Name = "btnRightTop";
+            this.btnRightTop.Size = new System.Drawing.Size(22, 23);
+            this.btnRightTop.TabIndex = 5;
+            this.btnRightTop.UseVisualStyleBackColor = false;
+            this.btnRightTop.Click += new System.EventHandler(this.EditColorSwatch);
+            // 
+            // btnApplyQuadMap
+            // 
+            this.btnApplyQuadMap.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnApplyQuadMap.Location = new System.Drawing.Point(0, 206);
+            this.btnApplyQuadMap.Name = "btnApplyQuadMap";
+            this.btnApplyQuadMap.Size = new System.Drawing.Size(300, 32);
+            this.btnApplyQuadMap.TabIndex = 4;
+            this.btnApplyQuadMap.Text = "Apply Pseudo Color";
+            this.btnApplyQuadMap.UseVisualStyleBackColor = true;
+            this.btnApplyQuadMap.Click += new System.EventHandler(this.btnApplyPseudoColorButton_Click);
+            // 
+            // btnRightBottom
+            // 
+            this.btnRightBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRightBottom.BackColor = System.Drawing.Color.Blue;
+            this.btnRightBottom.Location = new System.Drawing.Point(273, 177);
+            this.btnRightBottom.Name = "btnRightBottom";
+            this.btnRightBottom.Size = new System.Drawing.Size(22, 23);
+            this.btnRightBottom.TabIndex = 2;
+            this.btnRightBottom.UseVisualStyleBackColor = false;
+            this.btnRightBottom.Click += new System.EventHandler(this.EditColorSwatch);
+            // 
+            // btnLeftTop
+            // 
+            this.btnLeftTop.BackColor = System.Drawing.Color.Red;
+            this.btnLeftTop.Location = new System.Drawing.Point(3, 3);
+            this.btnLeftTop.Name = "btnLeftTop";
+            this.btnLeftTop.Size = new System.Drawing.Size(22, 23);
+            this.btnLeftTop.TabIndex = 3;
+            this.btnLeftTop.UseVisualStyleBackColor = false;
+            this.btnLeftTop.Click += new System.EventHandler(this.EditColorSwatch);
             // 
             // pcbPallete
             // 
@@ -402,18 +504,46 @@ namespace _2021HWK05
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pcbPallete.BackColor = System.Drawing.Color.Black;
-            this.pcbPallete.Location = new System.Drawing.Point(12, 14);
+            this.pcbPallete.Location = new System.Drawing.Point(19, 14);
             this.pcbPallete.Name = "pcbPallete";
-            this.pcbPallete.Size = new System.Drawing.Size(396, 57);
+            this.pcbPallete.Size = new System.Drawing.Size(263, 175);
             this.pcbPallete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pcbPallete.TabIndex = 0;
             this.pcbPallete.TabStop = false;
             // 
+            // btnApplyGamutColorMap
+            // 
+            this.btnApplyGamutColorMap.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnApplyGamutColorMap.Location = new System.Drawing.Point(0, 378);
+            this.btnApplyGamutColorMap.Name = "btnApplyGamutColorMap";
+            this.btnApplyGamutColorMap.Size = new System.Drawing.Size(300, 34);
+            this.btnApplyGamutColorMap.TabIndex = 7;
+            this.btnApplyGamutColorMap.Text = "Apply Pseudo Color";
+            this.btnApplyGamutColorMap.UseVisualStyleBackColor = true;
+            this.btnApplyGamutColorMap.Click += new System.EventHandler(this.btnApplyPseudoColorButton_Click);
+            // 
+            // gamutMap
+            // 
+            this.gamutMap.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.gamutMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gamutMap.Location = new System.Drawing.Point(0, 0);
+            this.gamutMap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.gamutMap.Name = "gamutMap";
+            this.gamutMap.Size = new System.Drawing.Size(300, 412);
+            this.gamutMap.TabIndex = 0;
+            // 
             // pagGroupColor
             // 
+            this.pagGroupColor.Controls.Add(this.btnGetThreeSegmentations);
+            this.pagGroupColor.Controls.Add(this.label3);
+            this.pagGroupColor.Controls.Add(this.label2);
+            this.pagGroupColor.Controls.Add(this.label1);
+            this.pagGroupColor.Controls.Add(this.nudK3);
+            this.pagGroupColor.Controls.Add(this.nudK2);
+            this.pagGroupColor.Controls.Add(this.nudK1);
             this.pagGroupColor.Location = new System.Drawing.Point(4, 25);
             this.pagGroupColor.Name = "pagGroupColor";
-            this.pagGroupColor.Size = new System.Drawing.Size(428, 662);
+            this.pagGroupColor.Size = new System.Drawing.Size(306, 662);
             this.pagGroupColor.TabIndex = 2;
             this.pagGroupColor.Text = "(3) Color Clustering";
             this.pagGroupColor.UseVisualStyleBackColor = true;
@@ -437,65 +567,93 @@ namespace _2021HWK05
             this.btnOpen.Text = "Open ...";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
-            // btnGetCMYPlaneImages
+            // nudK1
             // 
-            this.btnGetCMYPlaneImages.Location = new System.Drawing.Point(6, 46);
-            this.btnGetCMYPlaneImages.Name = "btnGetCMYPlaneImages";
-            this.btnGetCMYPlaneImages.Size = new System.Drawing.Size(249, 33);
-            this.btnGetCMYPlaneImages.TabIndex = 1;
-            this.btnGetCMYPlaneImages.Text = "Get CMY Plane Images";
-            this.btnGetCMYPlaneImages.UseVisualStyleBackColor = true;
-            this.btnGetCMYPlaneImages.Click += new System.EventHandler(this.btnGetCMYPlaneImages_Click);
+            this.nudK1.Location = new System.Drawing.Point(168, 24);
+            this.nudK1.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudK1.Name = "nudK1";
+            this.nudK1.Size = new System.Drawing.Size(70, 23);
+            this.nudK1.TabIndex = 0;
+            this.nudK1.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
             // 
-            // btnGetXYZ
+            // nudK2
             // 
-            this.btnGetXYZ.Location = new System.Drawing.Point(6, 124);
-            this.btnGetXYZ.Name = "btnGetXYZ";
-            this.btnGetXYZ.Size = new System.Drawing.Size(249, 33);
-            this.btnGetXYZ.TabIndex = 3;
-            this.btnGetXYZ.Text = "Get XYZ Plane Images";
-            this.btnGetXYZ.UseVisualStyleBackColor = true;
-            this.btnGetXYZ.Click += new System.EventHandler(this.btnGetXYZ_Click);
+            this.nudK2.Location = new System.Drawing.Point(168, 53);
+            this.nudK2.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudK2.Name = "nudK2";
+            this.nudK2.Size = new System.Drawing.Size(70, 23);
+            this.nudK2.TabIndex = 1;
+            this.nudK2.Value = new decimal(new int[] {
+            32,
+            0,
+            0,
+            0});
             // 
-            // btnGetHSIImage
+            // nudK3
             // 
-            this.btnGetHSIImage.Location = new System.Drawing.Point(6, 85);
-            this.btnGetHSIImage.Name = "btnGetHSIImage";
-            this.btnGetHSIImage.Size = new System.Drawing.Size(249, 33);
-            this.btnGetHSIImage.TabIndex = 2;
-            this.btnGetHSIImage.Text = "Get HSI  Plane Images";
-            this.btnGetHSIImage.UseVisualStyleBackColor = true;
-            this.btnGetHSIImage.Click += new System.EventHandler(this.btnGetHSIImage_Click);
+            this.nudK3.Location = new System.Drawing.Point(168, 82);
+            this.nudK3.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.nudK3.Name = "nudK3";
+            this.nudK3.Size = new System.Drawing.Size(70, 23);
+            this.nudK3.TabIndex = 2;
+            this.nudK3.Value = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             // 
-            // btnGetYUVImages
+            // label1
             // 
-            this.btnGetYUVImages.Location = new System.Drawing.Point(6, 202);
-            this.btnGetYUVImages.Name = "btnGetYUVImages";
-            this.btnGetYUVImages.Size = new System.Drawing.Size(249, 33);
-            this.btnGetYUVImages.TabIndex = 5;
-            this.btnGetYUVImages.Text = "Get YUV  Plane Images";
-            this.btnGetYUVImages.UseVisualStyleBackColor = true;
-            this.btnGetYUVImages.Click += new System.EventHandler(this.btnGetYUVImages_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(20, 31);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(124, 16);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Segmentation Size 1";
             // 
-            // btnGetLABImages
+            // label2
             // 
-            this.btnGetLABImages.Location = new System.Drawing.Point(6, 163);
-            this.btnGetLABImages.Name = "btnGetLABImages";
-            this.btnGetLABImages.Size = new System.Drawing.Size(249, 33);
-            this.btnGetLABImages.TabIndex = 4;
-            this.btnGetLABImages.Text = "Get L*a*b* Plane Images";
-            this.btnGetLABImages.UseVisualStyleBackColor = true;
-            this.btnGetLABImages.Click += new System.EventHandler(this.btnGetLABImages_Click);
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(20, 55);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(124, 16);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Segmentation Size 2";
             // 
-            // colorGamut1
+            // label3
             // 
-            this.colorGamut1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.colorGamut1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.colorGamut1.Location = new System.Drawing.Point(0, 0);
-            this.colorGamut1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.colorGamut1.Name = "colorGamut1";
-            this.colorGamut1.Size = new System.Drawing.Size(422, 567);
-            this.colorGamut1.TabIndex = 0;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(20, 84);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(124, 16);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Segmentation Size 3";
+            // 
+            // btnGetThreeSegmentations
+            // 
+            this.btnGetThreeSegmentations.Location = new System.Drawing.Point(12, 111);
+            this.btnGetThreeSegmentations.Name = "btnGetThreeSegmentations";
+            this.btnGetThreeSegmentations.Size = new System.Drawing.Size(266, 33);
+            this.btnGetThreeSegmentations.TabIndex = 6;
+            this.btnGetThreeSegmentations.Text = "Get Three Segmentataions";
+            this.btnGetThreeSegmentations.UseVisualStyleBackColor = true;
+            this.btnGetThreeSegmentations.Click += new System.EventHandler(this.btnGetThreeSegmentations_Click);
             // 
             // MainForm
             // 
@@ -506,7 +664,7 @@ namespace _2021HWK05
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
@@ -537,8 +695,13 @@ namespace _2021HWK05
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pcbPallete)).EndInit();
+            this.pagGroupColor.ResumeLayout(false);
+            this.pagGroupColor.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudK1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudK2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudK3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -568,8 +731,8 @@ namespace _2021HWK05
         private System.Windows.Forms.TabControl tabMain;
         private System.Windows.Forms.TabPage pagColorImage;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.Button btnStartColor;
-        private System.Windows.Forms.Button btnEndColor;
+        private System.Windows.Forms.Button btnLeftTop;
+        private System.Windows.Forms.Button btnRightBottom;
         private System.Windows.Forms.TabPage pagFormatTransform;
         private System.Windows.Forms.ColorDialog dlgColor;
         private System.Windows.Forms.PictureBox pcbPallete;
@@ -584,6 +747,18 @@ namespace _2021HWK05
         private System.Windows.Forms.Button btnGetLABImages;
         private System.Windows.Forms.Button btnGetXYZ;
         private System.Windows.Forms.Button btnGetHSIImage;
+        private System.Windows.Forms.Button btnApplyQuadMap;
+        private System.Windows.Forms.Button btnLeftBottom;
+        private System.Windows.Forms.Button btnRightTop;
+        private System.Windows.Forms.Button btnApplyGamutColorMap;
+        private FCYangImageLibray.ColorGamut gamutMap;
+        private System.Windows.Forms.Button btnGetThreeSegmentations;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown nudK3;
+        private System.Windows.Forms.NumericUpDown nudK2;
+        private System.Windows.Forms.NumericUpDown nudK1;
     }
 }
 

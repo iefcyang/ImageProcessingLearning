@@ -13,25 +13,25 @@ namespace _2021HWK05
 {
     public partial class MainForm : Form
     {
-        Bitmap colorPalette;
-
+        Bitmap paletteBitmap;
+        Color[] cols = new Color[256];
         public MainForm()
         {
             InitializeComponent();
-            colorPalette = new Bitmap( 512, 512 );
+            paletteBitmap = new Bitmap( 512, 512 );
 
-            Color[] cols =   ColorGamut.GetLinearInterpolatedColors( 256, 0.6, 0.3, 0.3, 0.6 );
-            UpdateGamutColorPallete( cols );
-            //UpdateGradientColorPallete( btnStartColor.BackColor, btnEndColor.BackColor );
-            //pcbPallete.Image = colorPalette;
+            //cols =   ColorGamut.GetLinearInterpolatedColors( 256, 0.6, 0.3, 0.3, 0.6 );
+            UpdateQuadCustomColorMap( );
           //  XYZ, L* a*b *, YUV
         }
 
-        private void UpdateGamutColorPallete( Color[ ] cols )
+        private void UpdateQuadColorPaletteBitmap( )
         {
-            double w = colorPalette.Width / 16.0;
-            double h = colorPalette.Height / 16.0;
-            Graphics g = Graphics.FromImage( colorPalette );
+            // Prepare bitmap
+
+            double w = paletteBitmap.Width / 16.0;
+            double h = paletteBitmap.Height / 16.0;
+            Graphics g = Graphics.FromImage( paletteBitmap );
             RectangleF rect = new RectangleF( 0, 0, (float) w, (float) h );
 
             int cnt = 0;
@@ -42,20 +42,24 @@ namespace _2021HWK05
                 for( int c = 0 ; c < 16 ; c++ )
                 {
                     rect.X = (float) ( c * w );
-                    b.Color = cols[ cnt ];
+                    b.Color = cols[ cnt++ ];
                     g.FillRectangle( b, rect );
                     g.DrawRectangle( Pens.DarkGray, Rectangle.Round( rect ) );
-                    cnt++;
                 }
             }
-            pcbPallete.Image = colorPalette;
+            pcbPallete.Image = paletteBitmap;
+            // Show corner color buttons
+            //btnLeftTop.BackColor = cols[0];
+            //btnRightTop.BackColor = cols[15];
+            //btnLeftBottom.BackColor = cols[240];
+            //btnRightBottom.BackColor = cols[255];
         }
 
-        void UpdateGradientColorPallete( Color Start, Color End )
+        void UpdateLinearGradientColorPallete( Color Start, Color End )
         {
-            double w = colorPalette.Width / 16.0;
-            double h = colorPalette.Height / 16.0;
-            Graphics g = Graphics.FromImage( colorPalette );
+            double w = paletteBitmap.Width / 16.0;
+            double h = paletteBitmap.Height / 16.0;
+            Graphics g = Graphics.FromImage( paletteBitmap );
 
             RectangleF rect = new RectangleF( 0, 0, (float) w, (float) h );
             double minR, rangeR, minG, rangeG, minB, rangeB;
@@ -75,20 +79,74 @@ namespace _2021HWK05
                     cnt++;
                 }
             }
-            pcbPallete.Image = colorPalette;
-
+            pcbPallete.Image = paletteBitmap;
         }
 
-        private void EditColorWatch(object sender, EventArgs e)
+        private void EditColorSwatch(object sender, EventArgs e)
         {
             if( dlgColor.ShowDialog( ) != DialogResult.OK ) return;
             Button btn = sender as Button;
             btn.BackColor = dlgColor.Color;
-          UpdateGradientColorPallete( btnStartColor.BackColor, btnEndColor.BackColor );
+            UpdateQuadCustomColorMap( );
         }
 
-        PointF[ ] corners = { new PointF(0, 0), new PointF(255, 0), new PointF(0, 255), new PointF(255, 255) };
-        double[] dis = new double[4];
+        private void UpdateQuadCustomColorMap()
+        {
+              double minR, rangeR, minG, rangeG, minB, rangeB;
+            // First column
+            minR = btnLeftTop.BackColor.R; rangeR = btnLeftBottom.BackColor.R - minR;
+            minG = btnLeftTop.BackColor.G; rangeG = btnLeftBottom.BackColor.G - minG;
+            minB = btnLeftTop.BackColor.B; rangeB = btnLeftBottom.BackColor.B - minB;
+            for ( int delta = 0, mid = 0; delta < 16; delta ++, mid+=16)
+            {
+                cols[mid] = Color.FromArgb((int)(minR + delta * rangeR / 16.0), (int)(minG + delta * rangeG / 16.0), (int)(minB + delta * rangeB / 16.0));
+            }
+            // Last column
+            minR = btnRightTop.BackColor.R; rangeR = btnRightBottom.BackColor.R - minR;
+            minG = btnRightTop.BackColor.G; rangeG = btnRightBottom.BackColor.G - minG;
+            minB = btnRightTop.BackColor.B; rangeB = btnRightBottom.BackColor.B - minB;
+            for (int delta = 0, mid = 15; delta < 16; delta++, mid += 16)
+            {
+                cols[mid] = Color.FromArgb((int)(minR + delta * rangeR / 16.0), (int)(minG + delta * rangeG / 16.0), (int)(minB + delta * rangeB / 16.0));
+            }
+            // All Rows
+            for( int r = 0, s = 0 ; r < 16; r++, s+=16 )
+            {
+                minR = cols[s].R; rangeR = cols[s+15].R - minR;
+                minG = cols[s].G; rangeG = cols[s+15].G - minG;
+                minB = cols[s].B; rangeB = cols[s + 15].B - minB;
+                for ( int delta = 1; delta < 15; delta++ )
+                {
+                    cols[s+delta] = Color.FromArgb((int)(minR + delta * rangeR / 16.0), (int)(minG + delta * rangeG / 16.0), (int)(minB + delta * rangeB / 16.0));
+                }
+            }
+
+            UpdateQuadColorPaletteBitmap();
+        }
+
+        //PointF[ ] corners = { new PointF(0, 0), new PointF(255, 0), new PointF(0, 255), new PointF(255, 255) };
+        //double[] dis = new double[4];
+
+        private void btnApplyPseudoColorButton_Click(object sender, EventArgs e)
+        {
+            // Get MonoImage
+            targetImage = originalImage.CreateAverageMonoImage();
+            labTwo.Text = "Gray-scale Target Image";
+            pcbTwo.Image = targetImage.displayedBitmap;
+ 
+            ColorImage pseudoImage1 = targetImage.CreatePseudoColorImage(cols);
+            labThree.Text = "Pseudo Image with Quad Custom ColorMap";
+            pcbThree.Image = pseudoImage1.displayedBitmap;
+            ColorImage pseudoImage2 = targetImage.CreatePseudoColorImage(gamutMap.MapColors);
+            labFour.Text = "Pseudo Image with Gumat Linear ColorMap";
+            pcbFour.Image = pseudoImage2.displayedBitmap;
+        }
+
+        MonoImage targetImage; 
+        private void btnApplyGamutColorMap_Click(object sender, EventArgs e)
+        {
+            
+        }
 
 
         ColorImage originalImage;
@@ -104,6 +162,8 @@ namespace _2021HWK05
             pcbThree.Image = pcbTwo.Image = pcbFour.Image = null;
             labTwo.Text = labThree.Text = labFour.Text = "";
         }
+
+        #region Buttons for (1)
 
         private void btnGetRGBPlanes_Click( object sender, EventArgs e )
         {
@@ -152,6 +212,26 @@ namespace _2021HWK05
         private void btnGetYUVImages_Click( object sender, EventArgs e )
         {
 
+        }
+
+
+
+        #endregion
+
+        private void btnGetThreeSegmentations_Click(object sender, EventArgs e)
+        {
+            int k1 = (int)nudK1.Value;
+            int k2 = (int)nudK2.Value;
+            int k3 = (int)nudK3.Value;
+            labTwo.Text = $"{k1}-Segmentation Image";
+            labThree.Text = $"{k2}-Segmentation Image";
+            labFour.Text = $"{k3}-Segmentation Image";
+            ColorImage img1 = originalImage.CreateRGBSegmentationImage(k1);
+            pcbTwo.Image = img1.displayedBitmap;
+            ColorImage img2 = originalImage.CreateRGBSegmentationImage(k2);
+            pcbThree.Image = img2.displayedBitmap;
+            ColorImage img3 = originalImage.CreateRGBSegmentationImage(k3);
+            pcbFour.Image = img3.displayedBitmap;
         }
     }
 }

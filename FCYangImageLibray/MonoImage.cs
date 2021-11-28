@@ -205,6 +205,20 @@ namespace FCYangImageLibray
             return results;
         }
 
+        public ColorImage CreatePseudoColorImage(Color[] palette)
+        {
+            int[,,] colorPixels = new int[3, height, width];
+            for( int r = 0; r < height; r++)
+                for( int c = 0; c < width; c++)
+                {
+                    Color ccc = palette[pixels[r, c]];
+                    colorPixels[0, r, c] = ccc.R;
+                    colorPixels[1, r, c] = ccc.G;
+                    colorPixels[2, r, c] = ccc.B;
+                }
+            return new ColorImage(colorPixels);
+        }
+
         public static MonoImage FrequencyDomainFiltering(MonoImage target, FourierTransformFilter filterUsed, ImagePadding pad = ImagePadding.None)
         {
             int p, q;

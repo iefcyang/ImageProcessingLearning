@@ -12,27 +12,27 @@ namespace FCYangImageLibray
 
         public static double[,,] operator +(double[,] mask, ColorImage img)
         {
-            double[,,] pixels = new double[3,img.height, img.width];
-            
+            double[,,] pixels = new double[3, img.height, img.width];
+
             int hhh = mask.GetLength(0);
             int www = mask.GetLength(1);
-            for( int d = 0; d < 3; d++ )
-            for (int r = 0; r < img.height; r++)
-            {
-                for (int c = 0; c < img.width; c++)
+            for (int d = 0; d < 3; d++)
+                for (int r = 0; r < img.height; r++)
                 {
-                    pixels[d,r, c] = 0;
-                    for (int h = 0, y = r - hhh / 2; h < hhh; h++, y++)
+                    for (int c = 0; c < img.width; c++)
                     {
-                        for (int w = 0, x = c - www / 2; w < www; w++, x++)
+                        pixels[d, r, c] = 0;
+                        for (int h = 0, y = r - hhh / 2; h < hhh; h++, y++)
                         {
-                            if (x < 0 || x >= img.width) continue;
-                            if (y < 0 || y >= img.height) continue;
+                            for (int w = 0, x = c - www / 2; w < www; w++, x++)
+                            {
+                                if (x < 0 || x >= img.width) continue;
+                                if (y < 0 || y >= img.height) continue;
                                 pixels[d, r, c] += mask[h, w] * img.pixels[d, y, x];
+                            }
                         }
                     }
                 }
-            }
             return pixels;
         }
 
@@ -95,6 +95,8 @@ namespace FCYangImageLibray
             return new ColorImage(pixels);
         }
 
+
+
         public static ColorImage operator +(ColorImage img1, ColorImage img2)
         {
             int[,,] pixels = new int[3, img1.height, img1.width];
@@ -121,7 +123,7 @@ namespace FCYangImageLibray
 
                     for (int c = 0; c < img1.width; c++)
                     {
-                        pixels[d, r, c] = (int)(img1.pixels[d, r, c] - img2.pixels[d, r, c] ) ;
+                        pixels[d, r, c] = (int)(img1.pixels[d, r, c] - img2.pixels[d, r, c]);
                         if (pixels[d, r, c] > 255) pixels[d, r, c] = 255;
                         else if (pixels[d, r, c] < 0) pixels[d, r, c] = 0;
                     }
@@ -133,102 +135,150 @@ namespace FCYangImageLibray
 
         #region Public Utility Functions
 
+        public MonoImage CreateAverageMonoImage()
+        {
+            int[,] mono = new int[height, width];
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
+                    mono[r, c] = (int)((pixels[0, r, c] + pixels[1, r, c] + pixels[2, r, c]) / 3.0);
+            return new MonoImage(mono);
+        }
+
         public MonoImage[] GetRGBPlaneImages()
         {
-            MonoImage[ ] rgbPlanes = new MonoImage[ 3 ];
-            int[ ][ , ] planes = new int[ 3 ][ , ];
-            for( int i = 0 ; i < 3 ; i++ )
+            MonoImage[] rgbPlanes = new MonoImage[3];
+            int[][,] planes = new int[3][,];
+            for (int i = 0; i < 3; i++)
             {
-                planes[ i ] = new int[ height, width ];
-                for( int r = 0 ; r < height ; r++ )
-                    for( int c = 0 ; c < width ; c++ )
-                        planes[ i ][ r, c ] = pixels[ i, r, c ];
-                rgbPlanes[ i ] = new MonoImage( planes[ i ] );
+                planes[i] = new int[height, width];
+                for (int r = 0; r < height; r++)
+                    for (int c = 0; c < width; c++)
+                        planes[i][r, c] = pixels[i, r, c];
+                rgbPlanes[i] = new MonoImage(planes[i]);
             }
             return rgbPlanes;
         }
 
-        public MonoImage[ ] GetCMYPlaneImages( )
+        public MonoImage[] GetCMYPlaneImages()
         {
-            MonoImage[ ] cmyPlanes = new MonoImage[ 3 ];
-            int[ ][ , ] planes = new int[ 3 ][ , ];
-            for( int i = 0 ; i < 3 ; i++ )
+            MonoImage[] cmyPlanes = new MonoImage[3];
+            int[][,] planes = new int[3][,];
+            for (int i = 0; i < 3; i++)
             {
-                planes[ i ] = new int[ height, width ];
-                for( int r = 0 ; r < height ; r++ )
-                    for( int c = 0 ; c < width ; c++ )
+                planes[i] = new int[height, width];
+                for (int r = 0; r < height; r++)
+                    for (int c = 0; c < width; c++)
                     {
-                        planes[ i ][ r, c ] = 255 - pixels[ i, r, c ];
+                        planes[i][r, c] = 255 - pixels[i, r, c];
                     }
-                cmyPlanes[ i ] = new MonoImage( planes[ i ] );
+                cmyPlanes[i] = new MonoImage(planes[i]);
             }
             return cmyPlanes;
         }
 
-        double[ ] rgb = new double[ 3 ];
-        double[ ] hsi = new double[ 3 ];
-        public MonoImage[ ] GetHSIPlaneImages( )
+        double[] rgb = new double[3];
+        double[] hsi = new double[3];
+        public MonoImage[] GetHSIPlaneImages()
         {
-            MonoImage[ ] hsiPlanes = new MonoImage[ 3 ];
-            int[ ][ , ] planes = new int[ 3 ][ , ];
-            for( int i = 0 ; i < 3 ; i++ )
+            MonoImage[] hsiPlanes = new MonoImage[3];
+            int[][,] planes = new int[3][,];
+            for (int i = 0; i < 3; i++)
             {
-                planes[ i ] = new int[ height, width ];
+                planes[i] = new int[height, width];
             }
 
-            for( int r = 0 ; r < height ; r++ )
-                for( int c = 0 ; c < width ; c++ )
+            for (int r = 0; r < height; r++)
+                for (int c = 0; c < width; c++)
                 {
                     //pixels[ 0, r, c ] = 255;
                     //pixels[ 1, r, c ] = pixels[ 2, r, c ] = 0;
-                    double total = pixels[ 0, r, c ] + pixels[ 1, r, c ] + pixels[ 2, r, c ];
-                    if( total == 0 )
+                    double total = pixels[0, r, c] + pixels[1, r, c] + pixels[2, r, c];
+                    if (total == 0)
                     {
-                        planes[ 0 ][ r, c ] = 256 / 4; // 90 degree;
-                        planes[ 1 ][ r, c ] = 
-                        planes[ 2 ][ r, c ] = 0;
+                        planes[0][r, c] = 256 / 4; // 90 degree;
+                        planes[1][r, c] =
+                        planes[2][r, c] = 0;
                     }
                     else
                     {
                         // Intensity
-                        planes[ 2 ][ r, c ] = (int) (  total / 3.0 );
+                        planes[2][r, c] = (int)(total / 3.0);
 
                         //  Saturation 
                         double temp;
-                        if( pixels[ 0, r, c ] < pixels[ 1, r, c ] ) 
-                            temp = pixels[ 0, r, c ];
-                        else 
-                            temp = pixels[ 1, r, c ];
-                        if( pixels[ 2, r, c ] < temp ) temp = pixels[ 2, r, c ];
-                        planes[ 1 ][ r, c ] = 255 * (int) ( 1.0 - 3 * temp / total );
+                        if (pixels[0, r, c] < pixels[1, r, c])
+                            temp = pixels[0, r, c];
+                        else
+                            temp = pixels[1, r, c];
+                        if (pixels[2, r, c] < temp) temp = pixels[2, r, c];
+                        planes[1][r, c] = 255 * (int)(1.0 - 3 * temp / total);
                         // Hue
-                        double rmb = pixels[ 0, r, c ] - pixels[ 2, r, c ];
-                        double rmg = pixels[ 0, r, c ] - pixels[ 1, r, c ];
-                        if( rmb == 0 && rmg == 0 ) planes[ 0 ][ r, c ] = 256 / 4;
+                        double rmb = pixels[0, r, c] - pixels[2, r, c];
+                        double rmg = pixels[0, r, c] - pixels[1, r, c];
+                        if (rmb == 0 && rmg == 0) planes[0][r, c] = 256 / 4;
                         else
                         {
-                            temp = 0.5 * ( rmg + rmb ) / Math.Sqrt( rmg * rmg + rmb * ( pixels[ 1, r, c ] - pixels[ 2, r, c ] ) );
-                            temp = Math.Acos( temp ) * 180.0 / Math.PI;
-                            if( temp < 0 )
+                            temp = 0.5 * (rmg + rmb) / Math.Sqrt(rmg * rmg + rmb * (pixels[1, r, c] - pixels[2, r, c]));
+                            temp = Math.Acos(temp) * 180.0 / Math.PI;
+                            if (temp < 0)
                                 temp = 360.0 + temp;
-                            if( pixels[ 2, r, c ] > pixels[ 1, r, c ] )
-                                planes[ 0 ][ r, c ] = (int) ( 255 * ( 360.0 - temp ) / 360.0 );
+                            if (pixels[2, r, c] > pixels[1, r, c])
+                                planes[0][r, c] = (int)(255 * (360.0 - temp) / 360.0);
                             else
-                                planes[ 0 ][ r, c ] = (int) ( 255 * ( temp ) / 360.0 );
+                                planes[0][r, c] = (int)(255 * (temp) / 360.0);
                         }
                     }
                 }
-            for( int i = 0 ; i < 3 ; i++ )
+            for (int i = 0; i < 3; i++)
             {
-                hsiPlanes[ i ] = new MonoImage( planes[ i ] );
+                hsiPlanes[i] = new MonoImage(planes[i]);
             }
             return hsiPlanes;
+        }
+
+        static Random[] randomizers = new Random[3];
+
+        static ColorImage()
+        {
+            for (int i = 0; i < randomizers.Length; i++)
+                randomizers[i] = new Random(Guid.NewGuid().GetHashCode());
+        }
+
+
+        int[,] segmentationIDs;
+        public ColorImage CreateRGBSegmentationImage(int k)
+        {
+            int[,] centers = new int[k, 3];
+            for (int r = 0; r < k; r++)
+            {
+                for (int c = 0; c < 3; c++)
+                    centers[r, c] = randomizers[c].Next(256);
+            }
+            if (segmentationIDs == null || segmentationIDs.GetLength(0) != height 
+                || segmentationIDs.GetLength(1) != width )
+            {
+                // allocate memeory
+                segmentationIDs = new int[height, width];
+            }
+
+            // Clustering 
+            for( int r = 0; r < height; r++)
+            {
+                for( int c = 0; c < width; c++)
+                {
+                    double min = double.MaxValue;
+                    int minID = -1;
+                    // loop throught each cluster
+                   // for( int k = 0; )
+                }
+            }
+            return null;
         }
 
         //public static double[ ] SetRGBToHSI( int r, int g, int b )
         //{
 
-      //  HSI, XYZ, L* a*b*, YUV
+        //  HSI, XYZ, L* a*b*, YUV
         //    Red = r; Green = g; Blue = b;
         //    int min = Red;
         //    if( Green < min ) min = Green;

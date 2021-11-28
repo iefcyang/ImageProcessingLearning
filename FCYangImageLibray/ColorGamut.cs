@@ -129,6 +129,8 @@ namespace FCYangImageLibray
 
         Color[] CustomColorMap;
 
+        public Color[] MapColors { get => CustomColorMap; }
+
         Bitmap colorPaletteBitmap;
         double increment = 0.01;
 
