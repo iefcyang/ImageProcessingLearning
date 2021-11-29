@@ -40,6 +40,34 @@ void ColorMap::paintEvent(QPaintEvent*)
     //close();
 }
 
+
+void ColorMap::on_btnDelete_clicked()
+{
+    QListWidgetItem* it = ui.listWidget->selectedItems().at(0);
+    ui.listWidget->removeItemWidget( it );
+    delete it;
+}
+void ColorMap::on_btnAdd_clicked()
+{
+    QListWidgetItem* it = new QListWidgetItem();
+    it->setText(QString::number(ui.verticalSlider->value()));
+    it->setBackground( QColor(rand()%255, rand() % 255, rand() % 255));
+    ui.listWidget->addItem(it);
+}
+
+void ColorMap::on_verticalSlider_sliderReleased()
+{
+    ui.labLevel->setText( QString::number(ui.verticalSlider->value() ));
+}
+
+void ColorMap::on_listWidget_itemClicked(QListWidgetItem* item)
+{
+    QColor newC = QColorDialog::getColor(item->background().color());
+    if( newC.isValid() ) item->setBackground(newC);
+}
+
+
+
 void ColorMap::mousePressEvent(QMouseEvent* event)
 {
     
