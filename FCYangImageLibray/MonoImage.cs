@@ -205,6 +205,26 @@ namespace FCYangImageLibray
             return results;
         }
 
+        public ColorImage CreatePseudoColorImage( Color[ ] maps, int[ ] levels )
+        {
+            int[ , , ] colorPixels = new int[ 3, height, width ];
+            for( int r = 0 ; r < height ; r++ )
+                for( int c = 0 ; c < width ; c++ )
+                {
+                    for( int i = 0 ; i < maps.Length ; i++ )
+                    {
+                        if( i == maps.Length -1 || pixels[ r, c ] > levels[i+1]  )
+                        {
+                            colorPixels[ 0, r, c ] = maps[i].R;
+                            colorPixels[ 1, r, c ] = maps[ i].G;
+                            colorPixels[ 2, r, c ] = maps[ i].B;
+                            break;
+                        }
+                    }
+                 }
+            return new ColorImage( colorPixels );
+        }
+
         public ColorImage CreatePseudoColorImage(Color[] palette)
         {
             int[,,] colorPixels = new int[3, height, width];

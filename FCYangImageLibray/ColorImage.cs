@@ -279,11 +279,25 @@ namespace FCYangImageLibray
             return data;
         }
 
+
+        // Working Space: sRGB Reference White: D65	=> Xw, Yw, Zw = []
+        // sRGB is defined relative to a D65 reference white and ICC profiles are defined relative to a D50 reference white
+        // XYZ <- RGB
+        //0.4124564  0.3575761  0.1804375
+        //0.2126729  0.7151522  0.0721750
+        //0.0193339  0.1191920  0.9503041
+        // RGB <- XYZ to 
+        // 3.2404542 -1.5371385 -0.4985314
+        //-0.9692660  1.8760108  0.0415560
+        // 0.0556434 -0.2040259  1.0572252
         private double[,,] GetXYZData()
         {
             double[,,] data = GetRGBData();
             // Transform RGB to XYZ
             // D65/2°
+            //float ref_X = 95.047;
+            //float ref_Y = 100.0;
+            //float ref_Z = 108.883;
             // --------- RGB to XYZ ---------//
             for (int r = 0; r < height; r++)
                 for (int c = 0; c < width; c++)

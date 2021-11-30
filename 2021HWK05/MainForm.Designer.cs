@@ -30,6 +30,22 @@ namespace _2021HWK05
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            "256"}, -1, System.Drawing.Color.Black, System.Drawing.Color.Fuchsia, null);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            "220"}, -1, System.Drawing.Color.Black, System.Drawing.Color.Blue, null);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
+            "180"}, -1, System.Drawing.Color.Empty, System.Drawing.Color.Aqua, null);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            "144"}, -1, System.Drawing.Color.Black, System.Drawing.Color.Lime, null);
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            "108"}, -1, System.Drawing.Color.Black, System.Drawing.Color.Yellow, null);
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            "72"}, -1, System.Drawing.Color.Black, System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0))))), null);
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            "36"}, -1, System.Drawing.Color.Black, System.Drawing.Color.Red, null);
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+            "0"}, -1, System.Drawing.Color.White, System.Drawing.Color.Black, null);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,6 +83,8 @@ namespace _2021HWK05
             this.pcbPallete = new System.Windows.Forms.PictureBox();
             this.btnApplyGamutColorMap = new System.Windows.Forms.Button();
             this.pagGroupColor = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.nudLevels = new System.Windows.Forms.NumericUpDown();
             this.btnTwoOnDifferentData = new System.Windows.Forms.Button();
             this.btnGetThreeSegmentations = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -79,8 +97,15 @@ namespace _2021HWK05
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnOpen = new System.Windows.Forms.ToolStripButton();
-            this.label4 = new System.Windows.Forms.Label();
-            this.nudLevels = new System.Windows.Forms.NumericUpDown();
+            this.tabSecond = new System.Windows.Forms.TabControl();
+            this.pagQuad = new System.Windows.Forms.TabPage();
+            this.pagSlicing = new System.Windows.Forms.TabPage();
+            this.tkbLevel = new System.Windows.Forms.TrackBar();
+            this.labLevel = new System.Windows.Forms.Label();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnRemove = new System.Windows.Forms.Button();
+            this.lsvSlices = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gamutMap = new FCYangImageLibray.ColorGamut();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -106,11 +131,15 @@ namespace _2021HWK05
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pcbPallete)).BeginInit();
             this.pagGroupColor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLevels)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudK3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudK2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudK1)).BeginInit();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudLevels)).BeginInit();
+            this.tabSecond.SuspendLayout();
+            this.pagQuad.SuspendLayout();
+            this.pagSlicing.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tkbLevel)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -435,12 +464,8 @@ namespace _2021HWK05
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.btnLeftBottom);
-            this.splitContainer2.Panel1.Controls.Add(this.btnRightTop);
+            this.splitContainer2.Panel1.Controls.Add(this.tabSecond);
             this.splitContainer2.Panel1.Controls.Add(this.btnApplyQuadMap);
-            this.splitContainer2.Panel1.Controls.Add(this.btnRightBottom);
-            this.splitContainer2.Panel1.Controls.Add(this.btnLeftTop);
-            this.splitContainer2.Panel1.Controls.Add(this.pcbPallete);
             // 
             // splitContainer2.Panel2
             // 
@@ -448,14 +473,14 @@ namespace _2021HWK05
             this.splitContainer2.Panel2.Controls.Add(this.gamutMap);
             this.splitContainer2.Panel2.Click += new System.EventHandler(this.EditColorSwatch);
             this.splitContainer2.Size = new System.Drawing.Size(300, 640);
-            this.splitContainer2.SplitterDistance = 232;
+            this.splitContainer2.SplitterDistance = 231;
             this.splitContainer2.TabIndex = 0;
             // 
             // btnLeftBottom
             // 
             this.btnLeftBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnLeftBottom.BackColor = System.Drawing.Color.Lime;
-            this.btnLeftBottom.Location = new System.Drawing.Point(3, 171);
+            this.btnLeftBottom.Location = new System.Drawing.Point(6, 148);
             this.btnLeftBottom.Name = "btnLeftBottom";
             this.btnLeftBottom.Size = new System.Drawing.Size(22, 23);
             this.btnLeftBottom.TabIndex = 6;
@@ -466,7 +491,7 @@ namespace _2021HWK05
             // 
             this.btnRightTop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRightTop.BackColor = System.Drawing.Color.Yellow;
-            this.btnRightTop.Location = new System.Drawing.Point(273, 3);
+            this.btnRightTop.Location = new System.Drawing.Point(264, 6);
             this.btnRightTop.Name = "btnRightTop";
             this.btnRightTop.Size = new System.Drawing.Size(22, 23);
             this.btnRightTop.TabIndex = 5;
@@ -476,9 +501,9 @@ namespace _2021HWK05
             // btnApplyQuadMap
             // 
             this.btnApplyQuadMap.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnApplyQuadMap.Location = new System.Drawing.Point(0, 200);
+            this.btnApplyQuadMap.Location = new System.Drawing.Point(0, 206);
             this.btnApplyQuadMap.Name = "btnApplyQuadMap";
-            this.btnApplyQuadMap.Size = new System.Drawing.Size(300, 32);
+            this.btnApplyQuadMap.Size = new System.Drawing.Size(300, 25);
             this.btnApplyQuadMap.TabIndex = 4;
             this.btnApplyQuadMap.Text = "Apply Pseudo Color";
             this.btnApplyQuadMap.UseVisualStyleBackColor = true;
@@ -488,7 +513,7 @@ namespace _2021HWK05
             // 
             this.btnRightBottom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRightBottom.BackColor = System.Drawing.Color.Blue;
-            this.btnRightBottom.Location = new System.Drawing.Point(273, 171);
+            this.btnRightBottom.Location = new System.Drawing.Point(264, 148);
             this.btnRightBottom.Name = "btnRightBottom";
             this.btnRightBottom.Size = new System.Drawing.Size(22, 23);
             this.btnRightBottom.TabIndex = 2;
@@ -498,7 +523,7 @@ namespace _2021HWK05
             // btnLeftTop
             // 
             this.btnLeftTop.BackColor = System.Drawing.Color.Red;
-            this.btnLeftTop.Location = new System.Drawing.Point(3, 3);
+            this.btnLeftTop.Location = new System.Drawing.Point(3, 6);
             this.btnLeftTop.Name = "btnLeftTop";
             this.btnLeftTop.Size = new System.Drawing.Size(22, 23);
             this.btnLeftTop.TabIndex = 3;
@@ -511,9 +536,9 @@ namespace _2021HWK05
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pcbPallete.BackColor = System.Drawing.Color.Black;
-            this.pcbPallete.Location = new System.Drawing.Point(19, 14);
+            this.pcbPallete.Location = new System.Drawing.Point(19, 17);
             this.pcbPallete.Name = "pcbPallete";
-            this.pcbPallete.Size = new System.Drawing.Size(263, 169);
+            this.pcbPallete.Size = new System.Drawing.Size(254, 140);
             this.pcbPallete.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pcbPallete.TabIndex = 0;
             this.pcbPallete.TabStop = false;
@@ -521,7 +546,7 @@ namespace _2021HWK05
             // btnApplyGamutColorMap
             // 
             this.btnApplyGamutColorMap.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btnApplyGamutColorMap.Location = new System.Drawing.Point(0, 370);
+            this.btnApplyGamutColorMap.Location = new System.Drawing.Point(0, 371);
             this.btnApplyGamutColorMap.Name = "btnApplyGamutColorMap";
             this.btnApplyGamutColorMap.Size = new System.Drawing.Size(300, 34);
             this.btnApplyGamutColorMap.TabIndex = 7;
@@ -547,6 +572,34 @@ namespace _2021HWK05
             this.pagGroupColor.TabIndex = 2;
             this.pagGroupColor.Text = "(3) Image Segmentation";
             this.pagGroupColor.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(22, 557);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(64, 16);
+            this.label4.TabIndex = 9;
+            this.label4.Text = "Segments";
+            // 
+            // nudLevels
+            // 
+            this.nudLevels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.nudLevels.Location = new System.Drawing.Point(92, 555);
+            this.nudLevels.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudLevels.Name = "nudLevels";
+            this.nudLevels.Size = new System.Drawing.Size(73, 23);
+            this.nudLevels.TabIndex = 8;
+            this.nudLevels.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // btnTwoOnDifferentData
             // 
@@ -685,33 +738,117 @@ namespace _2021HWK05
             this.btnOpen.Text = "Open ...";
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
-            // label4
+            // tabSecond
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 557);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(64, 16);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Segments";
+            this.tabSecond.Controls.Add(this.pagSlicing);
+            this.tabSecond.Controls.Add(this.pagQuad);
+            this.tabSecond.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabSecond.Location = new System.Drawing.Point(0, 0);
+            this.tabSecond.Name = "tabSecond";
+            this.tabSecond.SelectedIndex = 0;
+            this.tabSecond.Size = new System.Drawing.Size(300, 206);
+            this.tabSecond.TabIndex = 7;
             // 
-            // nudLevels
+            // pagQuad
             // 
-            this.nudLevels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.nudLevels.Location = new System.Drawing.Point(92, 555);
-            this.nudLevels.Minimum = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.nudLevels.Name = "nudLevels";
-            this.nudLevels.Size = new System.Drawing.Size(73, 23);
-            this.nudLevels.TabIndex = 8;
-            this.nudLevels.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
+            this.pagQuad.Controls.Add(this.btnLeftTop);
+            this.pagQuad.Controls.Add(this.btnLeftBottom);
+            this.pagQuad.Controls.Add(this.btnRightTop);
+            this.pagQuad.Controls.Add(this.btnRightBottom);
+            this.pagQuad.Controls.Add(this.pcbPallete);
+            this.pagQuad.Location = new System.Drawing.Point(4, 25);
+            this.pagQuad.Name = "pagQuad";
+            this.pagQuad.Padding = new System.Windows.Forms.Padding(3);
+            this.pagQuad.Size = new System.Drawing.Size(292, 179);
+            this.pagQuad.TabIndex = 0;
+            this.pagQuad.Text = "Full 256 Color Map";
+            this.pagQuad.UseVisualStyleBackColor = true;
+            // 
+            // pagSlicing
+            // 
+            this.pagSlicing.Controls.Add(this.lsvSlices);
+            this.pagSlicing.Controls.Add(this.btnRemove);
+            this.pagSlicing.Controls.Add(this.btnAdd);
+            this.pagSlicing.Controls.Add(this.labLevel);
+            this.pagSlicing.Controls.Add(this.tkbLevel);
+            this.pagSlicing.Location = new System.Drawing.Point(4, 25);
+            this.pagSlicing.Name = "pagSlicing";
+            this.pagSlicing.Padding = new System.Windows.Forms.Padding(3);
+            this.pagSlicing.Size = new System.Drawing.Size(292, 177);
+            this.pagSlicing.TabIndex = 1;
+            this.pagSlicing.Text = "Level Slicing";
+            this.pagSlicing.UseVisualStyleBackColor = true;
+            // 
+            // tkbLevel
+            // 
+            this.tkbLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.tkbLevel.Location = new System.Drawing.Point(80, 26);
+            this.tkbLevel.Maximum = 255;
+            this.tkbLevel.Name = "tkbLevel";
+            this.tkbLevel.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.tkbLevel.Size = new System.Drawing.Size(45, 127);
+            this.tkbLevel.TabIndex = 1;
+            this.tkbLevel.TickFrequency = 16;
+            this.tkbLevel.Value = 128;
+            this.tkbLevel.ValueChanged += new System.EventHandler(this.tkbLevel_ValueChanged);
+            // 
+            // labLevel
+            // 
+            this.labLevel.AutoSize = true;
+            this.labLevel.Location = new System.Drawing.Point(80, 7);
+            this.labLevel.Name = "labLevel";
+            this.labLevel.Size = new System.Drawing.Size(29, 16);
+            this.labLevel.TabIndex = 2;
+            this.labLevel.Text = "128";
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnAdd.Location = new System.Drawing.Point(131, 125);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(104, 31);
+            this.btnAdd.TabIndex = 3;
+            this.btnAdd.Text = "Add ";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnRemove
+            // 
+            this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnRemove.Location = new System.Drawing.Point(131, 88);
+            this.btnRemove.Name = "btnRemove";
+            this.btnRemove.Size = new System.Drawing.Size(104, 31);
+            this.btnRemove.TabIndex = 4;
+            this.btnRemove.Text = "Remove";
+            this.btnRemove.UseVisualStyleBackColor = true;
+            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            // 
+            // lsvSlices
+            // 
+            this.lsvSlices.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.lsvSlices.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.lsvSlices.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.lsvSlices.HideSelection = false;
+            this.lsvSlices.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8});
+            this.lsvSlices.Location = new System.Drawing.Point(6, 7);
+            this.lsvSlices.MultiSelect = false;
+            this.lsvSlices.Name = "lsvSlices";
+            this.lsvSlices.Size = new System.Drawing.Size(68, 146);
+            this.lsvSlices.TabIndex = 5;
+            this.lsvSlices.UseCompatibleStateImageBehavior = false;
+            this.lsvSlices.View = System.Windows.Forms.View.Details;
+            this.lsvSlices.MouseClick += new System.Windows.Forms.MouseEventHandler(this.lsvSlices_MouseClick);
             // 
             // gamutMap
             // 
@@ -720,7 +857,7 @@ namespace _2021HWK05
             this.gamutMap.Location = new System.Drawing.Point(0, 0);
             this.gamutMap.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gamutMap.Name = "gamutMap";
-            this.gamutMap.Size = new System.Drawing.Size(300, 404);
+            this.gamutMap.Size = new System.Drawing.Size(300, 405);
             this.gamutMap.TabIndex = 0;
             // 
             // MainForm
@@ -732,7 +869,7 @@ namespace _2021HWK05
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Font = new System.Drawing.Font("微軟正黑體", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.Font = new System.Drawing.Font("Microsoft JhengHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "MainForm";
@@ -766,12 +903,17 @@ namespace _2021HWK05
             ((System.ComponentModel.ISupportInitialize)(this.pcbPallete)).EndInit();
             this.pagGroupColor.ResumeLayout(false);
             this.pagGroupColor.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudLevels)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudK3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudK2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudK1)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudLevels)).EndInit();
+            this.tabSecond.ResumeLayout(false);
+            this.pagQuad.ResumeLayout(false);
+            this.pagSlicing.ResumeLayout(false);
+            this.pagSlicing.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tkbLevel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -832,6 +974,15 @@ namespace _2021HWK05
         private System.Windows.Forms.Button btnTwoOnDifferentData;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nudLevels;
+        private System.Windows.Forms.TabControl tabSecond;
+        private System.Windows.Forms.TabPage pagSlicing;
+        private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Label labLevel;
+        private System.Windows.Forms.TrackBar tkbLevel;
+        private System.Windows.Forms.TabPage pagQuad;
+        private System.Windows.Forms.ListView lsvSlices;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
     }
 }
 

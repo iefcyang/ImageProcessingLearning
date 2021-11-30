@@ -139,10 +139,29 @@ namespace _2021HWK05
             targetImage = originalImage.CreateAverageMonoImage();
             labTwo.Text = "Gray-scale Target Image";
             pcbTwo.Image = targetImage.displayedBitmap;
- 
-            ColorImage pseudoImage1 = targetImage.CreatePseudoColorImage(cols);
-            labThree.Text = "Pseudo Image with Quad Custom ColorMap";
-            pcbThree.Image = pseudoImage1.displayedBitmap;
+            ColorImage pseudoImage1;
+
+            if( tabSecond.SelectedTab == pagSlicing )
+            {
+                Color[ ] maps = new Color[ lsvSlices.Items.Count ];
+                int[ ] levels = new int[ lsvSlices.Items.Count ];
+                for( int i = 0 ; i < lsvSlices.Items.Count ; i++ )
+                {
+                    maps[ i ] = lsvSlices.Items[ i ].BackColor;
+                    levels[ i ] = int.Parse( lsvSlices.Items[ i ].Text);
+                }
+                pseudoImage1 = targetImage.CreatePseudoColorImage( maps, levels );
+                labThree.Text = "Pseudo Image with Slicing";
+            }
+            else
+            {
+                pseudoImage1 = targetImage.CreatePseudoColorImage( cols );
+                labThree.Text = "Pseudo Image with Quad Custom ColorMap";
+            }
+                pcbThree.Image = pseudoImage1.displayedBitmap;
+
+
+
             ColorImage pseudoImage2 = targetImage.CreatePseudoColorImage(gamutMap.MapColors);
             labFour.Text = "Pseudo Image with Gumat Linear ColorMap";
             pcbFour.Image = pseudoImage2.displayedBitmap;
@@ -349,5 +368,42 @@ namespace _2021HWK05
 
         #endregion
 
+        private void tkbLevel_ValueChanged( object sender, EventArgs e )
+        {
+            labLevel.Text = tkbLevel.Value.ToString( );
+        }
+
+        Random rnd = new Random( );
+        private void btnAdd_Click( object sender, EventArgs e )
+        {
+            // check loc 
+            int pos = lsvSlices.Items.Count;
+            int level = tkbLevel.Value;
+            for( int i = 0 ; i < lsvSlices.Items.Count ; i++ )
+            {
+                int val = int.Parse( lsvSlices.Items[ i ].Text );
+                if( level > val)
+                {
+                    pos = i;
+                    break;
+                }
+            }
+            ListViewItem lvi = new ListViewItem( level.ToString( ) );
+            lvi.BackColor = Color.FromArgb( rnd.Next( 256 ), rnd.Next( 256 ), rnd.Next( 256 ) );
+            lsvSlices.Items.Insert( pos, lvi );
+        }
+
+        private void btnRemove_Click( object sender, EventArgs e )
+        {
+
+        }
+
+        private void lsvSlices_MouseClick( object sender, MouseEventArgs e )
+        {
+             ListViewHitTestInfo info = lsvSlices.HitTest( e.Location );
+            dlgColor.Color = info.Item.BackColor;
+            if( dlgColor.ShowDialog( ) == DialogResult.OK )
+                info.Item.BackColor = dlgColor.Color;
+        }
     }
 }
