@@ -148,6 +148,127 @@ namespace FCYangImageLibray
 
 
         #region Public Utility Functions
+        public ColorImage TrapezoidalTransform( double heightScale = 0.9, double widthScale = 0.8 )
+        {
+            int[ , , ] pxs = new int[ 3, height, width ];
+            for( int r = 0 ; r < height ; r++ )
+            {
+                int newr = (int) ( Math.Round( r * heightScale ) );
+                if( newr >= height || newr < 0 ) continue; 
+                double rowOff =  (double)(   r   * ( 1.0 - widthScale ) * width / height );
+                for( int c = 0 ; c < width ; c++ )
+                {
+                    double cScale = ( width - rowOff ) / width;
+                    int newc =(int)(  rowOff / 2.0 +  Math.Round( c * cScale ) );
+                    if( newc >= width || newc < 0 ) continue;
+                    for( int d = 0 ; d < 3 ; d++ )
+                    {
+                        if( pxs[ d, newr, newc ] == 0 ) pxs[ d, newr, newc ] = pixels[ d, r, c ];
+                        else pxs[ d, newr, newc ] = ( pxs[ d, newr, newc ] + pixels[ d, r, c ] ) / 2;
+                    }
+                }
+  
+            }
+            return new ColorImage( pxs );
+        }
+
+        public ColorImage EllipseTransform()
+        {
+            int[,,] pxs = new int[3,height,width];
+            double[ ] scales = new double[ (int)(Math.Ceiling( ( width + height ) / 2.0) ) ];
+            double[ ] angles = new double[ scales.Length ];
+            int asq = width / 2;
+            int bsq = height / 2;
+            Point Center = new Point( asq, bsq );
+            double ab = asq * bsq;
+            asq = asq * asq;
+            bsq = bsq * bsq;
+            int cnt = 0;
+            // Start from right lower half edge points looping through bottom right half edge points
+            int dy;
+            int dx = width - Center.X;
+            for( int r = height/2 ; r < height ; r++ )
+            {
+                dy = r- Center.Y;
+                double boundDistance = Math.Sqrt( dx * dx + dy * dy );
+                angles[cnt] = Math.Atan2( dy, dx );
+                double sina = Math.Sin( angles[ cnt ] );
+                double cosa = Math.Cos( angles[ cnt ] );
+                double ellipseR = ab / Math.Sqrt( asq * sina * sina + bsq * cosa * cosa );
+                scales[ cnt ] = ellipseR / boundDistance;
+                cnt++;
+            }
+            dy = height - Center.Y;
+            for( int c = width - 1; c >= width/2 ; c-- )
+            {
+                dx = c - Center.X;
+                double boundDistance = Math.Sqrt( dx * dx + dy * dy );
+                angles[ cnt ] = Math.Atan2( dy, dx );
+                double sina = Math.Sin( angles[ cnt ] );
+                double cosa = Math.Cos( angles[ cnt ] );
+                double ellipseR = ab / Math.Sqrt( asq * sina * sina + bsq * cosa * cosa );
+                scales[ cnt ] = ellipseR / boundDistance;
+                cnt++;
+            }
+            for( int r = height / 2 ; r < height ; r++ )
+                for( int c = width / 2 ; c < width ; c++ )
+                {
+                    dy = r - Center.Y;
+                    dx = c - Center.X;
+                    double angle = Math.Atan2( dy, dx );
+                    double scale = 1.0;
+                    for( int i = 0 ; i < scales.Length ; i++ )
+                    {
+                        if( angle < angles[i])
+                        {
+                            scale = scales[ i ];
+                            break;
+                        }
+                    }
+                    int newdx, newdy;
+                    newdx = (int) ( dx * scale );
+                    newdy = (int) ( dy * scale );
+                    int newr, newc;
+                    // Right-bottom
+                    newc = Center.X + newdx;
+                    newr = Center.Y + newdy;
+                    for( int d = 0 ; d < 3 ; d++ )
+                    {
+                        if( pxs[ d, newr, newc ] == 0 ) pxs[ d, newr, newc ] = pixels[ d, r, c ];
+                        else pxs[ d, newr, newc ] = (pxs[ d, newr, newc ] +  pixels[ d, r, c ])/2;
+                    }
+                    // Right-Top
+                    newc = Center.X + newdx;
+                    newr = Center.Y - newdy;
+                    int mirrowR = height - r;
+                    for( int d = 0 ; d < 3 ; d++ )
+                    {
+                        if( pxs[ d, newr, newc ] == 0 ) pxs[ d, newr, newc ] = pixels[ d, mirrowR, c ];
+                        else pxs[ d, newr, newc ] = ( pxs[ d, newr, newc ] + pixels[ d, mirrowR, c ] ) / 2;
+                    }
+                    // Left-Bottom
+                    newc = Center.X - newdx;
+                    newr = Center.Y + newdy;
+                    int mirrowC = width - c;
+                    for( int d = 0 ; d < 3 ; d++ )
+                    {
+                        if( pxs[ d, newr, newc ] == 0 ) pxs[ d, newr, newc ] = pixels[ d, r, mirrowC ];
+                        else pxs[ d, newr, newc ] = ( pxs[ d, newr, newc ] + pixels[ d, r, mirrowC ] ) / 2;
+                    }
+                    // Left-Top
+                    newc = Center.X - newdx;
+                    newr = Center.Y - newdy;
+                    mirrowR = height - r;
+                    mirrowC = width - c;
+                    for( int d = 0 ; d < 3 ; d++ )
+                    {
+                        if( pxs[ d, newr, newc ] == 0 ) pxs[ d, newr, newc ] = pixels[ d, mirrowR, mirrowC ];
+                        else pxs[ d, newr, newc ] = ( pxs[ d, newr, newc ] + pixels[ d, mirrowR, mirrowC ] ) / 2;
+                    }
+                }
+
+            return new ColorImage( pxs );
+        }
 
         public MonoImage CreateAverageMonoImage()
         {
