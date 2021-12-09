@@ -55,6 +55,7 @@
     <Compile Include="FourierTransformFilter.cs" />
     <Compile Include="Fourier.cs" />
     <Compile Include="Mask.cs" />
+    <Compile Include="MatrixTransformation.cs" />
     <Compile Include="MonoImage.cs" />
     <Compile Include="NoiseFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
